@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class Christmas{
+class LaniChristmas{
 
     // will print strophe n of the song (n has to be 1 - 12)
     public static void strophe(int n){
@@ -10,7 +10,7 @@ class Christmas{
             System.out.println("Invalid number");
             return;
         }
-        
+
         // the first strophe as a special case
         if(n==1){
             System.out.println("On the first day of Christmas,");
@@ -20,20 +20,20 @@ class Christmas{
         }
 
         // secon to twelfth strophe
-        
+
         String[] day = {"second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth"};
         String[] gift = {"And a partridge in a pear tree.",
-                        "Two turtle doves,",
-                        "Three French hens,",
-                        "Four calling birds,",
-                        "Five golden rings,",
-                        "Six geese a-laying,",
-                        "Seven swans a-swimming,",
-                        "Eight maids a-milking,",
-                        "Nine ladies dancing,",
-                        "Ten lords a-leaping,",
-                        "Eleven pipers piping,",
-                        "Twelve drummers drumming,"};
+                "Two turtle doves,",
+                "Three French hens,",
+                "Four calling birds,",
+                "Five golden rings,",
+                "Six geese a-laying,",
+                "Seven swans a-swimming,",
+                "Eight maids a-milking,",
+                "Nine ladies dancing,",
+                "Ten lords a-leaping,",
+                "Eleven pipers piping,",
+                "Twelve drummers drumming,"};
 
         System.out.println("On the " + day[n-2] + " day of Christmas,");
         System.out.println("my true love sent to me");
