@@ -1,7 +1,4 @@
-package com.example.helloworld;
-
-//test git
-public class HelloWorld {
+public class NikitaChristmas {
     public static void main(String[] args) {
 
         //definitions:

@@ -1,6 +1,4 @@
-package com.example.helloworld;
-
-public class twelve_recursive_days {
+public class MarkChristmas {
     public static void main(String[] args) {
         intro(0);
     }   
