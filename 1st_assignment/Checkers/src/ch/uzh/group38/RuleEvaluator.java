@@ -11,4 +11,22 @@ public class RuleEvaluator {
     public static boolean checkValidity(){  
         return true;
     }
+
+    /*
+    keeps track of which players turn it is
+    */
+    public static void updateTurn(){  
+    }
+
+    /*
+    checks if there are possible jumpmoves from the current position
+    */
+    public static void checkForJumpmoves(){  
+    }
+
+    /*
+    checks if a player has won the game
+    */
+    public static void checkWinner(){  
+    }
 }

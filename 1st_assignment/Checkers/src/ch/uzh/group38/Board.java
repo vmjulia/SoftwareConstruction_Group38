@@ -2,6 +2,8 @@ package ch.uzh.group38;
 
 public class Board {
 
+    private String[][] board;
+
     //Not sure if this is needed yet
     public String emptyField = "[   ]";
     public String redPawn = "[R_P]";
@@ -23,15 +25,26 @@ public class Board {
     /*
     resets the board to deafault state 
     */
-    public void resetBoard(String[][] board){
-        board = Board.defaultBoard;
+    public void resetBoard(){
+        board = defaultBoard;
     }
 
     /*
     prints actual state of the board 
     */
-    public static void printBoardState(){
-
+    public void printBoard(){
+        System.out.println("      a    b    c    d    e    f    g    h");
+        System.out.println("  +------------------------------------------+");
+        for (int i = 7; i >= 0; i--){
+            System.out.print(i+1 + " | ");
+            for (int j = 0; j < 8; j++){
+                System.out.print(board[i][j]);
+            }
+            System.out.print(" | " + (i+1));
+            System.out.print("\n");
+        }
+        System.out.println("  +------------------------------------------+");
+        System.out.println("      a    b    c    d    e    f    g    h");        
     }
 
     /*
@@ -54,5 +67,17 @@ public class Board {
     */
     public static void changeType(){
 
+    }
+
+    /*
+    checks if a piece is a king or not
+    */
+    public boolean isKing(int x, int y){
+        if (this.board[x][y].charAt(3) == 'K'){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
