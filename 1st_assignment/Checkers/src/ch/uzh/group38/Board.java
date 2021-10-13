@@ -2,6 +2,7 @@ package ch.uzh.group38;
 
 public class Board {
 
+    //Not sure if this is needed yet
     public String emptyField = "[   ]";
     public String redPawn = "[R_P]";
     public String redKing = "[R_K]";
