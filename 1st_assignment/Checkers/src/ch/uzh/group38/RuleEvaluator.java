@@ -21,7 +21,8 @@ public class RuleEvaluator {
     /*
     checks if there are possible jumpmoves from the current position
     */
-    public static void checkForJumpmoves(){  
+    public static boolean checkForJumpmoves(){  
+        return true;
     }
 
     /*

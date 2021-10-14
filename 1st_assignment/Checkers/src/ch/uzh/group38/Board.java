@@ -2,16 +2,16 @@ package ch.uzh.group38;
 
 public class Board {
 
-    private String[][] board;
+    private static String[][] board;
 
     //Not sure if this is needed yet
-    public String emptyField = "[   ]";
-    public String redPawn = "[R_P]";
-    public String redKing = "[R_K]";
-    public String whitePawn = "[W_P]";
-    public String whiteKing = "[W_K]";
+    public static String emptyField = "[   ]";
+    public static String redPawn = "[R_P]";
+    public static String redKing = "[R_K]";
+    public static String whitePawn = "[W_P]";
+    public static String whiteKing = "[W_K]";
 
-    public static String[][] defaultBoard = 
+    private static String[][] defaultBoard = 
         {{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]"}
         ,{"[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]"}
         ,{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]"}
@@ -51,29 +51,36 @@ public class Board {
     moves a piece by removing it at the actual location 
     and creating a new piece at the new location
     */
-    public static void movePiece(){
-
+    public static void movePiece(int x1, int y1, int x2, int y2){
+        String temp = board[x1][y1];
+        board[x1][y1] = emptyField;
+        board[x2][y2] = temp;
     }
 
     /*
     removes a piece from the board 
     */
-    public static void removePiece(){
-
+    public static void removePiece(int x, int y){
+        board[x][y] = emptyField;
     }
 
     /*
     changes type of a piece from pawn to king
     */
-    public static void changeType(){
-
+    public static void changeType(int x, int y){
+        if (board[x][y] == redPawn){
+            board[x][y] = redKing;
+        }
+        else if (board[x][y] == whitePawn){
+            board[x][y] = whiteKing;
+        }
     }
 
     /*
     checks if a piece is a king or not
     */
-    public boolean isKing(int x, int y){
-        if (this.board[x][y].charAt(3) == 'K'){
+    public static boolean isKing(int x, int y){
+        if (board[x][y].charAt(3) == 'K'){
             return true;
         }
         else{
