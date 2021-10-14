@@ -23,7 +23,7 @@ public class Game {
         Scanner s = new Scanner(System.in);
         String input = s.nextLine().toLowerCase();
 
-        if(!input.matches("(?i)^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
+        if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
             System.out.println("Sorry. That is not a valid input.");
             askForInput();
             return;
