@@ -17,7 +17,7 @@ public class Game {
     reads input from console 
     */
     public static void readInput(){
-        
+
     }
     public static void main(String[] args) {
         Board board = new Board();

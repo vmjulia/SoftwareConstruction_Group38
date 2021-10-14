@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class LaniChristmas{
+class LanyChristmas {
 
     // will print strophe n of the song (n has to be 1 - 12)
     public static void strophe(int n){
