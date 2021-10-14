@@ -27,11 +27,11 @@ public class RuleEvaluator {
     checks if an input is overall valid
     */
     public static boolean checkValidity(String input){
-        if (checkInputValidity(input) == false) {
+        if (!checkInputValidity(input)) {
             System.out.println("Sorry. That is not a valid input.");
             return false;
         }
-        if (checkMoveValidity(input) == false) {
+        if (!checkMoveValidity(input)) {
             System.out.println("Sorry. That is not a valid move.");
             return false;
         }
@@ -42,7 +42,7 @@ public class RuleEvaluator {
     checks if an input is valid
     */
     private static boolean checkInputValidity(String input) {
-        return true;
+        return input.matches("(?i)^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$");
     }
 
     /*
