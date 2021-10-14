@@ -4,12 +4,11 @@ public class Board {
 
     private static String[][] board;
 
-    //Not sure if this is needed yet
-    public static String emptyField = "[   ]";
-    public static String redPawn = "[R_P]";
-    public static String redKing = "[R_K]";
-    public static String whitePawn = "[W_P]";
-    public static String whiteKing = "[W_K]";
+    private static String emptyField = "[   ]";
+    private static String redPawn = "[R_P]";
+    private static String redKing = "[R_K]";
+    private static String whitePawn = "[W_P]";
+    private static String whiteKing = "[W_K]";
 
     private static final String[][] defaultBoard =
         {{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]"}
@@ -81,6 +80,24 @@ public class Board {
     */
     public static boolean isKing(int x, int y){
         if (board[x][y].charAt(3) == 'K'){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean isRed(int x, int y){
+        if (board[x][y].charAt(1) == 'R'){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean isEmpty(int x, int y){
+        if (board[x][y] == emptyField){
             return true;
         }
         else{

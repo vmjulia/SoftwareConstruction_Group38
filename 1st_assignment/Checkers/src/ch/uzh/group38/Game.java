@@ -12,12 +12,12 @@ public class Game {
     asks for input 
     */
     public static void askForInput(){
-        System.out.println("User " + RuleEvaluator.getCurrentPlayer() + " please enter your next move:");
+        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move:");
         readInput();
     }
 
     /*
-    reads input from console 
+    reads input from console and checks its format
     */
     public static void readInput(){
         Scanner s = new Scanner(System.in);
@@ -63,7 +63,6 @@ public class Game {
         Board board = new Board();
         board.resetBoard();
         board.printBoard();
-
         askForInput();
     }
 }
