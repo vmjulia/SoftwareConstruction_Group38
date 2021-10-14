@@ -3,6 +3,8 @@ package ch.uzh.group38;
 import ch.uzh.group38.Board;
 import ch.uzh.group38.RuleEvaluator;
 
+import java.util.Scanner;
+
 public class Game {
 
     /*
@@ -17,6 +19,12 @@ public class Game {
     reads input from console 
     */
     public static void readInput(){
+        Scanner s = new Scanner(System.in);
+        String rawInput = s.nextLine();
+        if (RuleEvaluator.checkValidity(rawInput) == false) {
+            askForInput();
+            return;
+        }
 
     }
     public static void main(String[] args) {

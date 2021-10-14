@@ -24,10 +24,31 @@ public class RuleEvaluator {
     }
 
     /*
-    checks if a move is valid
-    returns true if a move is valid, false if not 
+    checks if an input is overall valid
     */
-    public static boolean checkValidity(){  
+    public static boolean checkValidity(String input){
+        if (checkInputValidity(input) == false) {
+            System.out.println("Sorry. That is not a valid input.");
+            return false;
+        }
+        if (checkMoveValidity(input) == false) {
+            System.out.println("Sorry. That is not a valid move.");
+            return false;
+        }
+        return true;
+    }
+
+    /*
+    checks if an input is valid
+    */
+    private static boolean checkInputValidity(String input) {
+        return true;
+    }
+
+    /*
+    checks if a move is valid
+    */
+    private static boolean checkMoveValidity(String input) {
         return true;
     }
 
