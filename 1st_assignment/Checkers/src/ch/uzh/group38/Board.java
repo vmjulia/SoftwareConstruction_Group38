@@ -11,7 +11,7 @@ public class Board {
     public static String whitePawn = "[W_P]";
     public static String whiteKing = "[W_K]";
 
-    private static String[][] defaultBoard = 
+    private static final String[][] defaultBoard =
         {{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]"}
         ,{"[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]"}
         ,{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]"}
@@ -23,10 +23,10 @@ public class Board {
     };
 
     /*
-    resets the board to deafault state 
+    resets the board to default state
     */
     public void resetBoard(){
-        board = defaultBoard;
+        board = defaultBoard.clone();
     }
 
     /*
