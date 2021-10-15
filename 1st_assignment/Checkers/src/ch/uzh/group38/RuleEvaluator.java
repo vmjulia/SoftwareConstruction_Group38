@@ -53,9 +53,18 @@ public class RuleEvaluator {
                 
                 if (isJumpMove(coordinates) || isSimpleMove(coordinates)){
                     //check if a jump move was possible
-                    if (isSimpleMove(coordinates) && checkForJumpmoves(coordinates[0], coordinates[1])){
-                        System.out.println("there is a possible jump move");
-                        return false;
+                    if (isSimpleMove(coordinates)){
+                        for (int i = 0; i < 8; i++){
+                            for (int j = 0; j < 8; j++){
+                                if (getCurrentPlayer() == 1 && Board.isRed(i, j) || (getCurrentPlayer() == 2 && Board.isWhite(i, j))){
+                                    if (checkForJumpmoves(i, j)){
+                                        System.out.println("there is a possible jump move");
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        
                     }
                     return true;
                 }
