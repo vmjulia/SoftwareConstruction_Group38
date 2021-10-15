@@ -82,7 +82,7 @@ public class RuleEvaluator {
         if (Board.isKing(x, y) || Board.isRed(x, y)){
             target[2] = x-2;
             target[3] = y-2;
-            if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
+            if (target[2] >= 0 && target[3] >= 0 && isJumpMove(target)){
                 return true;
             }
         }
@@ -136,7 +136,8 @@ public class RuleEvaluator {
             && (coordinates[1] - coordinates[3] == 2 || coordinates[1] - coordinates[3] == -2)){
 
                 //check if jump is over opponent pin
-                if (!Board.isRed(coordinates[0], coordinates[1]) == Board.isRed((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2)){
+                if ((Board.isWhite(coordinates[0], coordinates[1]) && Board.isRed((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2))
+                ||(Board.isRed(coordinates[0], coordinates[1]) && Board.isWhite((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2))){
                     return true;
                 }
             }
