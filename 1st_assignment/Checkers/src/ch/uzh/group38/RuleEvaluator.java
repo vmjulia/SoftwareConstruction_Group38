@@ -47,10 +47,9 @@ public class RuleEvaluator {
                 return false;
             }
 
-        //check if it is players color and if target field is empty 
+        //check if it is players color  
         if (((Board.isRed(coordinates[0], coordinates[1]) && getCurrentPlayer() == 1) 
-            || (Board.isWhite(coordinates[0], coordinates[1]) && getCurrentPlayer() == 2))
-            && Board.isEmpty(coordinates[2], coordinates[3])){
+            || (Board.isWhite(coordinates[0], coordinates[1]) && getCurrentPlayer() == 2))){
                 
                 if (isJumpMove(coordinates) || isSimpleMove(coordinates)){
                     //check if a jump move was possible
@@ -104,7 +103,7 @@ public class RuleEvaluator {
     public static boolean checkForSimpleMoves(int x, int y){  
         int [] target = {x, y, x+1, y+1}; 
         if (Board.isKing(x, y) || Board.isWhite(x, y)){
-            if (target[2] < 8 && target[3] < 8 && isJumpMove(target)){
+            if (target[2] < 8 && target[3] < 8 && isSimpleMove(target)){
                 return true;
             }
         }
@@ -137,7 +136,8 @@ public class RuleEvaluator {
 
     public static boolean isJumpMove(int[] coordinates){  
         if ((coordinates[0] - coordinates[2] == 2 || coordinates[0] - coordinates[2] == -2)
-            && (coordinates[1] - coordinates[3] == 2 || coordinates[1] - coordinates[3] == -2)){
+            && (coordinates[1] - coordinates[3] == 2 || coordinates[1] - coordinates[3] == -2) 
+            && Board.isEmpty(coordinates[2], coordinates[3])){
 
                 //check if jump is over opponent pin
                 if ((Board.isWhite(coordinates[0], coordinates[1]) && Board.isRed((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2))
@@ -150,7 +150,8 @@ public class RuleEvaluator {
 
     public static boolean isSimpleMove(int[] coordinates){  
         if ((coordinates[0] - coordinates[2] == 1 || coordinates[0] - coordinates[2] == -1)
-            && (coordinates[1] - coordinates[3] == 1 || coordinates[1] - coordinates[3] == -1)){
+            && (coordinates[1] - coordinates[3] == 1 || coordinates[1] - coordinates[3] == -1) 
+            && Board.isEmpty(coordinates[2], coordinates[3])){
                 return true;                
             }
         return false;
