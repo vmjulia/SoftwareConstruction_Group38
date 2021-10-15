@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Game {
 
+    private static int[] coordinates;
     /*
     asks for input 
     */
@@ -22,6 +23,7 @@ public class Game {
     public static void readInput(){
         Scanner s = new Scanner(System.in);
         String input = s.nextLine().toLowerCase();
+        s.close();
 
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
             System.out.println("Sorry. That is not a valid input.");
@@ -29,7 +31,7 @@ public class Game {
             return;
         }
 
-        int[] coordinates = convertInput(input);
+        coordinates = convertInput(input);
         for(int i = 0; i<4; i++) {
             System.out.println(coordinates[i]);
         }
@@ -39,7 +41,7 @@ public class Game {
             askForInput();
             return;
         }
-
+        System.exit(0);
         //to be implemented further
     }
 
@@ -61,7 +63,7 @@ public class Game {
 
     public static void nextMove(){
         Board.printBoard();
-        //askForInput();
+        askForInput();
         //to be implemented furhter
     }
 

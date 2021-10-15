@@ -91,17 +91,20 @@ public class Board {
         if (board[x][y].charAt(1) == 'R'){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
+
+    public static boolean isWhite(int x, int y){
+        if (board[x][y].charAt(1) == 'W'){
+            return true;
+        }
+        return false;
+    }    
 
     public static boolean isEmpty(int x, int y){
         if (board[x][y] == emptyField){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 }

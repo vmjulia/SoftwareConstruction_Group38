@@ -15,6 +15,7 @@ public class RuleEvaluator {
     }
 
     public static void updateTurn(){
+        checkWinner();
         //PLayer 1 is red, Player 2 is white
         if (currentPlayer == 1){
             currentPlayer = 2;
@@ -37,14 +38,14 @@ public class RuleEvaluator {
             }
 
         //white pawns can only move positive y
-        if (!Board.isRed(coordinates[0], coordinates[1]) && !Board.isKing(coordinates[0], coordinates[1]) 
+        if (Board.isWhite(coordinates[0], coordinates[1]) && !Board.isKing(coordinates[0], coordinates[1]) 
             && coordinates[3] - coordinates[1] <= 0 ){
                 return false;
             }
 
-        //check if it is players color and if target field is empty
+        //check if it is players color and if target field is empty 
         if (((Board.isRed(coordinates[0], coordinates[1]) && getCurrentPlayer() == 1) 
-            || (!Board.isRed(coordinates[0], coordinates[1]) && getCurrentPlayer() == 2))
+            || (Board.isWhite(coordinates[0], coordinates[1]) && getCurrentPlayer() == 2))
             && Board.isEmpty(coordinates[2], coordinates[3])){
                 
                 if (isJumpMove(coordinates) || isSimpleMove(coordinates)){
@@ -64,23 +65,68 @@ public class RuleEvaluator {
     */
     public static boolean checkForJumpmoves(int x, int y){  
         int [] target = {x, y, x+2, y+2}; 
-        if (target[2] < 8 && target[3] < 8 && isJumpMove(target)){
-            return true;
+        if (Board.isKing(x, y) || Board.isWhite(x, y)){
+            if (target[2] < 8 && target[3] < 8 && isJumpMove(target)){
+                return true;
+            }
         }
 
-        target[2] = x-2;
-        if (target[2] >= 0 && target[3] < 8 && isJumpMove(target)){
-            return true;
+        if (Board.isKing(x, y) || Board.isWhite(x, y)){
+            target[2] = x-2;
+            target[3] = y+2;
+            if (target[2] >= 0 && target[3] < 8 && isJumpMove(target)){
+                return true;
+            }
         }
 
-        target[3] = y-2;
-        if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
-            return true;
+        if (Board.isKing(x, y) || Board.isRed(x, y)){
+            target[2] = x-2;
+            target[3] = y-2;
+            if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
+                return true;
+            }
         }
 
-        target[2] = x+2;
-        if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
-            return true;
+        if (Board.isKing(x, y) || Board.isRed(x, y)){
+            target[2] = x+2;
+            target[3] = y-2;
+            if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkForSimpleMoves(int x, int y){  
+        int [] target = {x, y, x+1, y+1}; 
+        if (Board.isKing(x, y) || Board.isWhite(x, y)){
+            if (target[2] < 8 && target[3] < 8 && isJumpMove(target)){
+                return true;
+            }
+        }
+
+        if (Board.isKing(x, y) || Board.isWhite(x, y)){
+            target[2] = x-1;
+            target[3] = y+1;
+            if (target[2] >= 0 && target[3] < 8 && isSimpleMove(target)){
+                return true;
+            }
+        }
+
+        if (Board.isKing(x, y) || Board.isRed(x, y)){
+            target[2] = x-1;
+            target[3] = y-1;
+            if (target[2] < 8 && target[3] >= 0 && isSimpleMove(target)){
+                return true;
+            }
+        }
+
+        if (Board.isKing(x, y) || Board.isRed(x, y)){
+            target[2] = x+1;
+            target[3] = y-1;
+            if (target[2] < 8 && target[3] >= 0 && isSimpleMove(target)){
+                return true;
+            }
         }
         return false;
     }
@@ -108,6 +154,19 @@ public class RuleEvaluator {
     /*
     checks if a player has won the game
     */
-    public static void checkWinner(){  
+    public static void checkWinner(){
+        
+        //check if there are pins left and if they can move
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (getCurrentPlayer() == 1 && Board.isWhite(i, j) || (getCurrentPlayer() == 2 && Board.isRed(i, j))){
+                    if (checkForJumpmoves(i, j) || checkForSimpleMoves(i, j)){
+                        return;
+                    }
+                }
+            }
+        }
+        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
+        System.exit(0);
     }
 }
