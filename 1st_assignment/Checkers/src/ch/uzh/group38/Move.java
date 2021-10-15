@@ -1,7 +1,5 @@
 package ch.uzh.group38;
 
-//import ch.uzh.group38.Game;
-//import ch.uzh.group38.Board;
 
 public class Move {
     

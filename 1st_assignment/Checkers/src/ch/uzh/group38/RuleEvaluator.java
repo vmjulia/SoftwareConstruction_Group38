@@ -1,7 +1,5 @@
 package ch.uzh.group38;
 
-/* import ch.uzh.group38.Board;
-import ch.uzh.group38.Move; */
 
 public class RuleEvaluator {
 
@@ -176,7 +174,6 @@ public class RuleEvaluator {
 
     /*
     checks if a player has won the game
-    return 0 if no one has won, 1 if User1 won and 2 if User2 won
     */
     public static void checkWinner(){
         

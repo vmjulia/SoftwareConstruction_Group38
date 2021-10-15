@@ -1,7 +1,5 @@
 package ch.uzh.group38;
 
-/* import ch.uzh.group38.Board;
-import ch.uzh.group38.RuleEvaluator; */
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -62,7 +60,6 @@ public class Game {
         Board.printBoard();
         askForInput();
         Move.move(coordinates);
-        //to be implemented furhter
     }
 
     public static void main(String[] args) {
