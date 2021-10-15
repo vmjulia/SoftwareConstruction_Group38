@@ -50,11 +50,11 @@ public class Game {
     [a3]x[b4] for example will become: x1=0, y1=2 and x2=1, y2=3
     */
     private static int[] convertInput(String input){
-        int x1 = Character.getNumericValue(input.charAt(2)) - 'a';
-        int y1 = input.charAt(1) - 1;
+        int x1 = input.charAt(1) - 'a';
+        int y1 = Character.getNumericValue(input.charAt(2)) - 1;
 
-        int x2 = Character.getNumericValue(input.charAt(7)) - 'a';
-        int y2 = input.charAt(6) - 1;
+        int x2 = input.charAt(6) - 'a';
+        int y2 = Character.getNumericValue(input.charAt(7)) - 1;
 
         int[] coordinates = {x1, y1, x2, y2};
         return coordinates;
