@@ -62,7 +62,6 @@ public class Game {
         Board.printBoard();
         askForInput();
         Move.move(coordinates);
-        Board.printBoard();
         //to be implemented furhter
     }
 

@@ -54,7 +54,7 @@ public class RuleEvaluator {
                 if (isJumpMove(coordinates) || isSimpleMove(coordinates)){
                     //check if a jump move was possible
                     if (isSimpleMove(coordinates) && checkForJumpmoves(coordinates[0], coordinates[1])){
-                        System.out.println("Move not valid, there is a possible jump move");
+                        System.out.println("there is a possible jump move");
                         return false;
                     }
                     return true;
@@ -69,32 +69,36 @@ public class RuleEvaluator {
     public static boolean checkForJumpmoves(int x, int y){  
         int [] target = {x, y, x+2, y+2}; 
         if (Board.isKing(x, y) || Board.isWhite(x, y)){
-            if (target[2] < 8 && target[3] < 8 && isJumpMove(target)){
-                return true;
+            if (target[2] < 8 && target[3] < 8)
+                if (isJumpMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isWhite(x, y)){
             target[2] = x-2;
             target[3] = y+2;
-            if (target[2] >= 0 && target[3] < 8 && isJumpMove(target)){
-                return true;
+            if (target[2] >= 0 && target[3] < 8) 
+                if (isJumpMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isRed(x, y)){
             target[2] = x-2;
             target[3] = y-2;
-            if (target[2] >= 0 && target[3] >= 0 && isJumpMove(target)){
-                return true;
+            if (target[2] >= 0 && target[3] >= 0)
+                if (isJumpMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isRed(x, y)){
             target[2] = x+2;
             target[3] = y-2;
-            if (target[2] < 8 && target[3] >= 0 && isJumpMove(target)){
-                return true;
+            if (target[2] < 8 && target[3] >= 0)
+                if (isJumpMove(target)){
+                    return true;
             }
         }
         return false;
@@ -103,32 +107,36 @@ public class RuleEvaluator {
     public static boolean checkForSimpleMoves(int x, int y){  
         int [] target = {x, y, x+1, y+1}; 
         if (Board.isKing(x, y) || Board.isWhite(x, y)){
-            if (target[2] < 8 && target[3] < 8 && isSimpleMove(target)){
-                return true;
+            if (target[2] < 8 && target[3] < 8) 
+                if (isSimpleMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isWhite(x, y)){
             target[2] = x-1;
             target[3] = y+1;
-            if (target[2] >= 0 && target[3] < 8 && isSimpleMove(target)){
-                return true;
+            if (target[2] >= 0 && target[3] < 8)
+                if (isSimpleMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isRed(x, y)){
             target[2] = x-1;
             target[3] = y-1;
-            if (target[2] < 8 && target[3] >= 0 && isSimpleMove(target)){
-                return true;
+            if (target[2] >= 0 && target[3] >= 0)
+                if (isSimpleMove(target)){
+                    return true;
             }
         }
 
         if (Board.isKing(x, y) || Board.isRed(x, y)){
             target[2] = x+1;
             target[3] = y-1;
-            if (target[2] < 8 && target[3] >= 0 && isSimpleMove(target)){
-                return true;
+            if (target[2] < 8 && target[3] >= 0)
+                if (isSimpleMove(target)){
+                    return true;
             }
         }
         return false;
