@@ -1,7 +1,7 @@
 package ch.uzh.group38;
 
-import ch.uzh.group38.Board;
-import ch.uzh.group38.RuleEvaluator;
+/* import ch.uzh.group38.Board;
+import ch.uzh.group38.RuleEvaluator; */
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class Game {
     asks for input 
     */
     public static void askForInput(){
-        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move:");
+        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
         readInput();
     }
 
@@ -59,10 +59,14 @@ public class Game {
         return coordinates;
     }
 
+    public static void nextMove(){
+        Board.printBoard();
+        //askForInput();
+        //to be implemented furhter
+    }
+
     public static void main(String[] args) {
-        Board board = new Board();
-        board.resetBoard();
-        board.printBoard();
-        askForInput();
+        Board.resetBoard();
+        nextMove();
     }
 }
