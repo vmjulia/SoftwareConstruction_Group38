@@ -41,7 +41,6 @@ public class Game {
             askForInput();
             return;
         }
-        System.exit(0);
         //to be implemented further
     }
 
@@ -63,6 +62,7 @@ public class Game {
     public static void nextMove(){
         Board.printBoard();
         askForInput();
+        Move.move(coordinates);
         //to be implemented furhter
     }
 
