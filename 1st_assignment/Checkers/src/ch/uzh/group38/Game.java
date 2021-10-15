@@ -23,8 +23,7 @@ public class Game {
     public static void readInput(){
         Scanner s = new Scanner(System.in);
         String input = s.nextLine().toLowerCase();
-        s.close();
-
+        
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
             System.out.println("Sorry. That is not a valid input.");
             askForInput();
@@ -32,9 +31,9 @@ public class Game {
         }
 
         coordinates = convertInput(input);
-        for(int i = 0; i<4; i++) {
+/*         for(int i = 0; i<4; i++) {
             System.out.println(coordinates[i]);
-        }
+        } */
 
         if (!RuleEvaluator.checkValidity(coordinates)) {
             System.out.println("Sorry. That is not a valid move.");
@@ -63,11 +62,13 @@ public class Game {
         Board.printBoard();
         askForInput();
         Move.move(coordinates);
+        Board.printBoard();
         //to be implemented furhter
     }
 
     public static void main(String[] args) {
         Board.resetBoard();
+        RuleEvaluator.resetCurrentPlayer();
         nextMove();
     }
 }

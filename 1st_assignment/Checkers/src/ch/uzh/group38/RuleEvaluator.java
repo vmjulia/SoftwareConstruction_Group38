@@ -8,7 +8,11 @@ public class RuleEvaluator {
     /*
     variable to keep track of who's turn it is
     */
-    private static int currentPlayer = 1;
+    private static int currentPlayer;
+
+    public static void resetCurrentPlayer(){
+        currentPlayer = 1;
+    }
 
     public static int getCurrentPlayer(){
         return currentPlayer;
@@ -20,7 +24,7 @@ public class RuleEvaluator {
         if (currentPlayer == 1){
             currentPlayer = 2;
         }
-        if (currentPlayer == 2){
+        else{
             currentPlayer = 1;
         }
     }

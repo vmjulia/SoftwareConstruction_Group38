@@ -50,10 +50,10 @@ public class Board {
     moves a piece by removing it at the actual location
     and creating a new piece at the new location
     */
-    public static void movePiece(int x1, int y1, int x2, int y2){
-        String temp = board[x1][y1];
-        board[x1][y1] = emptyField;
-        board[x2][y2] = temp;
+    public static void movePiece(int [] move){
+        String temp = board[move[0]][move[1]];
+        board[move[0]][move[1]] = emptyField;
+        board[move[2]][move[3]] = temp;
     }
 
     /*
