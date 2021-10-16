@@ -4,10 +4,11 @@ package ch.uzh.group38;
 public class RuleEvaluator {
 
     /*
-    variable to keep track of who's turn it is
+    variable to keep track of whose turn it is
     */
     private static int currentPlayer;
 
+    //sets first Player to 1
     public static void resetCurrentPlayer(){
         currentPlayer = 1;
     }
@@ -15,6 +16,7 @@ public class RuleEvaluator {
     public static int getCurrentPlayer(){
         return currentPlayer;
     }
+
 
     public static void updateTurn(){
         checkWinner();
@@ -56,7 +58,7 @@ public class RuleEvaluator {
                             for (int j = 0; j < 8; j++){
                                 if (getCurrentPlayer() == 1 && Board.isRed(i, j) || (getCurrentPlayer() == 2 && Board.isWhite(i, j))){
                                     if (checkForJumpmoves(i, j)){
-                                        System.out.println("there is a possible jump move");
+                                        System.out.println("There is a possible jump move");
                                         return false;
                                     }
                                 }
@@ -155,21 +157,16 @@ public class RuleEvaluator {
             && Board.isEmpty(coordinates[2], coordinates[3])){
 
                 //check if jump is over opponent pin
-                if ((Board.isWhite(coordinates[0], coordinates[1]) && Board.isRed((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2))
-                ||(Board.isRed(coordinates[0], coordinates[1]) && Board.isWhite((coordinates[0] + coordinates[2])/2, (coordinates[1] + coordinates[3])/2))){
-                    return true;
-                }
+            return (Board.isWhite(coordinates[0], coordinates[1]) && Board.isRed((coordinates[0] + coordinates[2]) / 2, (coordinates[1] + coordinates[3]) / 2))
+                    || (Board.isRed(coordinates[0], coordinates[1]) && Board.isWhite((coordinates[0] + coordinates[2]) / 2, (coordinates[1] + coordinates[3]) / 2));
             }
         return false;
     }
 
-    public static boolean isSimpleMove(int[] coordinates){  
-        if ((coordinates[0] - coordinates[2] == 1 || coordinates[0] - coordinates[2] == -1)
-            && (coordinates[1] - coordinates[3] == 1 || coordinates[1] - coordinates[3] == -1) 
-            && Board.isEmpty(coordinates[2], coordinates[3])){
-                return true;                
-            }
-        return false;
+    public static boolean isSimpleMove(int[] coordinates){
+        return (coordinates[0] - coordinates[2] == 1 || coordinates[0] - coordinates[2] == -1)
+                && (coordinates[1] - coordinates[3] == 1 || coordinates[1] - coordinates[3] == -1)
+                && Board.isEmpty(coordinates[2], coordinates[3]);
     }
 
     /*
