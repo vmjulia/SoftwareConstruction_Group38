@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Game {
 
     private static int[] coordinates;
+
     /*
     asks for input 
     */
@@ -28,29 +29,26 @@ public class Game {
             return;
         }
 
-        coordinates = convertInput(input);
+        convertInput(input);
 
         if (!RuleEvaluator.checkValidity(coordinates)) {
             System.out.println("Sorry. That is not a valid move.");
             askForInput();
-            return;
         }
-        //to be implemented further
     }
 
     /*
-    converts String input into four variables {x1, y1, x2, y2}
+    converts String input into four variables {x1, y1, x2, y2} and stores them in coordinates
     [a3]x[b4] for example will become: x1=0, y1=2 and x2=1, y2=3
     */
-    private static int[] convertInput(String input){
+    private static void convertInput(String input){
         int x1 = input.charAt(1) - 'a';
         int y1 = Character.getNumericValue(input.charAt(2)) - 1;
 
         int x2 = input.charAt(6) - 'a';
         int y2 = Character.getNumericValue(input.charAt(7)) - 1;
 
-        int[] coordinates = {x1, y1, x2, y2};
-        return coordinates;
+        coordinates = new int[]{x1, y1, x2, y2};
     }
 
     public static void nextMove(){
