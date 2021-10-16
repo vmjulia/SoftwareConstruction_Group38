@@ -29,9 +29,6 @@ public class Game {
         }
 
         coordinates = convertInput(input);
-/*         for(int i = 0; i<4; i++) {
-            System.out.println(coordinates[i]);
-        } */
 
         if (!RuleEvaluator.checkValidity(coordinates)) {
             System.out.println("Sorry. That is not a valid move.");

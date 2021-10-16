@@ -84,35 +84,30 @@ public class Board {
     }
 
     /*
-    checks if a piece is a king or not
+    checks if a piece is a king
     */
     public static boolean isKing(int x, int y){
-        if (board[x][y].charAt(3) == 'K'){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return board[x][y].charAt(3) == 'K';
     }
 
+    /*
+    checks if a piece is red
+    */
     public static boolean isRed(int x, int y){
-        if (board[x][y].charAt(1) == 'R'){
-            return true;
-        }
-        return false;
+        return board[x][y].charAt(1) == 'R';
     }
 
+    /*
+    checks if a piece is white
+    */
     public static boolean isWhite(int x, int y){
-        if (board[x][y].charAt(1) == 'W'){
-            return true;
-        }
-        return false;
+        return board[x][y].charAt(1) == 'W';
     }    
 
+    /*
+    checks if a field of the board is empty
+    */
     public static boolean isEmpty(int x, int y){
-        if (board[x][y] == emptyField){
-            return true;
-        }
-        return false;
+        return board[x][y] == emptyField;
     }
 }
