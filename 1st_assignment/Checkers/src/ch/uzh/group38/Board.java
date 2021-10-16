@@ -1,5 +1,7 @@
 package ch.uzh.group38;
 
+import java.util.Objects;
+
 public class Board {
 
     private static String[][] board;
@@ -75,10 +77,10 @@ public class Board {
     changes type of a piece from pawn to king
     */
     public static void changeType(int x, int y){
-        if (board[x][y] == redPawn){
+        if (Objects.equals(board[x][y], redPawn)){
             board[x][y] = redKing;
         }
-        else if (board[x][y] == whitePawn){
+        else if (Objects.equals(board[x][y], whitePawn)){
             board[x][y] = whiteKing;
         }
     }
@@ -108,6 +110,6 @@ public class Board {
     checks if a field of the board is empty
     */
     public static boolean isEmpty(int x, int y){
-        return board[x][y] == emptyField;
+        return Objects.equals(board[x][y], emptyField);
     }
 }
