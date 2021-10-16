@@ -18,7 +18,8 @@ public class Move {
         Board.movePiece(move);
 
         //case other side of board is reached
-        if (((Board.isRed(move[2], move[3]) && move[3] == 0) || (Board.isRed(move[2], move[3]) && move[3] == 7)) && !Board.isKing(move[2], move[3])){
+        if ((move[3] == 0 || move[3] == 7) && !Board.isKing(move[2], move[3])){
+            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
             Board.changeType(move[2], move[3]);
         }
 
@@ -35,7 +36,8 @@ public class Move {
         Board.removePiece((move[0]+move[2])/2,(move[1]+move[3])/2);
 
         //case other side of board is reached
-        if (((Board.isRed(move[0], move[2]) && move[3] == 0) || (Board.isRed(move[1], move[3]) && move[3] == 7)) && !Board.isKing(move[1], move[3])){
+        if ((move[3] == 0 || move[3] == 7) && !Board.isKing(move[1], move[3])){
+            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
             Board.changeType(move[2], move[3]);
             RuleEvaluator.updateTurn();
         }
