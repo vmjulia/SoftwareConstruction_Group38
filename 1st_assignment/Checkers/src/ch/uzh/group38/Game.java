@@ -22,7 +22,8 @@ public class Game {
     public static void readInput(){
         Scanner s = new Scanner(System.in);
         String input = s.nextLine().toLowerCase();
-        
+
+        //checks that the input is of the correct format using regex
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
             System.out.println("Sorry. That is not a valid input.");
             askForInput();
@@ -31,6 +32,7 @@ public class Game {
 
         convertInput(input);
 
+        //checks that the input is a valid move
         if (!RuleEvaluator.checkValidity(coordinates)) {
             System.out.println("Sorry. That is not a valid move.");
             askForInput();
