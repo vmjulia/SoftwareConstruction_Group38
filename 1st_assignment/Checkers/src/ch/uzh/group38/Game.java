@@ -13,20 +13,24 @@ public class Game {
     */
     public static void askForInput(){
         System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
-        readInput();
     }
 
     /*
     reads input from console and checks its format
     */
-    public static void readInput(){
+    public static String ReadInput(){
         Scanner s = new Scanner(System.in);
-        String input = s.nextLine().toLowerCase();
+        return s.nextLine().toLowerCase();
+    }
+
+    public static void getInput(){
+        askForInput();
+        String input = ReadInput();
 
         //checks that the input is of the correct format using regex
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
             System.out.println("Sorry. That is not a valid input.");
-            askForInput();
+            getInput();
             return;
         }
 
@@ -35,7 +39,7 @@ public class Game {
         //checks that the input is a valid move
         if (!RuleEvaluator.checkValidity(coordinates)) {
             System.out.println("Sorry. That is not a valid move.");
-            askForInput();
+            getInput();
         }
     }
 
@@ -55,13 +59,13 @@ public class Game {
 
     public static void nextMove(){
         Board.printBoard();
-        askForInput();
+        getInput();
         Move.move(coordinates);
     }
 
     public static void main(String[] args) {
         Board.resetBoard();
         RuleEvaluator.resetCurrentPlayer();
-        nextMove();
+        while (true) nextMove();
     }
 }
