@@ -25,7 +25,7 @@ public class Move {
         }
 
         RuleEvaluator.updateTurn();
-        Game.nextMove();
+
     }
 
     /*
@@ -47,6 +47,6 @@ public class Move {
             RuleEvaluator.updateTurn();
         }
 
-        Game.nextMove();
+
     }
 }
