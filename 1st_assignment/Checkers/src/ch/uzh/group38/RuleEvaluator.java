@@ -32,28 +32,28 @@ public class RuleEvaluator {
     /*
     checks if input is a valid move
     */
-    public static boolean checkValidity(int[] coordinates, Board board){
+    public static boolean checkValidity(int x1, int y1, int x2, int y2, Board board){
 
         //check if move is going in the right direction
         //red pawns can only move negative y
-        if (board.isRed(coordinates[0], coordinates[1]) && !board.isKing(coordinates[0], coordinates[1])
-            && coordinates[3] - coordinates[1] >= 0 ){
+        if (board.isRed(x1, y1) && !board.isKing(x1, y1)
+            && y2 - y1 >= 0 ){
                 return false;
             }
 
         //white pawns can only move positive y
-        if (board.isWhite(coordinates[0], coordinates[1]) && !board.isKing(coordinates[0], coordinates[1])
-            && coordinates[3] - coordinates[1] <= 0 ){
+        if (board.isWhite(x1, y1) && !board.isKing(x1, y1)
+            && y2 - y1 <= 0 ){
                 return false;
             }
 
         //check if it is players color  
-        if (((board.isRed(coordinates[0], coordinates[1]) && getCurrentPlayer() == 1)
-            || (board.isWhite(coordinates[0], coordinates[1]) && getCurrentPlayer() == 2))){
+        if (((board.isRed(x1, y1) && getCurrentPlayer() == 1)
+            || (board.isWhite(x1, y1) && getCurrentPlayer() == 2))){
                 
-                if (isJumpMove(coordinates, board) || isSimpleMove(coordinates, board)){
+                if (isJumpMove(x1, y1, x2, y2, board) || isSimpleMove(x1, y1, x2, y2, board)){
                     //check if a jump move was possible
-                    if (isSimpleMove(coordinates, board)){
+                    if (isSimpleMove(x1, y1, x2, y2, board)){
                         for (int i = 0; i < 8; i++){
                             for (int j = 0; j < 8; j++){
                                 if (getCurrentPlayer() == 1 && board.isRed(i, j) || (getCurrentPlayer() == 2 && board.isWhite(i, j))){
@@ -76,37 +76,30 @@ public class RuleEvaluator {
     checks if there are possible jumpmoves from the current position
     */
     public static boolean checkForJumpmoves(int x, int y, Board board){
-        int [] target = {x, y, x+2, y+2}; 
         if (board.isKing(x, y) || board.isWhite(x, y)){
-            if (target[2] < 8 && target[3] < 8)
-                if (isJumpMove(target, board)){
+            if (x+2 < 8 && y+2 < 8)
+                if (isJumpMove(x, y, x+2, y+2, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isWhite(x, y)){
-            target[2] = x-2;
-            target[3] = y+2;
-            if (target[2] >= 0 && target[3] < 8) 
-                if (isJumpMove(target, board)){
+            if (x-2 >= 0 && y+2 < 8) 
+                if (isJumpMove(x, y, x-2, y+2, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isRed(x, y)){
-            target[2] = x-2;
-            target[3] = y-2;
-            if (target[2] >= 0 && target[3] >= 0)
-                if (isJumpMove(target, board)){
+            if (x-2 >= 0 && y-2 >= 0)
+                if (isJumpMove(x, y, x-2, y-2, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isRed(x, y)){
-            target[2] = x+2;
-            target[3] = y-2;
-            if (target[2] < 8 && target[3] >= 0)
-                if (isJumpMove(target, board)){
+            if (x+2 < 8 && y-2 >= 0)
+                if (isJumpMove(x, y, x+2, y-2, board)){
                     return true;
             }
         }
@@ -114,59 +107,52 @@ public class RuleEvaluator {
     }
 
     public static boolean checkForSimpleMoves(int x, int y, Board board){
-        int [] target = {x, y, x+1, y+1}; 
         if (board.isKing(x, y) || board.isWhite(x, y)){
-            if (target[2] < 8 && target[3] < 8) 
-                if (isSimpleMove(target,board)){
+            if (x+1 < 8 && y+1 < 8) 
+                if (isSimpleMove(x, y, x+1, y+1, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isWhite(x, y)){
-            target[2] = x-1;
-            target[3] = y+1;
-            if (target[2] >= 0 && target[3] < 8)
-                if (isSimpleMove(target,board)){
+            if (x-1 >= 0 && y+1 < 8)
+                if (isSimpleMove(x, y, x-1, y+1, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isRed(x, y)){
-            target[2] = x-1;
-            target[3] = y-1;
-            if (target[2] >= 0 && target[3] >= 0)
-                if (isSimpleMove(target, board)){
+            if (x-1 >= 0 && y-1 >= 0)
+                if (isSimpleMove(x, y, x-1, y-1, board)){
                     return true;
             }
         }
 
         if (board.isKing(x, y) || board.isRed(x, y)){
-            target[2] = x+1;
-            target[3] = y-1;
-            if (target[2] < 8 && target[3] >= 0)
-                if (isSimpleMove(target,board)){
+            if (x+1 < 8 && y-1 >= 0)
+                if (isSimpleMove(x, y, x+1, y-1, board)){
                     return true;
             }
         }
         return false;
     }
 
-    public static boolean isJumpMove(int[] coordinates, Board board){
-        if ((coordinates[0] - coordinates[2] == 2 || coordinates[0] - coordinates[2] == -2)
-            && (coordinates[1] - coordinates[3] == 2 || coordinates[1] - coordinates[3] == -2) 
-            && board.isEmpty(coordinates[2], coordinates[3])){
+    public static boolean isJumpMove(int x1, int y1, int x2, int y2, Board board){
+        if ((x1 - x2 == 2 || x1 - x2 == -2)
+            && (y1 - y2 == 2 || y1 - y2 == -2) 
+            && board.isEmpty(x2, y2)){
 
                 //check if jump is over opponent pin
-            return (board.isWhite(coordinates[0], coordinates[1]) && board.isRed((coordinates[0] + coordinates[2]) / 2, (coordinates[1] + coordinates[3]) / 2))
-                    || (board.isRed(coordinates[0], coordinates[1]) && board.isWhite((coordinates[0] + coordinates[2]) / 2, (coordinates[1] + coordinates[3]) / 2));
+            return (board.isWhite(x1, y1) && board.isRed((x1 + x2) / 2, (y1 + y2) / 2))
+                    || (board.isRed(x1, y1) && board.isWhite((x1 + x2) / 2, (y1 + y2) / 2));
             }
         return false;
     }
 
-    public static boolean isSimpleMove(int[] coordinates, Board board){
-        return (coordinates[0] - coordinates[2] == 1 || coordinates[0] - coordinates[2] == -1)
-                && (coordinates[1] - coordinates[3] == 1 || coordinates[1] - coordinates[3] == -1)
-                && board.isEmpty(coordinates[2], coordinates[3]);
+    public static boolean isSimpleMove(int x1, int y1, int x2, int y2, Board board){
+        return (x1 - x2 == 1 || x1 - x2 == -1)
+                && (y1 - y2 == 1 || y1 - y2 == -1)
+                && board.isEmpty(x2, y2);
     }
 
     /*
