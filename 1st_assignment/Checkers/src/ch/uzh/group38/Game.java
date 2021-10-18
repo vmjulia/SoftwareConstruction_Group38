@@ -4,7 +4,6 @@ package ch.uzh.group38;
 import java.util.Locale;
 import java.util.Scanner;
 
-import ch.uzh.group38.Move;
 
 public class Game {
 
@@ -60,7 +59,8 @@ public class Game {
     public static void nextMove(Board board){
         board.printBoard();
         getInput(board);
-        Move.move(board);
+        Move move = new Move(x1, y1, x2, y2);
+        move.move(board);
     }
 
     public static void main(String[] args) {
