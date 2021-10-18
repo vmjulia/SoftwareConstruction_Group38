@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 public class Game {
 
-    private static int[] coordinates;
+    private static Move currentMove;
+    private static Board board;
 
     /*
     asks for input 
     */
+
     public static void askForInput(){
         System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
     }
@@ -29,7 +31,7 @@ public class Game {
 
         //checks that the input is of the correct format using regex
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
-            System.out.println("Sorry. That is not a valid input.");
+            System.out.println("Sorry. That is not a valid input format.");
             getInput();
             return;
         }
@@ -37,7 +39,7 @@ public class Game {
         convertInput(input);
 
         //checks that the input is a valid move
-        if (!RuleEvaluator.checkValidity(coordinates)) {
+        if (!RuleEvaluator.checkValidity(currentMove.coordinates, board)) {
             System.out.println("Sorry. That is not a valid move.");
             getInput();
         }
@@ -53,18 +55,18 @@ public class Game {
 
         int x2 = input.charAt(6) - 'a';
         int y2 = Character.getNumericValue(input.charAt(7)) - 1;
-
-        coordinates = new int[]{x1, y1, x2, y2};
+        int[]array = {x1, y1, x2, y2};
+        currentMove = new Move(array);
     }
 
     public static void nextMove(){
-        Board.printBoard();
+        board.printBoard();
         getInput();
-        Move.move(coordinates);
+        currentMove.move(board);
     }
 
     public static void main(String[] args) {
-        Board.resetBoard();
+        board = new Board();
         RuleEvaluator.resetCurrentPlayer();
         while (true) nextMove();
     }

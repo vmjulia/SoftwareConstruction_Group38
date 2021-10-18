@@ -1,54 +1,42 @@
 package ch.uzh.group38;
 
-import java.util.Objects;
+
+
 
 public class Board {
 
-    private static String[][] board;
+    public Piece[][] board;
 
-    private static String emptyField = "[   ]";
-    private static String redPawn = "[R_P]";
-    private static String redKing = "[R_K]";
-    private static String whitePawn = "[W_P]";
-    private static String whiteKing = "[W_K]";
-
-    private static final String[][] defaultBoard =
-        {{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]","[R_P]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]","[R_P]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]","[R_P]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]","[R_P]"}
-     /* {{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[R_P]","[   ]","[   ]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]","[   ]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]","[   ]"}
-        ,{"[W_P]","[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]"}
-        ,{"[   ]","[W_P]","[   ]","[   ]","[   ]","[   ]","[   ]","[   ]"} */
-    };
 
     /*
-    resets the board to default state
+    Board constructor: resets the board to default state
     */
-    public static void resetBoard(){
-        board = defaultBoard.clone();
+    public Board(){
+        this.board = new Piece[8][8];
+
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 3; j++){
+                if ((i+j) %2 ==0){
+                this.board[i][j] = new Piece('W', 'P');}
+
+                }
+            for (int j = 5; j < 8; j++){
+                if ((i+j) %2 ==0){
+                    this.board[i][j] = new Piece('R', 'P');}}}
+
     }
 
     /*
     prints actual state of the board 
     */
-    public static void printBoard(){
+    public void printBoard(){
         System.out.println("      a     b     c     d     e     f     g     h");
         System.out.println("  +-------------------------------------------------+");
         for (int i = 7; i >= 0; i--){
             System.out.print(i+1 + " | ");
             for (int j = 0; j < 8; j++){
-                System.out.print(board[j][i] + " ");
-            }
+                if (board[j][i]!=null){ System.out.print(board[j][i].getLabel());}
+                else {System.out.print("[   ] ");}}
             System.out.print("| " + (i+1));
             System.out.print("\n");
         }
@@ -60,56 +48,52 @@ public class Board {
     moves a piece by removing it at the actual location
     and creating a new piece at the new location
     */
-    public static void movePiece(int [] move){
-        String temp = board[move[0]][move[1]];
-        board[move[0]][move[1]] = emptyField;
+    public void movePiece(int [] move){
+        Piece temp = board[move[0]][move[1]];
+        board[move[0]][move[1]] = null;
         board[move[2]][move[3]] = temp;
     }
 
     /*
     removes a piece from the board 
     */
-    public static void removePiece(int x, int y){
-        board[x][y] = emptyField;
+    public void removePiece(int x, int y){
+        board[x][y] = null;
     }
 
     /*
     changes type of a piece from pawn to king
     */
-    public static void changeType(int x, int y){
-        if (Objects.equals(board[x][y], redPawn)){
-            board[x][y] = redKing;
+    public void changeType(int x, int y){
+        board[x][y].becomeKing();
         }
-        else if (Objects.equals(board[x][y], whitePawn)){
-            board[x][y] = whiteKing;
-        }
-    }
+
 
     /*
     checks if a piece is a king
     */
-    public static boolean isKing(int x, int y){
-        return board[x][y].charAt(3) == 'K';
+    public boolean isKing(int x, int y){
+        return(board[x][y]!=null &&board[x][y].type == 'K');
     }
 
     /*
     checks if a piece is red
     */
-    public static boolean isRed(int x, int y){
-        return board[x][y].charAt(1) == 'R';
+    public boolean isRed(int x, int y){
+        return (board[x][y]!=null && board[x][y].colour == 'R');
     }
 
     /*
     checks if a piece is white
     */
-    public static boolean isWhite(int x, int y){
-        return board[x][y].charAt(1) == 'W';
+    public boolean isWhite(int x, int y){
+        return (board[x][y]!=null &&board[x][y].colour == 'W');
     }    
 
     /*
     checks if a field of the board is empty
     */
-    public static boolean isEmpty(int x, int y){
-        return Objects.equals(board[x][y], emptyField);
+    public boolean isEmpty(int x, int y){
+        return (board[x][y] == null);
     }
 }
