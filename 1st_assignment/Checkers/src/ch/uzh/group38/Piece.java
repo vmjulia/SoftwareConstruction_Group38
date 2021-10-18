@@ -11,18 +11,18 @@ public class Piece {
 
     public String getLabel (){
         if ((colour=='R')&& (type=='K')){
-            return("[R_K]"); }
+            return("[R_K] "); }
         if ((colour=='R')&& (type=='P')){
-            return("[R_P]"); }
+            return("[R_P] "); }
         if ((colour=='W')&& (type=='K')){
-            return("[W_K]"); }
+            return("[W_K] "); }
         if ((colour=='W')&& (type=='P')){
-            return("[W_P]"); }
+            return("[W_P] "); }
 
-        return("[  ]");
+        return("[  ] ");
     }
 
-    public void changePieceType(){
+    public void becomeKing(){
         type = 'K';
     }
 

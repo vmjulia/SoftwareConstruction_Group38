@@ -36,7 +36,7 @@ public class Board {
             System.out.print(i+1 + " | ");
             for (int j = 0; j < 8; j++){
                 if (board[j][i]!=null){ System.out.print(board[j][i].getLabel());}
-                else {System.out.print("[   ]");}}
+                else {System.out.print("[   ] ");}}
             System.out.print("| " + (i+1));
             System.out.print("\n");
         }
@@ -65,7 +65,7 @@ public class Board {
     changes type of a piece from pawn to king
     */
     public void changeType(int x, int y){
-        board[x][y].changePieceType();
+        board[x][y].becomeKing();
         }
 
 
