@@ -2,8 +2,8 @@ package ch.uzh.group38;
 
 
 public class Piece {
-    public char colour;
-    public char type;
+    private char colour;
+    private char type;
 
     public Piece (char Colour, char Type){
         this.colour = Colour;
@@ -25,6 +25,16 @@ public class Piece {
 
     public void becomeKing(){
         type = 'K';
+    }
+
+    public boolean isKing(){
+        return (type == 'K');
+    }
+    public boolean isWhite(){
+        return ( colour == 'W');
+    }
+    public boolean isRed(){
+        return(colour == 'R');
     }
 
 
