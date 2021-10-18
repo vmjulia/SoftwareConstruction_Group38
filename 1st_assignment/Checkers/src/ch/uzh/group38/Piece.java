@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+
 public class Piece {
     public char colour;
     public char type;
