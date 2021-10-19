@@ -3,7 +3,7 @@ package ch.uzh.group38;
 
 public class Board {
 
-    public Piece[][] board;
+    private Piece[][] board;
 
 
     /*
