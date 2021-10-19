@@ -23,19 +23,9 @@ public class Piece {
         return("[  ] ");
     }
 
-    public void becomeKing(){
-        type = 'K';
-    }
-
-    public boolean isKing(){
-        return (type == 'K');
-    }
-    public boolean isWhite(){
-        return ( colour == 'W');
-    }
-    public boolean isRed(){
-        return(colour == 'R');
-    }
+    public void setType(char Type){ this.type = Type;}
+    public char getColour(){return (this.colour);}
+    public char getType(){return (this.type);}
 
 
 }

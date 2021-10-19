@@ -63,7 +63,7 @@ public class Board {
     changes type of a piece from pawn to king
     */
     public void changeType(int x, int y){
-        board[x][y].becomeKing();
+        board[x][y].setType('K');
         }
 
 
@@ -71,21 +71,21 @@ public class Board {
     checks if a piece is a king
     */
     public boolean isKing(int x, int y){
-        return(board[x][y]!=null &&board[x][y].isKing());
+        return(board[x][y]!=null &&board[x][y].getType() =='K');
     }
 
     /*
     checks if a piece is red
     */
     public boolean isRed(int x, int y){
-        return (board[x][y]!=null && board[x][y].isRed());
+        return (board[x][y]!=null && board[x][y].getColour() =='R');
     }
 
     /*
     checks if a piece is white
     */
     public boolean isWhite(int x, int y){
-        return (board[x][y]!=null&&board[x][y].isWhite());
+        return (board[x][y]!=null&&board[x][y].getColour() =='W');
     }    
 
     /*
