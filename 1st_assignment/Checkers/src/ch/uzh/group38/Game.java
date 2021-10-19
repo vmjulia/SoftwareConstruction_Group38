@@ -18,14 +18,14 @@ public class Game {
     /*
     reads input from console and checks its format
     */
-    public static String ReadInput(){
+    public static String readInput(){
         Scanner s = new Scanner(System.in);
         return s.nextLine().toLowerCase();
     }
 
     public static void getInput(Board board){
         askForInput();
-        String input = ReadInput();
+        String input = readInput();
 
         //checks that the input is of the correct format using regex
         if(!input.matches("^\\[[a-h][1-8]\\]x\\[[a-h][1-8]\\]$")){
