@@ -28,9 +28,8 @@ public class Move {
         board.movePiece(x1, y1, x2, y2);
 
         //case other side of board is reached -> king
-        if ((y2 == 0 || y2 == 7) && !board.isKing(x2, y2)){
-            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
-            board.changeType(x2, y2);
+        if (y2 == 0 || y2 == 7){
+            board.convertToKing(x2, y2);
         }
 
         RuleEvaluator.updateTurn(board);
@@ -45,9 +44,8 @@ public class Move {
         board.removePiece((x1+x2)/2,(y1+y2)/2);
 
         //case other side of board is reached -> king
-        if ((y2 == 0 || y2 == 7) && !board.isKing(x2, y2)){
-            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
-            board.changeType(x2, y2);
+        if (y2 == 0 || y2 == 7){
+            board.convertToKing(x2, y2);
             RuleEvaluator.updateTurn(board);
         }
 

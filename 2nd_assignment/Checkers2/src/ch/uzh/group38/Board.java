@@ -62,10 +62,9 @@ public class Board {
     /*
     changes type of a piece from pawn to king
     */
-    public void changeType(int x, int y){
-        board[x][y].setType(Piece.Type.KING);
+    public void convertToKing(int x, int y){
+        board[x][y].convertToKing();
         }
-
 
     /*
     checks if a piece is a king
@@ -78,14 +77,14 @@ public class Board {
     checks if a piece is red
     */
     public boolean isRed(int x, int y){
-        return (board[x][y]!=null && board[x][y].getColour() == Piece.Color.RED);
+        return (board[x][y]!=null && board[x][y].getColor() == Piece.Color.RED);
     }
 
     /*
     checks if a piece is white
     */
     public boolean isWhite(int x, int y){
-        return (board[x][y]!=null&&board[x][y].getColour() == Piece.Color.WHITE);
+        return (board[x][y]!=null&&board[x][y].getColor() == Piece.Color.WHITE);
     }    
 
     /*

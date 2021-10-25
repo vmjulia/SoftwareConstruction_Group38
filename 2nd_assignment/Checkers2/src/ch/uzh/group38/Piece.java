@@ -1,38 +1,50 @@
 package ch.uzh.group38;
 
 
+import java.lang.reflect.Type;
+
 public class Piece {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
 
-    private final Color colour;
+    private final Color color;
     private Type type;
 
     public Piece (Color c, Type t){
-        this.colour = c;
+        this.color = c;
         this.type = t;
     }
 
     public String getLabel (){
-        if ((colour==Color.RED)&& (type==Type.KING)){
-            return("[R_K] "); }
-        if ((colour==Color.RED)&& (type==Type.PAWN)){
-            return("[R_P] "); }
-        if ((colour==Color.WHITE)&& (type==Type.KING)){
-            return("[W_K] "); }
-        if ((colour==Color.WHITE)&& (type==Type.PAWN)){
-            return("[W_P] "); }
+        String label = "[";
 
-        return("[  ] ");
+        if (this.color==Color.RED){
+            label += "R_";
+        }
+        else if (this.color==Color.WHITE){
+            label += "W_";
+        }
+
+        if (this.type==Type.KING){
+            label += "K] ";
+        }
+        else if (this.type==Type.PAWN){
+            label += "P] ";
+        }
+
+        return label;
     }
 
-    public void setType(Type t){
-        this.type = t;
+    public void convertToKing(){
+        if (this.type != Type.KING){
+            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
+            this.type = Type.KING;
+        }
     }
 
-    public Color getColour(){
-        return (this.colour);
+    public Color getColor(){
+        return (this.color);
     }
 
     public Type getType(){
