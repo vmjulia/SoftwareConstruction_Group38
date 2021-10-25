@@ -70,21 +70,21 @@ public class Board {
     checks if a piece is a king
     */
     public boolean isKing(int x, int y){
-        return(board[x][y]!=null &&board[x][y].getType() == Piece.Type.KING);
+        return(board[x][y].isKing());
     }
 
     /*
     checks if a piece is red
     */
     public boolean isRed(int x, int y){
-        return (board[x][y]!=null && board[x][y].getColor() == Piece.Color.RED);
+        return (board[x][y].isRed());
     }
 
     /*
     checks if a piece is white
     */
     public boolean isWhite(int x, int y){
-        return (board[x][y]!=null&&board[x][y].getColor() == Piece.Color.WHITE);
+        return (board[x][y].isWhite());
     }    
 
     /*

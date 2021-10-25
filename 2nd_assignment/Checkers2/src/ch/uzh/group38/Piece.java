@@ -43,12 +43,16 @@ public class Piece {
         }
     }
 
-    public Color getColor(){
-        return (this.color);
+    public boolean isWhite(){
+        return (this.color == Color.WHITE);
     }
 
-    public Type getType(){
-        return (this.type);
+    public boolean isRed(){
+        return (this.color == Color.RED);
+    }
+
+    public boolean isKing(){
+        return (this.type == Type.KING);
     }
 
 }
