@@ -53,4 +53,5 @@ public class Move {
             RuleEvaluator.updateTurn(board);
         }
     }
+
 }

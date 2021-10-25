@@ -67,4 +67,5 @@ public class Game {
         RuleEvaluator.resetCurrentPlayer();
         while (true) nextMove(board);
     }
+
 }

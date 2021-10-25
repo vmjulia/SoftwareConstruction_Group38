@@ -183,4 +183,5 @@ public class RuleEvaluator {
         System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
         System.exit(0);
     }
+
 }
