@@ -53,8 +53,4 @@ public class Piece {
         return (this.type == Type.KING);
     }
 
-    public boolean isEmpty(){
-        return (this == null);
-    }
-
 }

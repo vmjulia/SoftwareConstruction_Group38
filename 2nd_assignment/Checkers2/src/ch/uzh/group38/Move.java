@@ -49,7 +49,7 @@ public class Move {
         }
 
         //case no other jumpMove is possible
-        else if (!RuleEvaluator.checkForJumpmoves(x2, y2, board)){
+        else if (!RuleEvaluator.checkForJumpMoves(x2, y2, board)){
             RuleEvaluator.updateTurn(board);
         }
     }
