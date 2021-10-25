@@ -11,19 +11,19 @@ public class Game {
     /*
     asks for input 
     */
-    public static void askForInput(){
+    private static void askForInput(){
         System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
     }
 
     /*
     reads input from console and checks its format
     */
-    public static String readInput(){
+    private static String readInput(){
         Scanner s = new Scanner(System.in);
         return s.nextLine().toLowerCase();
     }
 
-    public static void getInput(Board board){
+    private static void getInput(Board board){
         askForInput();
         String input = readInput();
 
@@ -55,7 +55,7 @@ public class Game {
         y2 = Character.getNumericValue(input.charAt(7)) - 1;
     }
 
-    public static void nextMove(Board board){
+    private static void nextMove(Board board){
         board.printBoard();
         getInput(board);
         Move move = new Move(x1, y1, x2, y2);
