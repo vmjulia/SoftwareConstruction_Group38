@@ -2,30 +2,41 @@ package ch.uzh.group38;
 
 
 public class Piece {
-    private char colour;
-    private char type;
 
-    public Piece (char Colour, char Type){
-        this.colour = Colour;
-        this.type = Type;
+    public enum Color {WHITE, RED}
+    public enum Type {PAWN, KING}
+
+    private final Color colour;
+    private Type type;
+
+    public Piece (Color c, Type t){
+        this.colour = c;
+        this.type = t;
     }
 
     public String getLabel (){
-        if ((colour=='R')&& (type=='K')){
+        if ((colour==Color.RED)&& (type==Type.KING)){
             return("[R_K] "); }
-        if ((colour=='R')&& (type=='P')){
+        if ((colour==Color.RED)&& (type==Type.PAWN)){
             return("[R_P] "); }
-        if ((colour=='W')&& (type=='K')){
+        if ((colour==Color.WHITE)&& (type==Type.KING)){
             return("[W_K] "); }
-        if ((colour=='W')&& (type=='P')){
+        if ((colour==Color.WHITE)&& (type==Type.PAWN)){
             return("[W_P] "); }
 
         return("[  ] ");
     }
 
-    public void setType(char Type){ this.type = Type;}
-    public char getColour(){return (this.colour);}
-    public char getType(){return (this.type);}
+    public void setType(Type t){
+        this.type = t;
+    }
 
+    public Color getColour(){
+        return (this.colour);
+    }
+
+    public Type getType(){
+        return (this.type);
+    }
 
 }

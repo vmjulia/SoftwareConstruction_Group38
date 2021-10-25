@@ -15,12 +15,12 @@ public class Board {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 3; j++){
                 if ((i+j) %2 ==0){
-                this.board[i][j] = new Piece('W', 'P');}
+                this.board[i][j] = new Piece(Piece.Color.WHITE, Piece.Type.PAWN);}
 
                 }
             for (int j = 5; j < 8; j++){
                 if ((i+j) %2 ==0){
-                    this.board[i][j] = new Piece('R', 'P');}}}
+                    this.board[i][j] = new Piece(Piece.Color.RED, Piece.Type.PAWN);}}}
 
     }
 
@@ -63,7 +63,7 @@ public class Board {
     changes type of a piece from pawn to king
     */
     public void changeType(int x, int y){
-        board[x][y].setType('K');
+        board[x][y].setType(Piece.Type.KING);
         }
 
 
@@ -71,21 +71,21 @@ public class Board {
     checks if a piece is a king
     */
     public boolean isKing(int x, int y){
-        return(board[x][y]!=null &&board[x][y].getType() =='K');
+        return(board[x][y]!=null &&board[x][y].getType() == Piece.Type.KING);
     }
 
     /*
     checks if a piece is red
     */
     public boolean isRed(int x, int y){
-        return (board[x][y]!=null && board[x][y].getColour() =='R');
+        return (board[x][y]!=null && board[x][y].getColour() == Piece.Color.RED);
     }
 
     /*
     checks if a piece is white
     */
     public boolean isWhite(int x, int y){
-        return (board[x][y]!=null&&board[x][y].getColour() =='W');
+        return (board[x][y]!=null&&board[x][y].getColour() == Piece.Color.WHITE);
     }    
 
     /*
