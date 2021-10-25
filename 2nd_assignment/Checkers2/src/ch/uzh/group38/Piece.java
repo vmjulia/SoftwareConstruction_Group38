@@ -1,8 +1,6 @@
 package ch.uzh.group38;
 
 
-import java.lang.reflect.Type;
-
 public class Piece {
 
     public enum Color {WHITE, RED}
@@ -53,6 +51,10 @@ public class Piece {
 
     public boolean isKing(){
         return (this.type == Type.KING);
+    }
+
+    public boolean isEmpty(){
+        return (this == null);
     }
 
 }

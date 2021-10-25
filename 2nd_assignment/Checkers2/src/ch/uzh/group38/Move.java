@@ -24,7 +24,7 @@ public class Move {
     /*
     executing a simple move
     */
-    public void simpleMove(Board board){
+    private void simpleMove(Board board){
         board.movePiece(x1, y1, x2, y2);
 
         //case other side of board is reached -> king
@@ -33,13 +33,12 @@ public class Move {
         }
 
         RuleEvaluator.updateTurn(board);
-
     }
 
     /*
     executing a jump move
     */
-    public void jumpMove(Board board){
+    private void jumpMove(Board board){
         board.movePiece(x1, y1, x2, y2);
         board.removePiece((x1+x2)/2,(y1+y2)/2);
 
@@ -49,11 +48,9 @@ public class Move {
             RuleEvaluator.updateTurn(board);
         }
 
-        //case no other jumpmove is possible
+        //case no other jumpMove is possible
         else if (!RuleEvaluator.checkForJumpmoves(x2, y2, board)){
             RuleEvaluator.updateTurn(board);
         }
-
-
     }
 }

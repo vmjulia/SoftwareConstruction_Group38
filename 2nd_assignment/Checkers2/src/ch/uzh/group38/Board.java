@@ -5,7 +5,6 @@ public class Board {
 
     private Piece[][] board;
 
-
     /*
     Board constructor: resets the board to default state
     */
@@ -15,13 +14,15 @@ public class Board {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 3; j++){
                 if ((i+j) %2 ==0){
-                this.board[i][j] = new Piece(Piece.Color.WHITE, Piece.Type.PAWN);}
-
+                this.board[i][j] = new Piece(Piece.Color.WHITE, Piece.Type.PAWN);
                 }
+            }
             for (int j = 5; j < 8; j++){
                 if ((i+j) %2 ==0){
-                    this.board[i][j] = new Piece(Piece.Color.RED, Piece.Type.PAWN);}}}
-
+                    this.board[i][j] = new Piece(Piece.Color.RED, Piece.Type.PAWN);
+                }
+            }
+        }
     }
 
     /*
@@ -33,8 +34,13 @@ public class Board {
         for (int i = 7; i >= 0; i--){
             System.out.print(i+1 + " | ");
             for (int j = 0; j < 8; j++){
-                if (board[j][i]!=null){ System.out.print(board[j][i].getLabel());}
-                else {System.out.print("[   ] ");}}
+                if (board[j][i]!=null){
+                    System.out.print(board[j][i].getLabel());
+                }
+                else {
+                    System.out.print("[   ] ");
+                }
+            }
             System.out.print("| " + (i+1));
             System.out.print("\n");
         }
@@ -64,7 +70,7 @@ public class Board {
     */
     public void convertToKing(int x, int y){
         board[x][y].convertToKing();
-        }
+    }
 
     /*
     checks if a piece is a king
@@ -93,4 +99,5 @@ public class Board {
     public boolean isEmpty(int x, int y){
         return (board[x][y] == null);
     }
+
 }
