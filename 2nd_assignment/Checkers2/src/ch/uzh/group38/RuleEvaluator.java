@@ -32,16 +32,18 @@ public class RuleEvaluator {
     checks if input is a valid move
     */
     public static boolean checkValidity(int x1, int y1, int x2, int y2, Board board){
+        Piece evaluatedPiece = board.getPiece(x1, y1);
+        Piece evaluatedDestination = board.getPiece(x2, y2);
 
         //check if move is going in the right direction
         //red pawns can only move negative y
-        if (board.isRed(x1, y1) && !board.isKing(x1, y1)
+        if (evaluatedPiece.isRed() && !evaluatedPiece.isKing()
             && y2 - y1 >= 0 ){
                 return false;
             }
 
         //white pawns can only move positive y
-        if (board.isWhite(x1, y1) && !board.isKing(x1, y1)
+        if (evaluatedPiece.isWhite() && !evaluatedPiece.isKing()
             && y2 - y1 <= 0 ){
                 return false;
             }

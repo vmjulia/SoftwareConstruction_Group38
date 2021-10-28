@@ -66,6 +66,11 @@ public class Board {
     }
 
     /*
+    provides a piece for evaluation that bypasses board
+     */
+    public Piece getPiece(int x, int y) { return board[x][y]; }
+
+    /*
     changes type of a piece from pawn to king
     */
     public void convertToKing(int x, int y){
