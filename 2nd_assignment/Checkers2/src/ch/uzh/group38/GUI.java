@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 
 public class GUI implements ActionListener {
 
+    private int x1;
+    private int y1;
+    private boolean pawnActive;
     private final JLabel label;
     private JFrame frame;
     private JPanel panel;
@@ -48,17 +51,17 @@ public class GUI implements ActionListener {
                 else {
                     JButton button;
                     if (board.isWhite(i, j)) {
-                        button = new JButton(redPawnIcon);
+                        button = new JButton(whitePawnIcon);
                     }
                     else if (board.isRed(i, j)) {
-                        button = new JButton(whitePawnIcon);
+                        button = new JButton(redPawnIcon);
                     }
                     else {
                         button = new JButton();
                     }
                     button.setBackground(Color.black);
                     button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-                    button.addActionListener(new GoodAction(i, j));
+                    button.addActionListener(new GoodAction(i, j, button, board));
                     panel.add(button);
                 }
                 timeForWhite = !timeForWhite;
@@ -74,26 +77,46 @@ public class GUI implements ActionListener {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
     class GoodAction implements ActionListener {
-        private int x;
-        private int y;
+        private JButton associatedButton;
+        private Board localBoard;
+        private Integer x;
+        private Integer y;
 
-        public GoodAction(int i, int j) {
+        public GoodAction(int i, int j, JButton button, Board board) {
+            associatedButton = button;
+            localBoard = board;
             x = i;
             y = j;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.print(x);
-            System.out.println(y);
+            label.setText(x.toString() + y.toString());
+            if (pawnActive) {
+                if (associatedButton.getBackground() == Color.green) {
+                    associatedButton.setBackground(Color.black);
+                    pawnActive = false;
+                }
+                else if (RuleEvaluator.checkValidity(x1, y1, x, y, localBoard)) {
+                    label.setText("Good Stuff!");
+                }
+            }
+            else {
+                if (RuleEvaluator.checkInput(x, y, localBoard)) {
+                    associatedButton.setBackground(Color.green);
+                    x1 = x;
+                    y1 = y;
+                    pawnActive = true;
+                } else {
+                    label.setText("Please touch your pawns only");
+                }
+            }
+
         }
     }
     class BadAction implements ActionListener {
