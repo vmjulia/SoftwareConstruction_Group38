@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 
 public class GUI implements ActionListener {
@@ -36,7 +35,7 @@ public class GUI implements ActionListener {
         layout to put stuff in the window
          */
         panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 200, 100));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(9, 8));
 
         boolean timeForWhite = false;
@@ -45,8 +44,8 @@ public class GUI implements ActionListener {
                 if (timeForWhite) {
                     JButton button = new JButton();
                     button.setBackground(Color.white);
-                    button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25,
-                            25));
+                    button.setBorder(BorderFactory.createEmptyBorder(5, 5, 5,
+                            5));
                     panel.add(button);
                 }
                 else {
@@ -71,7 +70,7 @@ public class GUI implements ActionListener {
                         button = new JButton();
                     }
                     button.setBackground(Color.black);
-                    button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+                    button.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     button.addActionListener(new GoodAction(i, j, button, board));
                     panel.add(button);
                 }
@@ -84,8 +83,10 @@ public class GUI implements ActionListener {
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Our GUI");
-        frame.pack();
         frame.setVisible(true);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(0, 0, screenSize.width, screenSize.height);
+
     }
 
     @Override
