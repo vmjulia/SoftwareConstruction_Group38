@@ -55,18 +55,10 @@ public class Game {
         y2 = Character.getNumericValue(input.charAt(7)) - 1;
     }
 
-    private static void nextMove(Board board){
-        new GUI(board);
-        board.printBoard();
-        getInput(board);
-        Move move = new Move(x1, y1, x2, y2);
-        move.move(board);
-    }
-
     public static void main(String[] args) {
         Board board = new Board();
         RuleEvaluator.resetCurrentPlayer();
-        while (true) nextMove(board);
+        new GUI(board);
     }
 
 }

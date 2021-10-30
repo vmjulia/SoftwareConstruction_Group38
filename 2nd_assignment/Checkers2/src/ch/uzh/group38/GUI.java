@@ -51,10 +51,20 @@ public class GUI implements ActionListener {
                 else {
                     JButton button;
                     if (board.isWhite(i, j)) {
-                        button = new JButton(whitePawnIcon);
+                        if (board.isKing(i, j)) {
+                            button = new JButton(whiteKingIcon);
+                        }
+                        else {
+                            button = new JButton(whitePawnIcon);
+                        }
                     }
                     else if (board.isRed(i, j)) {
-                        button = new JButton(redPawnIcon);
+                        if (board.isKing(i, j)){
+                            button = new JButton(redKingIcon);
+                        }
+                        else {
+                            button = new JButton(redPawnIcon);
+                        }
                     }
                     else {
                         button = new JButton();
@@ -96,16 +106,25 @@ public class GUI implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            //see which button is pressed
             label.setText(x.toString() + y.toString());
+
+            //i.e. the first chosen pawn is valid input
             if (pawnActive) {
+                //press the same button again to cancel
                 if (associatedButton.getBackground() == Color.green) {
                     associatedButton.setBackground(Color.black);
                     pawnActive = false;
                 }
+                //i.e. the move is valid
                 else if (RuleEvaluator.checkValidity(x1, y1, x, y, localBoard)) {
                     label.setText("Good Stuff!");
+                    Move move = new Move(x1, y1, x, y);
+                    move.move(localBoard);
+                    new GUI(localBoard);
                 }
             }
+            //no valid pawn has been chosen yet
             else {
                 if (RuleEvaluator.checkInput(x, y, localBoard)) {
                     associatedButton.setBackground(Color.green);
@@ -116,13 +135,6 @@ public class GUI implements ActionListener {
                     label.setText("Please touch your pawns only");
                 }
             }
-
-        }
-    }
-    class BadAction implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
         }
     }
