@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 
 public class GUI implements ActionListener {
@@ -122,6 +123,7 @@ public class GUI implements ActionListener {
                     Move move = new Move(x1, y1, x, y);
                     move.move(localBoard);
                     new GUI(localBoard);
+                    frame.dispose();
                 }
             }
             //no valid pawn has been chosen yet
