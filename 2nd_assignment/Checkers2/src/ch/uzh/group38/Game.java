@@ -56,6 +56,7 @@ public class Game {
     }
 
     private static void nextMove(Board board){
+        new GUI(board);
         board.printBoard();
         getInput(board);
         Move move = new Move(x1, y1, x2, y2);
