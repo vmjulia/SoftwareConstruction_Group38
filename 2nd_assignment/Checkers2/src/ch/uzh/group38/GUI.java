@@ -86,8 +86,8 @@ public class GUI implements ActionListener {
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Our GUI");
-        frame.pack();
         frame.setVisible(true);
+        frame.pack();
     }
 
     @Override
