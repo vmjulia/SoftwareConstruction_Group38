@@ -47,6 +47,7 @@ public class GUI implements ActionListener {
                     button.setBackground(Color.white);
                     button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25,
                             25));
+                    button.setOpaque(true);
                     panel.add(button);
                 }
                 else {
@@ -70,8 +71,9 @@ public class GUI implements ActionListener {
                     else {
                         button = new JButton();
                     }
-                    button.setBackground(Color.black);
                     button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+                    button.setBackground(Color.black);
+                    button.setOpaque(true);
                     button.addActionListener(new GoodAction(i, j, button, board));
                     panel.add(button);
                 }
