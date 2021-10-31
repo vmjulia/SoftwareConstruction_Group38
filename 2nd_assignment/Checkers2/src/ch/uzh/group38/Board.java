@@ -3,7 +3,9 @@ package ch.uzh.group38;
 
 public class Board {
 
+
     private Field[][] board;
+
 
     /*
     Board constructor: resets the board to default state
