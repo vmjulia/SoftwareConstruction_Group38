@@ -4,7 +4,6 @@ package ch.uzh.group38;
 public class Board {
 
     private Piece[][] board;
-
     /*
     Board constructor: resets the board to default state
     */
