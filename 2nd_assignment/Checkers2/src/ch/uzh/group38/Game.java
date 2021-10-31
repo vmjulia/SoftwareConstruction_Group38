@@ -62,13 +62,13 @@ public class Game {
 
     }
 
-    /*
-    converts String input into four variables {x1, y1, x2, y2} and stores them in coordinates
+ 
+ /*    converts String input into four variables {x1, y1, x2, y2} and stores them in coordinates
     [a3]x[b4] for example will become: x1=0, y1=2 and x2=1, y2=3
     */
 
 
-    private void nextMove(){
+/*     private void nextMove(){
         this.board.printBoard();
         getInput();
         currentMove.move(board);
@@ -78,6 +78,5 @@ public class Game {
         Game game = new Game();
         RuleEvaluator.resetCurrentPlayer();
         while (true) game.nextMove();
-    }
-
+    }  */
 }

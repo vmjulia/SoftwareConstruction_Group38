@@ -29,6 +29,19 @@ public class RuleEvaluator {
     }
 
     /*
+    checks if the pawn can be accessed by current player
+     */
+    public static boolean checkInput(int x, int y, Board board) {
+        if (currentPlayer == 1) {
+            return board.getField(x, y).isRed();
+        }
+        else if (currentPlayer == 2) {
+            return board.getField(x, y).isWhite();
+        }
+        return false;
+    }
+
+    /*
     checks if input is a valid move
     */
     public static boolean checkValidity(Move move, Board board){
