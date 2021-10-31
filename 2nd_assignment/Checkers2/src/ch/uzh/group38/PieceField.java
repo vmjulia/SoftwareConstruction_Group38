@@ -1,7 +1,7 @@
 package ch.uzh.group38;
 
 
-public class Piece {
+public class PieceField extends Field {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
@@ -9,13 +9,14 @@ public class Piece {
     private final Color color;
     private Type type;
 
-    public Piece (Color c, Type t){
+    public PieceField(Color c, Type t){
         this.color = c;
         this.type = t;
     }
 
     public String getLabel (){
         String label = "[";
+
 
         if (this.color==Color.RED){
             label += "R_";
@@ -36,7 +37,9 @@ public class Piece {
 
     public void convertToKing(){
         if (this.type != Type.KING){
-            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
+            System.out.print("Well done Player ");
+            RuleEvaluator.printCurrentPlayer();
+            System.out.print("! Your pawn is now a king!");
             this.type = Type.KING;
         }
     }
@@ -52,5 +55,7 @@ public class Piece {
     public boolean isKing(){
         return (this.type == Type.KING);
     }
+
+    public boolean isEmpty(){ return (false);}
 
 }
