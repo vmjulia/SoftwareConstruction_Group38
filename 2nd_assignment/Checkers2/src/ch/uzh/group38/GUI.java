@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI implements ActionListener {
+public class GUI {
 
     private  Move currentMove;
     private  Board board;
@@ -120,10 +120,6 @@ public class GUI implements ActionListener {
         frame.add(gui);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
     class GoodAction implements ActionListener {
         private JButton associatedButton;
         private Integer x;
