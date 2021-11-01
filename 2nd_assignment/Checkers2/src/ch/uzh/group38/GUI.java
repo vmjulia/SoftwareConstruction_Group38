@@ -114,6 +114,7 @@ public class GUI {
         frame.add(gui);
         frame.setVisible(true);
     }
+    
 
     public static void buttonUnpressed() {
         pawnActive = false;
