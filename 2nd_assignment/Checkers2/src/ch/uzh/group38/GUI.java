@@ -29,18 +29,16 @@ public class GUI {
 
     //constructor
     private GUI() {
-        //creating new instance of Board
+        
+        RuleEvaluator.resetCurrentPlayer();
         this.board = new Board();
         
         //creating new window
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Our GUI");
-        
-        //updating window
         refresh();
         frame.pack();
-        frame.setVisible(true);
     }
 
     private void refresh(){
@@ -118,7 +116,9 @@ public class GUI {
         gui.add(toolbar);
         gui.add(playboard);
         frame.add(gui);
+        frame.setVisible(true);
     }
+    
 
     class GoodAction implements ActionListener {
         private JButton associatedButton;
@@ -162,7 +162,6 @@ public class GUI {
                     message.setText("Please touch your pawns only");
                 }
             }
-
         }
     }
 
