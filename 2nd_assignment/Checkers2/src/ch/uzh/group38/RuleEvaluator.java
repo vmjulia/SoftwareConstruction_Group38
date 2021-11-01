@@ -13,8 +13,8 @@ public class RuleEvaluator {
         currentPlayer = 1;
     }
 
-    public static int getCurrentPlayer(){
-        return currentPlayer;
+    public static void printCurrentPlayer(){
+        System.out.print(currentPlayer);
     }
 
     public static void updateTurn(Board board){
@@ -51,15 +51,15 @@ public class RuleEvaluator {
             }
 
         //check if it is players color  
-        if (((board.isRed(x1, y1) && getCurrentPlayer() == 1)
-            || (board.isWhite(x1, y1) && getCurrentPlayer() == 2))){
+        if (((board.isRed(x1, y1) && currentPlayer == 1)
+            || (board.isWhite(x1, y1) && currentPlayer == 2))){
                 
             if (isJumpMove(move, board) || isSimpleMove(move, board)){
                 //check if a jump move was possible
                 if (isSimpleMove(move, board)){
                     for (int i = 0; i < 8; i++){
                         for (int j = 0; j < 8; j++){
-                            if (getCurrentPlayer() == 1 && board.isRed(i, j) || (getCurrentPlayer() == 2 && board.isWhite(i, j))){
+                            if (currentPlayer == 1 && board.isRed(i, j) || (currentPlayer == 2 && board.isWhite(i, j))){
                                 if (checkForJumpMoves(i, j, board)){
                                     System.out.println("There is a possible jump move");
                                     return false;
@@ -203,14 +203,14 @@ public class RuleEvaluator {
         //check if there are pins left and if they can move
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if (getCurrentPlayer() == 1 && board.isWhite(i, j) || (getCurrentPlayer() == 2 && board.isRed(i, j))){
+                if (currentPlayer == 1 && board.isWhite(i, j) || (currentPlayer == 2 && board.isRed(i, j))){
                     if (checkForJumpMoves(i, j,board) || checkForSimpleMoves(i, j,board)){
                         return;
                     }
                 }
             }
         }
-        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
+        System.out.println("Player " + currentPlayer + " wins!!");
         System.exit(0);
     }
 

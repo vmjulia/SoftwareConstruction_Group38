@@ -14,7 +14,9 @@ public class Game {
     }
 
     private void askForInput(){
-        System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
+        System.out.print("Player ");
+        RuleEvaluator.printCurrentPlayer();
+        System.out.print(" please enter your next move in this format [a3]X[b4]:\n");
     }
 
     private String readInput(){
