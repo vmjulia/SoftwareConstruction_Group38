@@ -7,13 +7,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-
 
 public class GUI implements ActionListener {
 
     private  Move currentMove;
-    private final Board board;
+    private  Board board;
 
     private int x1;
     private int y1;
@@ -32,26 +30,32 @@ public class GUI implements ActionListener {
 
     //constructor
     private GUI() {
-            
+        //creating new instance of Board
         this.board = new Board();
-        /*
-        basically the window
-         */
+        
+        //creating new window
         frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Our GUI");
+        //updating window
+        refresh();
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-        /*
-        layout to put stuff in the window
-         */
+    private void refresh(){
         gui.setBorder(new EmptyBorder(10, 10, 10, 10));
         gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+        
+        //creating toolbar
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
         gui.add(toolbar);
         toolbar.add(new JButton("Reset"));
-        toolbar.add(new JButton("Save"));
         toolbar.addSeparator();
         toolbar.add(message);
         
+        //creating the board
         playboard = new JPanel(new GridLayout(0, 10));
         playboard.setBorder(new LineBorder(Color.black));
         gui.add(playboard);
@@ -74,7 +78,7 @@ public class GUI implements ActionListener {
                     if (board.getField(i, j).isWhite() && !board.getField(i, j).isKing()){
                         button.setIcon(whitePawnIcon);
                     }
-                    button.addActionListener(new GoodAction(i, j, button, board));
+                    button.addActionListener(new GoodAction(i, j, button));
                     button.setBackground(Color.black);
                 }
                 else {
@@ -109,13 +113,8 @@ public class GUI implements ActionListener {
         } 
         playboard.add(new JLabel("+", SwingConstants.CENTER)); 
 
-        //playboard.add(label);
         gui.add(playboard);
         frame.add(gui);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Our GUI");
-        frame.pack();
-        frame.setVisible(true);
     }
 
     @Override
@@ -124,13 +123,11 @@ public class GUI implements ActionListener {
     }
     class GoodAction implements ActionListener {
         private JButton associatedButton;
-        private Board localBoard;
         private Integer x;
         private Integer y;
 
-        public GoodAction(int i, int j, JButton button, Board board) {
+        public GoodAction(int i, int j, JButton button) {
             associatedButton = button;
-            localBoard = board;
             x = i;
             y = j;
         }
@@ -142,24 +139,27 @@ public class GUI implements ActionListener {
 
             //i.e. the first chosen pawn is valid input
             if (pawnActive) {
-                Move move = new Move(x1, y1, x, y);
+                currentMove = new Move(x1, y1, x, y);
                 //press the same button again to cancel
                 if (associatedButton.getBackground() == Color.green) {
                     associatedButton.setBackground(Color.black);
                     pawnActive = false;
                 }
                 //i.e. the move is valid
-                else if (RuleEvaluator.checkValidity(move, localBoard)) {
+                else if (RuleEvaluator.checkValidity(currentMove, board)) {
                     message.setText("Good Stuff!");
                     //Move move = new Move(x1, y1, x, y);
-                    move.move(localBoard);
-                    new GUI();
-                    frame.dispose();
+                    currentMove.move(board);
+                    refresh();
+                    //frame.dispose();
+                }
+                else{
+                    message.setText("invalid move!");
                 }
             }
             //no valid pawn has been chosen yet
             else {
-                if (RuleEvaluator.checkInput(x, y, localBoard)) {
+                if (RuleEvaluator.checkInput(x, y, board)) {
                     associatedButton.setBackground(Color.green);
                     x1 = x;
                     y1 = y;
@@ -180,8 +180,8 @@ public class GUI implements ActionListener {
 
     public static void main(String[] args) {
         RuleEvaluator.resetCurrentPlayer();
-        GUI gui = new GUI();
-        //while (true) gui.nextMove();
+        new GUI();
+        //while (true) nextMove();
     } 
 
 }
