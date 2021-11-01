@@ -17,7 +17,7 @@ public class RuleEvaluator {
     }
 
     public static void updateTurn(Board board){
-        checkWinner(board);
+        //checkWinner(board);
         //PLayer 1 is red, Player 2 is white
         if (currentPlayer == 1){
             currentPlayer = 2;
@@ -206,19 +206,18 @@ public class RuleEvaluator {
     /*
     checks if a player has won the game
     */
-    private static void checkWinner(Board board){
+    public static boolean checkWinner(Board board){
         //check if there are pins left and if they can move
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if (currentPlayer == 1 && board.getField(i,j).isWhite() || (currentPlayer == 2 && board.getField(i,j).isRed())){
+                if (currentPlayer == 2 && board.getField(i,j).isWhite() || (currentPlayer == 1 && board.getField(i,j).isRed())){
                     if (checkForJumpMoves(i, j,board) || checkForSimpleMoves(i, j,board)){
-                        return;
+                        return false;
                     }
                 }
             }
         }
-        GUI.message.setText("Player " + RuleEvaluator.currentPlayer + " wins!!");
-        System.exit(0);
+        updateTurn(board);
+        return true;        
     }
-
 }
