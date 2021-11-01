@@ -55,9 +55,6 @@ public class GUI implements ActionListener {
             for (int j = 0; j<playboardsquares[i].length; j++) {
                 JButton button = new JButton();
                 button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-                //button.setOpaque(true);
-
-                //button.setSize(50,100);
                 
                 if ((i+j) %2 == 0) {
                     if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
@@ -78,7 +75,6 @@ public class GUI implements ActionListener {
                 else {
                     button.setBackground(Color.white);
                 }
-                    //button.setOpaque(true);
                 playboardsquares[i][j] = button;
             }
         }
@@ -90,14 +86,12 @@ public class GUI implements ActionListener {
                     SwingConstants.CENTER));
         }
         playboard.add(new JLabel(""));
+        
         //fill in playboard
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 10; j++) {
-                if (j == 0) {
-                        playboard.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
-                }
-                else if (j == 9) {
-                        playboard.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
+                if (j == 0 || j==9) {
+                        playboard.add(new JLabel("" + (8-i), SwingConstants.CENTER));
                 }
                 else {
                         playboard.add(playboardsquares[i][j-1]);
