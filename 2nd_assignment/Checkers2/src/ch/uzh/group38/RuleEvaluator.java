@@ -1,6 +1,5 @@
 package ch.uzh.group38;
 
-
 public class RuleEvaluator {
 
     /*
@@ -13,8 +12,8 @@ public class RuleEvaluator {
         currentPlayer = 1;
     }
 
-    public static void printCurrentPlayer(){
-        System.out.print(currentPlayer);
+    public static int getCurrentPlayer(){
+        return currentPlayer;
     }
 
     public static void updateTurn(Board board){
@@ -54,12 +53,14 @@ public class RuleEvaluator {
         //red pawns can only move negative y
         if (board.getField(x1,y1).isRed() && !board.getField(x1,y1).isKing()
             && x2 - x1 <= 0 ){
+                GUI.message.setText("This move is not valid");
                 return false;
             }
 
         //white pawns can only move positive y
         if (board.getField(x1,y1).isWhite() && !board.getField(x1,y1).isKing()
             && x2 - x1 >= 0 ){
+                GUI.message.setText("This move is not valid");
                 return false;
             }
 
@@ -74,7 +75,7 @@ public class RuleEvaluator {
                             for (int j = 0; j < 8; j++){
                                 if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
                                     if (checkForJumpMoves(i, j, board)){
-                                        System.out.println("There is a possible jump move");
+                                        GUI.message.setText("There is a possible jump move");
                                         return false;
                                     }
                                 }
@@ -85,6 +86,7 @@ public class RuleEvaluator {
                     return true;
                 }
         }
+        GUI.message.setText("This move is not valid");
         return false;
     }
 
@@ -215,7 +217,7 @@ public class RuleEvaluator {
                 }
             }
         }
-        System.out.println("Player " + RuleEvaluator.currentPlayer + " wins!!");
+        GUI.message.setText("Player " + RuleEvaluator.currentPlayer + " wins!!");
         System.exit(0);
     }
 

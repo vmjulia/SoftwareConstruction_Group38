@@ -20,8 +20,8 @@ public class GUI implements ActionListener {
     private final JPanel gui = new JPanel();
     private JPanel playboard;
     private JButton[][] playboardsquares = new JButton [8][8];
-    private static final String COLS = "ABCDEFGH";
-    private final JLabel message = new JLabel("Your add here!");
+    private final String COLS = "ABCDEFGH";
+    public static final JLabel message = new JLabel("Your add here!");
     private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
     private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
     private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
@@ -36,6 +36,7 @@ public class GUI implements ActionListener {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Our GUI");
+        
         //updating window
         refresh();
         frame.pack();
@@ -43,6 +44,7 @@ public class GUI implements ActionListener {
     }
 
     private void refresh(){
+        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter you move");
         gui.setBorder(new EmptyBorder(10, 10, 10, 10));
         gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
         
@@ -135,7 +137,7 @@ public class GUI implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //see which button is pressed
-            message.setText(x.toString() + y.toString());
+            //message.setText(x.toString() + y.toString());
 
             //i.e. the first chosen pawn is valid input
             if (pawnActive) {
@@ -152,9 +154,6 @@ public class GUI implements ActionListener {
                     pawnActive = false;
                     gui.removeAll();
                     refresh();
-                }
-                else{
-                    message.setText("invalid move!");
                 }
             }
             //no valid pawn has been chosen yet
