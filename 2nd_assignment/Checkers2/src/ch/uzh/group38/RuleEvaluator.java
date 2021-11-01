@@ -29,10 +29,9 @@ public class RuleEvaluator {
     }
 
     /*
-    checks if input is a valid move
+    checks whether a given Move is a valid
     */
     public static boolean checkValidity(Move move, Board board){
-
         int x1 = move.FromX();
         int y1 = move.FromY();
         int y2 = move.ToY();
@@ -54,32 +53,30 @@ public class RuleEvaluator {
         if (((board.getField(x1,y1).isRed() && currentPlayer == 1)
             || (board.getField(x1,y1).isWhite() && currentPlayer == 2))){
                 
-                if (isJumpMove(move, board) || isSimpleMove(move, board)){
-                    //check if a jump move was possible
-                    if (isSimpleMove(move, board)){
-                        for (int i = 0; i < 8; i++){
-                            for (int j = 0; j < 8; j++){
-                                if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
-                                    if (checkForJumpMoves(i, j, board)){
-                                        System.out.println("There is a possible jump move");
-                                        return false;
-                                    }
+            if (isJumpMove(move, board) || isSimpleMove(move, board)){
+                //check if a jump move was possible
+                if (isSimpleMove(move, board)){
+                    for (int i = 0; i < 8; i++){
+                        for (int j = 0; j < 8; j++){
+                            if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
+                                if (checkForJumpMoves(i, j, board)){
+                                    System.out.println("There is a possible jump move");
+                                    return false;
                                 }
                             }
                         }
-                        
                     }
-                    return true;
                 }
+                return true;
+            }
         }
         return false;
     }
 
     /*
-    checks if there are possible jumpMoves from the current position
+    checks if there are possible jumpMoves from a position
     */
     public static boolean checkForJumpMoves(int x, int y, Board board){
-
         if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
             if (x+2 < 8 && y+2 < 8){
                 Move potentialMove = new Move(x, y, x+2, y+2);
@@ -117,8 +114,10 @@ public class RuleEvaluator {
         return false;
     }
 
+    /*
+    checks if there are possible simpleMoves from a position
+    */
     private static boolean checkForSimpleMoves(int x, int y, Board board){
-
         if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
             if (x+1 < 8 && y+1 < 8) {
                 Move potentialMove = new Move(x, y, x+1, y+1);
@@ -156,13 +155,14 @@ public class RuleEvaluator {
         return false;
     }
 
+    /*
+    checks whether a given Move is a jumpMove
+    */
     public static boolean isJumpMove(Move move, Board board){
-
         int x1 = move.FromX();
         int y1 = move.FromY();
         int x2 = move.ToX();
         int y2 = move.ToY();
-
 
         if ((x1 - x2 == 2 || x1 - x2 == -2)
             && (y1 - y2 == 2 || y1 - y2 == -2) 
@@ -171,17 +171,18 @@ public class RuleEvaluator {
             //check if jump is over opponent pin
             return (board.getField(x1, y1).isWhite() && (board.getField((x1 + x2) / 2, (y1 + y2) / 2)).isRed())
                     || (board.getField(x1, y1).isRed() && (board.getField((x1 + x2) / 2, (y1 + y2) / 2)).isWhite());
-            }
+        }
         return false;
     }
 
+    /*
+    checks whether a given Move is a simpleMove
+    */
     private static boolean isSimpleMove(Move move, Board board){
-
         int x1 = move.FromX();
         int y1 = move.FromY();
         int x2 = move.ToX();
         int y2 = move.ToY();
-
 
         return (x1 - x2 == 1 || x1 - x2 == -1)
                 && (y1 - y2 == 1 || y1 - y2 == -1)

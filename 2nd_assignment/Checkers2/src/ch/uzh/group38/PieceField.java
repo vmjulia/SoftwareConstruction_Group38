@@ -17,7 +17,6 @@ public class PieceField extends Field {
     public String getLabel (){
         String label = "[";
 
-
         if (this.color==Color.RED){
             label += "R_";
         }
@@ -56,6 +55,8 @@ public class PieceField extends Field {
         return (this.type == Type.KING);
     }
 
-    public boolean isEmpty(){ return (false);}
+    public boolean isEmpty(){
+        return (false);
+    }
 
 }

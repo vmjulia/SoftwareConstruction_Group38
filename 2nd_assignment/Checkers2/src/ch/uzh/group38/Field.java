@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+
 public abstract class  Field {
 
     abstract boolean isWhite();
