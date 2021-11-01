@@ -14,6 +14,9 @@ public class Piece {
         this.type = t;
     }
 
+    /*
+    return s String representation of the Piece for it to be printed
+    */
     public String getLabel (){
         String label = "[";
 

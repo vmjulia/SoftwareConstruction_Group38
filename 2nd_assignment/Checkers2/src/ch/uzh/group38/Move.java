@@ -7,7 +7,6 @@ public class Move {
     private int[] to;
 
     public Move(int x1, int y1, int x2, int y2){
-
         this.from = new int[2];
         this.to = new int[2];
         this.from[0] = x1;
@@ -31,7 +30,6 @@ public class Move {
     public int ToY(){
         return (this.to[1]);
     }
-
 
     public void move(Board board){
         if (RuleEvaluator.isJumpMove(this, board)){
@@ -74,4 +72,5 @@ public class Move {
             RuleEvaluator.updateTurn(board);
         }
     }
+
 }

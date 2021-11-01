@@ -26,7 +26,7 @@ public class Board {
     }
 
     /*
-    prints actual state of the board 
+    prints current state of the board
     */
     public void printBoard(){
         System.out.println("      a     b     c     d     e     f     g     h");
@@ -66,7 +66,7 @@ public class Board {
     }
 
     /*
-    changes type of a piece from pawn to king
+    changes type of piece from pawn to king
     */
     public void convertToKing(int x, int y){
         board[x][y].convertToKing();
