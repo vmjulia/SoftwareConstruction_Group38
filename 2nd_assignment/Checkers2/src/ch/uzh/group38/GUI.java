@@ -129,7 +129,7 @@ public class GUI implements ActionListener {
         private Integer x;
         private Integer y;
 
-        public GoodAction(int i, int j, JButton button) {
+        private GoodAction(int i, int j, JButton button) {
             associatedButton = button;
             x = i;
             y = j;
@@ -161,6 +161,7 @@ public class GUI implements ActionListener {
                     x1 = x;
                     y1 = y;
                     pawnActive = true;
+                    message.setText("please select target field");
                 } else {
                     message.setText("Please touch your pawns only");
                 }
