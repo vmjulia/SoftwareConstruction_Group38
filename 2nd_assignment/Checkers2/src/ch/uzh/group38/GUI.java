@@ -16,7 +16,6 @@ public class GUI implements ActionListener {
     private int x1;
     private int y1;
     private boolean pawnActive;
-    //private final JLabel label;
     private JFrame frame;
     private final JPanel gui = new JPanel();
     private JPanel playboard;
@@ -80,6 +79,7 @@ public class GUI implements ActionListener {
                     }
                     button.addActionListener(new GoodAction(i, j, button));
                     button.setBackground(Color.black);
+                    button.setOpaque(true);
                 }
                 else {
                     button.setBackground(Color.white);
@@ -148,10 +148,10 @@ public class GUI implements ActionListener {
                 //i.e. the move is valid
                 else if (RuleEvaluator.checkValidity(currentMove, board)) {
                     message.setText("Good Stuff!");
-                    //Move move = new Move(x1, y1, x, y);
                     currentMove.move(board);
+                    pawnActive = false;
+                    gui.removeAll();
                     refresh();
-                    //frame.dispose();
                 }
                 else{
                     message.setText("invalid move!");
@@ -171,12 +171,6 @@ public class GUI implements ActionListener {
 
         }
     }
-
-/*     private void nextMove(){
-        this.board.printBoard();
-        getInput();
-        currentMove.move(board);
-    } */
 
     public static void main(String[] args) {
         RuleEvaluator.resetCurrentPlayer();

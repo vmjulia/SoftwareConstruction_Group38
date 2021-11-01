@@ -14,7 +14,7 @@ public class Board {
         this.board = new Field[8][8];
 
         for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 3; j++){
+            for (int j = 7; j > 4; j--){
                 if ((i+j) %2 == 1){
                 this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
                 }
@@ -25,7 +25,7 @@ public class Board {
             for (int j = 3; j < 5; j++){
                 this.board[j][i] = new EmptyField();
             }
-            for (int j = 5; j < 8; j++){
+            for (int j = 0; j < 3; j++){
                 if ((i+j) %2 == 1){
                     this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
                 }
