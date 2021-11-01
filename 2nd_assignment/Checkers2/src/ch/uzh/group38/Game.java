@@ -13,22 +13,20 @@ public class Game {
         this.board = new Board();
     }
 
-
-    /*
-    asks for input 
-    */
     private void askForInput(){
         System.out.println("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your next move in this format [a3]X[b4]:");
     }
 
-    /*
-    reads input from console and checks its format
-    */
     private String readInput(){
         Scanner s = new Scanner(System.in);
         return s.nextLine().toLowerCase();
     }
 
+    /*
+    Calls askForInput and readInput.
+    Checks the format of the input.
+    Calls createMove with the input.
+     */
     private void getInput(){
         askForInput();
         String input = readInput();
@@ -49,23 +47,24 @@ public class Game {
         }
     }
 
+    /*
+    Converts String input into four variables {x1, y1, x2, y2}
+    ([a3]x[b4] for example will become: x1=0, y1=2 and x2=1, y2=3)
+    Sets currentMove to a Move with those coordinates.
+    */
     private void createMove(String input){
         int x1 = input.charAt(1) - 'a';
         int y1 = Character.getNumericValue(input.charAt(2)) - 1;
 
         int x2 = input.charAt(6) - 'a';
         int y2 = Character.getNumericValue(input.charAt(7)) - 1;
+
         currentMove = new Move(x1, y1, x2, y2);
-
-
     }
 
     /*
-    converts String input into four variables {x1, y1, x2, y2} and stores them in coordinates
-    [a3]x[b4] for example will become: x1=0, y1=2 and x2=1, y2=3
+    Prints the board. gets the input. executes the move.
     */
-
-
     private void nextMove(){
         this.board.printBoard();
         getInput();
