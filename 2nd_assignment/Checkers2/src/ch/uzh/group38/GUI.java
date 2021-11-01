@@ -128,6 +128,10 @@ public class GUI {
                 pawnActive = false;
                 gui.removeAll();
                 refresh();
+                if (RuleEvaluator.checkWinner(board)) {
+                    JOptionPane.showMessageDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
+                    //System.exit(0);
+                }
 
             }
         }

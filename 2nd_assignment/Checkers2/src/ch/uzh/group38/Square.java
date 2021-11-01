@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class Square extends JButton {
-    public Square() {
-
-    }
 }
 
 class EmptySquare extends Square {
