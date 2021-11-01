@@ -173,9 +173,7 @@ public class GUI implements ActionListener {
     }
 
     public static void main(String[] args) {
-        RuleEvaluator.resetCurrentPlayer();
         new GUI();
-        //while (true) nextMove();
     } 
 
 }
