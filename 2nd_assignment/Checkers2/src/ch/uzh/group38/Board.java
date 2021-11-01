@@ -38,24 +38,6 @@ public class Board {
     }
 
     /*
-    prints actual state of the board 
-    */
-    public void printBoard(){
-        System.out.println("      a     b     c     d     e     f     g     h");
-        System.out.println("  +-------------------------------------------------+");
-        for (int i = 7; i >= 0; i--){
-            System.out.print(i+1 + " | ");
-            for (int j = 0; j < 8; j++){
-                    System.out.print(board[j][i].getLabel());
-            }
-            System.out.print("| " + (i+1));
-            System.out.print("\n");
-        }
-        System.out.println("  +-------------------------------------------------+");
-        System.out.println("      a     b     c     d     e     f     g     h");
-    }
-
-    /*
     moves a piece by removing it at the actual location
     and creating a new piece at the new location
     */

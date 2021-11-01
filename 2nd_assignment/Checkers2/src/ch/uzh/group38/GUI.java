@@ -44,22 +44,18 @@ public class GUI implements ActionListener {
     }
 
     private void refresh(){
-        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter you move");
-        gui.setBorder(new EmptyBorder(10, 10, 10, 10));
-        gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
-        
+        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
+                
         //creating toolbar
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
-        gui.add(toolbar);
-        toolbar.add(new JButton("Reset"));
+        toolbar.add(new JButton("Reset")); //no functionality yet
         toolbar.addSeparator();
         toolbar.add(message);
         
         //creating the board
         playboard = new JPanel(new GridLayout(0, 10));
         playboard.setBorder(new LineBorder(Color.black));
-        gui.add(playboard);
 
         for (int i = 0; i<playboardsquares.length; i++) {
             for (int j = 0; j<playboardsquares[i].length; j++) {
@@ -115,6 +111,11 @@ public class GUI implements ActionListener {
         } 
         playboard.add(new JLabel("+", SwingConstants.CENTER)); 
 
+
+        //set up GUI
+        gui.setBorder(new EmptyBorder(5, 5, 5, 5));
+        gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+        gui.add(toolbar);
         gui.add(playboard);
         frame.add(gui);
     }
@@ -136,8 +137,6 @@ public class GUI implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //see which button is pressed
-            //message.setText(x.toString() + y.toString());
 
             //i.e. the first chosen pawn is valid input
             if (pawnActive) {
@@ -149,7 +148,6 @@ public class GUI implements ActionListener {
                 }
                 //i.e. the move is valid
                 else if (RuleEvaluator.checkValidity(currentMove, board)) {
-                    message.setText("Good Stuff!");
                     currentMove.move(board);
                     pawnActive = false;
                     gui.removeAll();
