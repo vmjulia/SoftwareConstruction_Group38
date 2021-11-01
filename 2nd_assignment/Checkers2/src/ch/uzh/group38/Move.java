@@ -64,7 +64,7 @@ public class Move {
         board.removePiece((from[0]+ to[0])/2,(from[1]+ to[1])/2);
 
         //case other side of board is reached -> king
-        if (to[1] == 0 || to[1] == 7){
+        if ((to[1] == 0 || to[1] == 7) && !board.isKing(to[0], to[1])){
             board.convertToKing(to[0], to[1]);
             RuleEvaluator.updateTurn(board);
         }
