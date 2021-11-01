@@ -15,22 +15,22 @@ public class Board {
 
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 3; j++){
-                if ((i+j) %2 ==0){
-                this.board[i][j] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
+                if ((i+j) %2 == 1){
+                this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
                 }
                 else{
-                    this.board[i][j] = new EmptyField();
+                    this.board[j][i] = new EmptyField();
                 }
             }
             for (int j = 3; j < 5; j++){
-                this.board[i][j] = new EmptyField();
+                this.board[j][i] = new EmptyField();
             }
             for (int j = 5; j < 8; j++){
-                if ((i+j) %2 ==0){
-                    this.board[i][j] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
+                if ((i+j) %2 == 1){
+                    this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
                 }
                 else{
-                    this.board[i][j] = new EmptyField();
+                    this.board[j][i] = new EmptyField();
                 }
             }
         }

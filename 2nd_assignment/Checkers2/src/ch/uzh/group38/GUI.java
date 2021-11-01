@@ -18,12 +18,13 @@ public class GUI implements ActionListener {
     private int x1;
     private int y1;
     private boolean pawnActive;
-    private final JLabel label;
+    //private final JLabel label;
     private JFrame frame;
     private final JPanel gui = new JPanel();
     private JPanel playboard;
     private JButton[][] playboardsquares = new JButton [8][8];
     private static final String COLS = "ABCDEFGH";
+    private final JLabel message = new JLabel("Your add here!");
     private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
     private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
     private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
@@ -39,14 +40,18 @@ public class GUI implements ActionListener {
         frame = new JFrame();
 
         /*
-        actions for the buttons
-         */
-        label = new JLabel("Your add here!");
-
-        /*
         layout to put stuff in the window
          */
         gui.setBorder(new EmptyBorder(10, 10, 10, 10));
+        gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        gui.add(toolbar);
+        toolbar.add(new JButton("Reset"));
+        toolbar.add(new JButton("Save"));
+        toolbar.addSeparator();
+        toolbar.add(message);
+        
         playboard = new JPanel(new GridLayout(0, 10));
         playboard.setBorder(new LineBorder(Color.black));
         gui.add(playboard);
@@ -56,7 +61,7 @@ public class GUI implements ActionListener {
                 JButton button = new JButton();
                 button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
                 
-                if ((i+j) %2 == 0) {
+                if ((i+j) %2 == 1) {
                     if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
                         button.setIcon(redKingIcon);
                     }
@@ -80,12 +85,11 @@ public class GUI implements ActionListener {
         }
 
         //fill in top row
-        playboard.add(new JLabel(""));
+        playboard.add(new JLabel("+",SwingConstants.CENTER));
         for (int i = 0; i < 8; i++) {
-            playboard.add(new JLabel(COLS.substring(i, i + 1),
-                    SwingConstants.CENTER));
+            playboard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
         }
-        playboard.add(new JLabel(""));
+        playboard.add(new JLabel("+",SwingConstants.CENTER));
         
         //fill in playboard
         for (int i = 0; i < 8; i++) {
@@ -99,15 +103,15 @@ public class GUI implements ActionListener {
             }
         }
         //fill in bottom row
-        playboard.add(new JLabel(""));
+        playboard.add(new JLabel("+",SwingConstants.CENTER));
         for (int i = 0; i < 8; i++) {
-            playboard.add(new JLabel(COLS.substring(i, i + 1),
-                    SwingConstants.CENTER));
+            playboard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
         } 
-        //playboard.add(new JLabel("")); 
+        playboard.add(new JLabel("+", SwingConstants.CENTER)); 
 
-        playboard.add(label);
-        frame.add(playboard, BorderLayout.CENTER);
+        //playboard.add(label);
+        gui.add(playboard);
+        frame.add(gui);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Our GUI");
         frame.pack();
@@ -134,7 +138,7 @@ public class GUI implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //see which button is pressed
-            label.setText(x.toString() + y.toString());
+            message.setText(x.toString() + y.toString());
 
             //i.e. the first chosen pawn is valid input
             if (pawnActive) {
@@ -146,7 +150,7 @@ public class GUI implements ActionListener {
                 }
                 //i.e. the move is valid
                 else if (RuleEvaluator.checkValidity(move, localBoard)) {
-                    label.setText("Good Stuff!");
+                    message.setText("Good Stuff!");
                     //Move move = new Move(x1, y1, x, y);
                     move.move(localBoard);
                     new GUI();
@@ -161,7 +165,7 @@ public class GUI implements ActionListener {
                     y1 = y;
                     pawnActive = true;
                 } else {
-                    label.setText("Please touch your pawns only");
+                    message.setText("Please touch your pawns only");
                 }
             }
 
