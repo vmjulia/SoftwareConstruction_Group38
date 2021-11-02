@@ -18,7 +18,6 @@ public class GUI {
     private boolean pawnActive;
     private JFrame frame;
     private final JPanel gui = new JPanel();
-    private JPanel playBoard;
     private Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     public static final JLabel message = new JLabel("Your add here!");
@@ -48,7 +47,7 @@ public class GUI {
         toolbar.setOpaque(false);
         
         //creating the board
-        playBoard = new JPanel(new GridLayout(0, 10));
+        JPanel playBoard = new JPanel(new GridLayout(0, 10));
         playBoard.setBorder(new LineBorder(Color.black));
 
         for (int i = 0; i< playBoardSquares.length; i++) {
@@ -112,8 +111,8 @@ public class GUI {
 
     class ButtonPressed implements ActionListener {
         private boolean buttonActive = false;
-        private int x;
-        private int y;
+        private final int x;
+        private final int y;
 
         //x and y of a button are stored in AL upon creation for further reference
         public ButtonPressed(int X, int Y) {
