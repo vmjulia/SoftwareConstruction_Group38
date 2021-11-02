@@ -24,14 +24,11 @@ public class GUI {
 
     private GUI() {
 
-        //creating a new instance of board
-        board = new Board();
-        
         //creating new window
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Checkers");
-        refresh();
+        reset();
         frame.pack();
     }
 
@@ -143,8 +140,7 @@ public class GUI {
                         refresh();
                         if (RuleEvaluator.checkWinner(board)) {
                             JOptionPane.showMessageDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
-                            board = new Board();
-                            refresh();
+                            reset();
                         }
                     }
                 }
@@ -167,11 +163,16 @@ public class GUI {
         }
     }
 
+    private void reset(){
+        board = new Board();
+        RuleEvaluator.resetCurrentPlayer();
+        refresh();
+    }
+
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            board = new Board();
-            refresh();
+            reset();
         }
     }
 
