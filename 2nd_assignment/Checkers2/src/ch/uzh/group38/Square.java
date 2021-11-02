@@ -16,8 +16,8 @@ class EmptySquare extends Square {
 }
 
 class BlackSquare extends Square{
-    private int x;
-    private int y;
+    //private int x;
+    //private int y;
 
     public BlackSquare(ActionListener PassedAction) {
         this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
