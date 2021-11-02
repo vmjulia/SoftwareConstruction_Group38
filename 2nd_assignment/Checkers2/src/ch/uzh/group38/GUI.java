@@ -23,9 +23,9 @@ public class GUI {
     public static final JLabel message = new JLabel("Your add here!");
 
     private GUI() {
-        
-        RuleEvaluator.resetCurrentPlayer();
-        this.board = new Board();
+
+        //creating a new instance of board
+        board = new Board();
         
         //creating new window
         frame = new JFrame();
@@ -36,12 +36,15 @@ public class GUI {
     }
 
     private void refresh(){
+        gui.removeAll();
         message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
                 
         //creating toolbar
+        JButton rb = new JButton("Reset");
+        rb.addActionListener(new ResetButton());
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
-        toolbar.add(new JButton("Reset")); //no functionality yet
+        toolbar.add(rb); 
         toolbar.addSeparator();
         toolbar.add(message);
         toolbar.setOpaque(false);
@@ -137,11 +140,11 @@ public class GUI {
                     if (RuleEvaluator.checkValidity(currentMove, board)) {
                         currentMove.move(board);
                         pawnActive = false;
-                        gui.removeAll();
                         refresh();
                         if (RuleEvaluator.checkWinner(board)) {
                             JOptionPane.showMessageDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
-                            //System.exit(0);
+                            board = new Board();
+                            refresh();
                         }
                     }
                 }
@@ -155,17 +158,24 @@ public class GUI {
                     y1 = y;
                     pawnActive = true;
                     buttonActive = true;
-                    message.setText("Please select target field!");
+                    message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please select target field!");
                 }
                 else {
-                    message.setText("Please touch your pawns only!");
+                    message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
                 }
             }
+        }
+    }
+
+    class ResetButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            board = new Board();
+            refresh();
         }
     }
 
     public static void main(String[] args) {
         new GUI();
     } 
-
 }

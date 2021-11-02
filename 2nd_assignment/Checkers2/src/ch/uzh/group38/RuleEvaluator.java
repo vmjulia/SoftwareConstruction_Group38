@@ -70,14 +70,16 @@ public class RuleEvaluator {
         //check if it is players color  
         if (((board.getField(x1,y1).isRed() && currentPlayer == 1) || (board.getField(x1,y1).isWhite() && currentPlayer == 2))){            
             if (isJumpMove(move, board) || isSimpleMove(move, board)){
-                //if (isJumpMove(move, board)){
-                    if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
-                        GUI.message.setText("Continue your move with same piece");
-                        return false;
-                    }
+                
+                if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
+                    GUI.message.setText("Continue your move with same piece");
+                    return false;
+                }
+                
+                if (isJumpMove(move, board)){
                     lastX = move.ToX();
                     lastY = move.ToY();
-                //} 
+                } 
                     //check if a jump move was possible
                 if (isSimpleMove(move, board)){
                     for (int i = 0; i < 8; i++){
