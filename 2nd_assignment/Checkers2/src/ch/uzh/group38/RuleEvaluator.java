@@ -56,14 +56,14 @@ public class RuleEvaluator {
         //red pawns can only move negative y
         if (board.getField(x1,y1).isRed() && !board.getField(x1,y1).isKing()
             && x2 - x1 <= 0 ){
-                GUI.message.setText("This move is not valid");
+                GUI.setMessage("This move is not valid");
                 return false;
             }
 
         //white pawns can only move positive y
         if (board.getField(x1,y1).isWhite() && !board.getField(x1,y1).isKing()
             && x2 - x1 >= 0 ){
-                GUI.message.setText("This move is not valid");
+                GUI.setMessage("This move is not valid");
                 return false;
             }
 
@@ -72,7 +72,7 @@ public class RuleEvaluator {
             if (isJumpMove(move, board) || isSimpleMove(move, board)){
                 
                 if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
-                    GUI.message.setText("Continue your move with same piece");
+                    GUI.setMessage("Continue your move with same piece");
                     return false;
                 }
                 
@@ -86,7 +86,7 @@ public class RuleEvaluator {
                         for (int j = 0; j < 8; j++){
                             if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
                                 if (checkForJumpMoves(i, j, board)){
-                                    GUI.message.setText("There is a possible jump move");
+                                    GUI.setMessage("There is a possible jump move");
                                     return false;
                                 }
                             }
@@ -96,7 +96,7 @@ public class RuleEvaluator {
             return true;
             }
         }
-        GUI.message.setText("This move is not valid");
+        GUI.setMessage("This move is not valid");
         return false;
     }
 

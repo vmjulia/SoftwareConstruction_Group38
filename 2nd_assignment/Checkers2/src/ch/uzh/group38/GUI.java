@@ -20,7 +20,7 @@ public class GUI {
     private final JPanel gui = new JPanel();
     private Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
-    public static final JLabel message = new JLabel("Your add here!");
+    private static final JLabel message = new JLabel("Your add here!");
 
     private GUI() {
 
@@ -109,6 +109,16 @@ public class GUI {
         frame.setVisible(true);
     }
 
+    private void reset(){
+        board = new Board();
+        RuleEvaluator.resetCurrentPlayer();
+        refresh();
+    }
+
+    public static void setMessage(String msg){
+        message.setText(msg);
+    }
+
     class ButtonPressed implements ActionListener {
         private boolean buttonActive = false;
         private final int x;
@@ -161,12 +171,6 @@ public class GUI {
                 }
             }
         }
-    }
-
-    private void reset(){
-        board = new Board();
-        RuleEvaluator.resetCurrentPlayer();
-        refresh();
     }
 
     class ResetButton implements ActionListener{
