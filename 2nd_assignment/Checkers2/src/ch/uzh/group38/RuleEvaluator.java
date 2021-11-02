@@ -6,6 +6,8 @@ public class RuleEvaluator {
     variable to keep track of whose turn it is
     */
     private static int currentPlayer;
+    private static int lastX = -1;
+    private static int lastY = -1;
 
     //sets first Player to 1
     public static void resetCurrentPlayer(){
@@ -17,7 +19,6 @@ public class RuleEvaluator {
     }
 
     public static void updateTurn(Board board){
-        //checkWinner(board);
         //PLayer 1 is red, Player 2 is white
         if (currentPlayer == 1){
             currentPlayer = 2;
@@ -25,10 +26,12 @@ public class RuleEvaluator {
         else{
             currentPlayer = 1;
         }
+        lastX = -1;
+        lastY = -1;
     }
 
     /*
-    checks if the pawn can be accessed by current player
+    checks if the piece can be accessed by current player
      */
     public static boolean checkInput(int x, int y, Board board) {
         if (currentPlayer == 1) {
@@ -65,26 +68,31 @@ public class RuleEvaluator {
             }
 
         //check if it is players color  
-        if (((board.getField(x1,y1).isRed() && currentPlayer == 1)
-            || (board.getField(x1,y1).isWhite() && currentPlayer == 2))){
-                
-                if (isJumpMove(move, board) || isSimpleMove(move, board)){
+        if (((board.getField(x1,y1).isRed() && currentPlayer == 1) || (board.getField(x1,y1).isWhite() && currentPlayer == 2))){            
+            if (isJumpMove(move, board) || isSimpleMove(move, board)){
+                //if (isJumpMove(move, board)){
+                    if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
+                        GUI.message.setText("Continue your move with same piece");
+                        return false;
+                    }
+                    lastX = move.ToX();
+                    lastY = move.ToY();
+                //} 
                     //check if a jump move was possible
-                    if (isSimpleMove(move, board)){
-                        for (int i = 0; i < 8; i++){
-                            for (int j = 0; j < 8; j++){
-                                if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
-                                    if (checkForJumpMoves(i, j, board)){
-                                        GUI.message.setText("There is a possible jump move");
-                                        return false;
-                                    }
+                if (isSimpleMove(move, board)){
+                    for (int i = 0; i < 8; i++){
+                        for (int j = 0; j < 8; j++){
+                            if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
+                                if (checkForJumpMoves(i, j, board)){
+                                    GUI.message.setText("There is a possible jump move");
+                                    return false;
                                 }
                             }
                         }
-                        
-                    }
-                    return true;
+                    }   
                 }
+            return true;
+            }
         }
         GUI.message.setText("This move is not valid");
         return false;
