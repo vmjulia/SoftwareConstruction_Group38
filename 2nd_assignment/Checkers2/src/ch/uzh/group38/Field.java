@@ -67,7 +67,7 @@ class PieceField extends Field {
 
     public void convertToKing(){
         if (this.type != Type.KING){
-            GUI.message.setText("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
+            GUI.setMessage("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
             this.type = Type.KING;
         }
     }
