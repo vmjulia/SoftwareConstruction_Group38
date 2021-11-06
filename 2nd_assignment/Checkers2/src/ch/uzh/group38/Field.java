@@ -30,7 +30,7 @@ class EmptyField extends Field{
     }
 
     public void convertToKing(){
-        System.out.println("Cannot convert empty space to King ");
+        GUI.setMessage("Cannot convert empty space to King ");
     }
 
     // I guess this is fine, it has to be here, but if it is called it will not do anything
