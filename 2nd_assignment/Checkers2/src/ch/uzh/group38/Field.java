@@ -27,7 +27,7 @@ class EmptyField extends Field{
     }
 
     public void convertToKing(){
-        System.out.println("Cannot convert empty space to King ");
+        GUI.setMessage("Cannot convert empty space to King ");
     }
 }
 
