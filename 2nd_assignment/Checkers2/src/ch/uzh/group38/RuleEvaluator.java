@@ -5,6 +5,8 @@ public class RuleEvaluator {
     /*
     variable to keep track of whose turn it is
     */
+    public static Board board;
+
     private static int currentPlayer;
     private static int lastX = -1;
     private static int lastY = -1;
@@ -46,7 +48,7 @@ public class RuleEvaluator {
     /*
     checks if input is a valid move
     */
-    public static boolean checkValidity(Move move, Board board){
+    public static boolean checkValidity(Move move){
 
         int x1 = move.FromX();
         int y1 = move.FromY();
