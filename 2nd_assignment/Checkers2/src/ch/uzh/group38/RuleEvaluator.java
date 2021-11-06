@@ -232,4 +232,11 @@ public class RuleEvaluator {
         updateTurn(board);
         return true;        
     }
+
+    public static boolean isMovePossible(Move move){
+        if (board.getField(move.FromX(), move.FromY()).isMoveStored(move)){
+            return true;
+        }
+        return false;
+    }
 }

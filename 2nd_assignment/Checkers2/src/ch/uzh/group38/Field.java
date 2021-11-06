@@ -8,9 +8,9 @@ public abstract class  Field {
     abstract boolean isEmpty();
     abstract String getLabel();
     abstract void convertToKing();
-    abstract void update();
+    abstract void updateField();
     abstract void updatePosition(int X, int Y);
-    abstract void isMoveStored(int X, int Y);
+    abstract boolean isMoveStored(Move move);
 
 }
 
@@ -30,13 +30,13 @@ class EmptyField extends Field{
     }
 
     public void convertToKing(){
-        System.out.println("Cannot convert empty space to King ");
+        GUI.setMessage("Cannot convert empty space to King ");
     }
 
     // I guess this is fine, it has to be here, but if it is called it will not do anything
-    void update() {}
+    void updateField() {}
     void updatePosition(int X, int Y){}
-    void isMoveStored(int X, int Y){}
+    boolean isMoveStored(Move move){return false;}
 }
 
 class PieceField extends Field {
@@ -44,11 +44,11 @@ class PieceField extends Field {
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
 
-    private int x;
-    private int y;
-    // 2D structure of array makes getMove() simplier
-    private Move[][] simpleMoves = new Move[2][2];
-    private Move[][] jumpMoves = new Move[2][2];
+    //own position
+    private int x0;
+    private int y0;
+
+    private Move[] possibleMoves = new Move[8];
 
     private final Color color;
     private Type type;
@@ -58,76 +58,50 @@ class PieceField extends Field {
         this.type = t;
     }
 
-    public void update() {
-        // simple moves
-        for (int i = y-1; i >= 0 && i < 8; i += 2 ) {
-            for (int j = x-1; j >= 0 && j < 8; j += 2) {
-                Move evaluatedMove = new Move(x, y, j, i);
+    public void updateField() {
+        int k = 0;
+        for (int i = 0; i < 8; i++){
+            possibleMoves[i] = null;
+        }
+
+        // jump moves
+        for (int i = y0-2; i >= 0 && i < 8; i += 4 ) {
+            for (int j = x0-2; j >= 0 && j < 8; j += 4) {
+                Move evaluatedMove = new Move(x0, y0, j, i);
                 if (RuleEvaluator.checkValidity(evaluatedMove)){
-                    simpleMoves[((i -y) +1) /2][((j -x) +1) /2] = evaluatedMove;
+                    possibleMoves[k] = evaluatedMove;
+                    k++;
                 }
             }
         }
 
-        // jump moves
-        for (int i = y-2; i >= 0 && i < 8; i += 4 ) {
-            for (int j = x-2; j >= 0 && j < 8; j += 4) {
-                Move evaluatedMove = new Move(x, y, j, i);
-                if (RuleEvaluator.checkValidity(evaluatedMove)){
-                    jumpMoves[((i -y) +2) /4][((j -x) +2) /4] = evaluatedMove;
+        // simple moves
+        if (k==0){
+            for (int i = y0-1; i >= 0 && i < 8; i += 2 ) {
+                for (int j = x0-1; j >= 0 && j < 8; j += 2) {
+                    Move evaluatedMove = new Move(x0, y0, j, i);
+                    if (RuleEvaluator.checkValidity(evaluatedMove)){
+                        possibleMoves[k] = evaluatedMove;
+                    }
                 }
             }
         }
     }
 
     public void updatePosition(int X, int Y) {
-        x = X;
-        y = Y;
+        x0 = X;
+        y0 = Y;
     }
 
-    public void isMoveStored(int X, int Y) {
-        if (X>x && Y>y) {
-            if (X-x == 1){
-                System.out.println("simple, top right");
-                System.out.println(simpleMoves[1][1]);
-            }
-            else {
-                System.out.println("jump, top right");
-                System.out.println(jumpMoves[1][1]);
+    public boolean isMoveStored(Move move){
+        for (int i = 0; i < possibleMoves.length; i++){
+            if (possibleMoves[i].ToX() == move.ToX() && possibleMoves[i].ToY() == move.ToY()){
+                return true;
             }
         }
-        if (X>x && Y<y) {
-            if (X-x == 1){
-                System.out.println("simple, bottom right");
-                System.out.println(simpleMoves[0][1]);
-            }
-            else {
-                System.out.println("jump, top right");
-                System.out.println(jumpMoves[0][1]);
-            }
-        }
-        if (X<x && Y>y) {
-            if (x-X == 1){
-                System.out.println("simple, top left");
-                System.out.println(simpleMoves[1][0]);
-            }
-            else {
-                System.out.println("jump, top left");
-                System.out.println(jumpMoves[1][0]);
-            }
-        }
-        if (X<x && Y<y) {
-            if (x-X == 1){
-                System.out.println("simple, bottom left");
-                System.out.println(simpleMoves[0][0]);
-            }
-            else {
-                System.out.println("jump, bottom left");
-                System.out.println(jumpMoves[0][0]);
-            }
-        }
+        return false;
     }
-
+ 
 
     public String getLabel (){
         String label = "[";
