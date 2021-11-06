@@ -17,6 +17,7 @@ public class Board {
             for (int j = 7; j > 4; j--){
                 if ((i+j) %2 == 1){
                 this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
+                this.board[j][i].updatePosition(i, j);
                 this.board[j][i].updateField();
                 }
                 else{
@@ -29,6 +30,7 @@ public class Board {
             for (int j = 0; j < 3; j++){
                 if ((i+j) %2 == 1){
                     this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
+                    this.board[j][i].updatePosition(i, j);
                     this.board[j][i].updateField();
                 }
                 else{

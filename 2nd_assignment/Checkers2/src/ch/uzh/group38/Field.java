@@ -60,9 +60,12 @@ class PieceField extends Field {
 
     public void updateField() {
         int k = 0;
+        //redundant
+        /*
         for (int i = 0; i < 8; i++){
             possibleMoves[i] = null;
         }
+         */
 
         // jump moves
         for (int i = y0-2; i >= 0 && i < 8; i += 4 ) {
@@ -82,6 +85,7 @@ class PieceField extends Field {
                     Move evaluatedMove = new Move(x0, y0, j, i);
                     if (RuleEvaluator.checkValidity(evaluatedMove)){
                         possibleMoves[k] = evaluatedMove;
+                        // k++;
                     }
                 }
             }
@@ -95,7 +99,7 @@ class PieceField extends Field {
 
     public boolean isMoveStored(Move move){
         for (int i = 0; i < possibleMoves.length; i++){
-            if (possibleMoves[i].ToX() == move.ToX() && possibleMoves[i].ToY() == move.ToY()){
+            if (possibleMoves[i] != null && (possibleMoves[i].ToX() == move.ToX() && possibleMoves[i].ToY() == move.ToY())){
                 return true;
             }
         }
