@@ -65,7 +65,6 @@ public class Board {
         RuleEvaluator.update(this);
 
         if (Check){
-
             if (RuleEvaluator.checkForJumpMoves(x2, y2))
             {
                 RuleEvaluator.storeLastMove(move);}

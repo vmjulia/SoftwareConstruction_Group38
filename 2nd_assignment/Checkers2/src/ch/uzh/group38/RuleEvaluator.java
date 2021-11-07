@@ -144,45 +144,6 @@ public class RuleEvaluator {
         return false;
     }
 
-    private static boolean checkForSimpleMoves(int x, int y){
-
-        if (board.getField(x, y).isKing() || board.getField(x, y).isRed()){
-            if (x+1 < 8 && y+1 < 8) {
-                Move potentialMove = new Move(x, y, x+1, y+1);
-                if (isSimpleMove(potentialMove)) {
-                    return true;
-                }
-            }
-        }
-
-        if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
-            if (x-1 >= 0 && y+1 < 8){
-                Move potentialMove = new Move(x, y, x-1, y+1);
-                if (isSimpleMove(potentialMove)) {
-                    return true;
-                }
-            }
-        }
-
-        if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
-            if (x-1 >= 0 && y-1 >= 0){
-                Move potentialMove = new Move(x, y, x-1, y-1);
-                if (isSimpleMove(potentialMove)) {
-                    return true;
-                }
-            }
-        }
-
-        if (board.getField(x, y).isKing() || board.getField(x, y).isRed()){
-            if (x+1 < 8 && y-1 >= 0){
-                Move potentialMove = new Move(x, y, x+1, y-1);
-                return isSimpleMove(potentialMove);
-            }
-        }
-
-        return false;
-    }
-
     private static boolean isJumpMove(Move move){
 
         int x1 = move.FromX();
