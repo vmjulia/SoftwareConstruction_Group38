@@ -62,7 +62,7 @@ interface Subject{
             }
         }
 
-        RuleEvaluator.update(this);
+        RuleEvaluator.updateBoard(this);
         notifyObservers();
     }
 
@@ -83,7 +83,7 @@ interface Subject{
         board[x2][y2].updatePosition(x2, y2);
 
         if (Convert) { board[x2][y2].convertToKing();}
-        RuleEvaluator.update(this);
+        RuleEvaluator.updateBoard(this);
 
         if (Check){
             if (RuleEvaluator.checkForJumpMoves(x2, y2))

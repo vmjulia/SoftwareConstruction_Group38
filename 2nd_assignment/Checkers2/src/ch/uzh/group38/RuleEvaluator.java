@@ -5,14 +5,14 @@ public class RuleEvaluator {
     /*
     variable to keep track of whose turn it is
     */
-    private static Board board;
+    private static Board currentBoard;
     private static int currentPlayer;
     private static int lastX = -1;
     private static int lastY = -1;
 
-    public static void update(Board CurrentBoard)
+    public static void updateBoard(Board board)
     {
-       board = CurrentBoard;
+       currentBoard = board;
     }
 
     //sets first Player to 1
@@ -41,10 +41,10 @@ public class RuleEvaluator {
      */
     public static boolean checkInput(int x, int y) {
         if (currentPlayer == 1) {
-            return board.getField(x, y).isRed();
+            return currentBoard.getField(x, y).isRed();
         }
         else if (currentPlayer == 2) {
-            return board.getField(x, y).isWhite();
+            return currentBoard.getField(x, y).isWhite();
         }
         return false;
     }
@@ -60,21 +60,21 @@ public class RuleEvaluator {
 
         //check if move is going in the right direction
         //red pawns can only move negative y
-        if (board.getField(x1,y1).isRed() && !board.getField(x1,y1).isKing()
+        if (currentBoard.getField(x1,y1).isRed() && !currentBoard.getField(x1,y1).isKing()
             && x2 - x1 <= 0 ){
             //GUI.setMessage("This move is not valid");
                 return false;
             }
 
         //white pawns can only move positive y
-        if (board.getField(x1,y1).isWhite() && !board.getField(x1,y1).isKing()
+        if (currentBoard.getField(x1,y1).isWhite() && !currentBoard.getField(x1,y1).isKing()
             && x2 - x1 >= 0 ){
             //GUI.setMessage("This move is not valid");
                 return false;
             }
 
         //check if it is players color  
-        if (((board.getField(x1,y1).isRed() && currentPlayer == 1) || (board.getField(x1,y1).isWhite() && currentPlayer == 2))){            
+        if (((currentBoard.getField(x1,y1).isRed() && currentPlayer == 1) || (currentBoard.getField(x1,y1).isWhite() && currentPlayer == 2))){
             if (isJumpMove(move) || isSimpleMove(move)){
                 
                 if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
@@ -86,7 +86,7 @@ public class RuleEvaluator {
                 if (isSimpleMove(move)){
                     for (int i = 0; i < 8; i++){
                         for (int j = 0; j < 8; j++){
-                            if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
+                            if (currentPlayer == 1 && currentBoard.getField(i,j).isRed() || currentPlayer == 2 && currentBoard.getField(i,j).isWhite()){
                                 if (checkForJumpMoves(i, j)){
                                     //GUI.setMessage("There is a possible jump move");
                                     return false;
@@ -107,7 +107,7 @@ public class RuleEvaluator {
     */
     public static boolean checkForJumpMoves(int x, int y){
 
-        if (board.getField(x, y).isKing() || board.getField(x, y).isRed()){
+        if (currentBoard.getField(x, y).isKing() || currentBoard.getField(x, y).isRed()){
             if (x+2 < 8 && y+2 < 8){
                 Move potentialMove = new Move(x, y, x+2, y+2);
                 if (isJumpMove(potentialMove)) {
@@ -116,7 +116,7 @@ public class RuleEvaluator {
             }
         }
 
-        if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
+        if (currentBoard.getField(x, y).isKing() || currentBoard.getField(x, y).isWhite()){
             if (x-2 >= 0 && y+2 < 8) {
                 Move potentialMove = new Move(x, y, x-2, y+2);
                 if (isJumpMove(potentialMove)) {
@@ -125,7 +125,7 @@ public class RuleEvaluator {
             }
         }
 
-        if (board.getField(x, y).isKing() || board.getField(x, y).isWhite()){
+        if (currentBoard.getField(x, y).isKing() || currentBoard.getField(x, y).isWhite()){
             if (x-2 >= 0 && y-2 >= 0){
                 Move potentialMove = new Move(x, y, x-2, y-2);
                 if (isJumpMove(potentialMove)) {
@@ -134,7 +134,7 @@ public class RuleEvaluator {
             }
         }
 
-        if (board.getField(x, y).isKing() || board.getField(x, y).isRed()){
+        if (currentBoard.getField(x, y).isKing() || currentBoard.getField(x, y).isRed()){
             if (x+2 < 8 && y-2 >= 0){
                 Move potentialMove = new Move(x, y, x+2, y-2);
                 return isJumpMove(potentialMove);
@@ -154,11 +154,11 @@ public class RuleEvaluator {
 
         if ((x1 - x2 == 2 || x1 - x2 == -2)
             && (y1 - y2 == 2 || y1 - y2 == -2) 
-            && board.getField(x2,y2).isEmpty()){
+            && currentBoard.getField(x2,y2).isEmpty()){
 
             //check if jump is over opponent pin
-            return (board.getField(x1, y1).isWhite() && (board.getField((x1 + x2) / 2, (y1 + y2) / 2)).isRed())
-                    || (board.getField(x1, y1).isRed() && (board.getField((x1 + x2) / 2, (y1 + y2) / 2)).isWhite());
+            return (currentBoard.getField(x1, y1).isWhite() && (currentBoard.getField((x1 + x2) / 2, (y1 + y2) / 2)).isRed())
+                    || (currentBoard.getField(x1, y1).isRed() && (currentBoard.getField((x1 + x2) / 2, (y1 + y2) / 2)).isWhite());
             }
         return false;
     }
@@ -173,7 +173,7 @@ public class RuleEvaluator {
 
         return (x1 - x2 == 1 || x1 - x2 == -1)
                 && (y1 - y2 == 1 || y1 - y2 == -1)
-                && board.getField(x2, y2).isEmpty();
+                && currentBoard.getField(x2, y2).isEmpty();
     }
 
     /*
