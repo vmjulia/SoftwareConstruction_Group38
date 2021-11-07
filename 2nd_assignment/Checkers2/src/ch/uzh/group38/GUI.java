@@ -157,7 +157,7 @@ public class GUI {
                 }
             }
             else {
-                if(RuleEvaluator.checkInput(x, y, board)) {
+                if(RuleEvaluator.checkInput(x, y)) {
                     playBoardSquares[x][y].setBackground(Color.green);
                     playBoardSquares[x][y].setOpaque(true);
                     //the coordinates are stored in GUI

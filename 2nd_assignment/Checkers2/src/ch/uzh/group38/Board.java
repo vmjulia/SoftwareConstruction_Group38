@@ -56,13 +56,14 @@ public class Board {
         board[x2][y2].updatePosition(x2, y2);
 
         if (Convert) { board[x2][y2].convertToKing();}
+        RuleEvaluator.update(this);
 
         if (Check){
-            if (!RuleEvaluator.checkForJumpMoves(x2, y2, this))
+            if (!RuleEvaluator.checkForJumpMoves(x2, y2))
             {
-                RuleEvaluator.updateTurn(this);}
+                RuleEvaluator.updateTurn();}
             }
-        else RuleEvaluator.updateTurn(this);
+        else RuleEvaluator.updateTurn();
         this.updatePieces();
     }
 
