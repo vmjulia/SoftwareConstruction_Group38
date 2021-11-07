@@ -49,7 +49,12 @@ public class Board {
     moves a piece by removing it at the actual location
     and creating a new piece at the new location
     */
-    public void movePiece(int x1, int y1, int x2, int y2, boolean Check, boolean Convert) {
+    public void movePiece(Move move, boolean Check, boolean Convert) {
+
+        int x1 = move.FromX();
+        int y1 = move.FromY();
+        int x2 = move.ToX();
+        int y2 = move.ToY();
 
         Field temp = board[x1][y1];
         removePiece(x1, y1);
@@ -60,9 +65,12 @@ public class Board {
         RuleEvaluator.update(this);
 
         if (Check){
-            if (!RuleEvaluator.checkForJumpMoves(x2, y2))
+
+            if (RuleEvaluator.checkForJumpMoves(x2, y2))
             {
-                RuleEvaluator.updateTurn();}
+                RuleEvaluator.storeLastMove(move);}
+            else
+            {RuleEvaluator.updateTurn();}
             }
         else {RuleEvaluator.updateTurn();}
         this.updatePieces();

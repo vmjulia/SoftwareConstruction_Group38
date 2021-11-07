@@ -34,7 +34,7 @@ public class Move {
 
 
     public void move(Board board){
-        if (RuleEvaluator.isItJump(this)){
+        if (board.getField(this.FromX(), this.FromY()).isJumpMoveStored(this)){
             jumpMove(board);
         }
         else{
@@ -49,12 +49,12 @@ public class Move {
 
         //case other side of board is reached -> king
         if (to[0] == 0 || to[0] == 7){
-            board.movePiece(from[0], from[1], to[0] , to[1], false, true);
+            board.movePiece(this, false, true);
 
         }
         //else move the piece without conversion
 
-        else{ board.movePiece(from[0], from[1], to[0] , to[1], false, false);
+        else{ board.movePiece(this, false, false);
         }
     }
 
@@ -67,11 +67,11 @@ public class Move {
 
         //case other side of board is reached -> king, dont need to check for further jump moves
         if ((to[0] == 0 || to[0] == 7)){
-            board.movePiece(from[0], from[1], to[0] , to[1], false, true);
+            board.movePiece(this, false, true);
         }
 
         // move the piece and check for further jump moves
-        else{ board.movePiece(from[0], from[1], to[0] , to[1], true, false); }
+        else{ board.movePiece(this, true, false); }
 
         }
     }

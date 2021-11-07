@@ -145,7 +145,7 @@ public class GUI {
                 //potential move
                 else {
                     currentMove = new Move(x1, y1, x, y);
-                    if (RuleEvaluator.isMovePossible(currentMove)) {
+                    if (board.getField(currentMove.FromX(), currentMove.FromY()).isMoveStored(currentMove)) {
                         currentMove.move(board);
                         pawnActive = false;
                         refresh();

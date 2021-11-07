@@ -234,17 +234,10 @@ public class RuleEvaluator {
 
 
 
-    public static boolean isMovePossible(Move move){
-        GUI.setMessage("This move is not valid");
-        return(board.getField(move.FromX(), move.FromY()).isMoveStored(move));
-    }
 
-
-    public static boolean isItJump(Move move){
-        if (board.getField(move.FromX(), move.FromY()).isJumpMoveStored(move)){
+    public static void storeLastMove(Move move){
             lastX = move.ToX();
             lastY = move.ToY();
-            return true;}
-        return false;
+
     }
 }
