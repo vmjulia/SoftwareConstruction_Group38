@@ -41,6 +41,7 @@ public class Board {
             }
 
         }
+        RuleEvaluator.update(this);
         updatePieces();
     }
 
@@ -63,7 +64,7 @@ public class Board {
             {
                 RuleEvaluator.updateTurn();}
             }
-        else RuleEvaluator.updateTurn();
+        else {RuleEvaluator.updateTurn();}
         this.updatePieces();
     }
 
@@ -74,16 +75,12 @@ public class Board {
         board[x][y] = new EmptyField();
     }
 
-
     public Field getField(int x, int y){
         return(board[x][y]);
     }
 
     private void updatePieces(){
-        RuleEvaluator.update(this);
-
         for (int i = 0; i < board.length; i++) {
-
             for (int j = 0; j < board[i].length; j++) {
                 if ((i + j) % 2 == 1)
                 {
@@ -92,7 +89,6 @@ public class Board {
             }
         }
     }
-
 }
 
 
