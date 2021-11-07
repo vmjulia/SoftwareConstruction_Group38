@@ -146,7 +146,7 @@ class PieceField extends Field {
     }
 
     public boolean isAnyMovePossible(){
-        return (!(possibleSimpleMoves.length == 0 &&possibleJumpMoves.length ==0));
+        return (!(possibleSimpleMoves[0] == null && possibleJumpMoves[0] == null));
 
     }
 
