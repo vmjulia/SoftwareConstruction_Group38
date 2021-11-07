@@ -6,11 +6,13 @@ public abstract class  Field {
     abstract boolean isRed();
     abstract boolean isKing();
     abstract boolean isEmpty();
-    abstract String getLabel();
+
     abstract void convertToKing();
     abstract void updateField();
     abstract void updatePosition(int X, int Y);
     abstract boolean isMoveStored(Move move);
+    abstract boolean isJumpMoveStored(Move move);
+    abstract boolean isAnyMovePossible();
 
 }
 
@@ -24,19 +26,16 @@ class EmptyField extends Field{
 
     public boolean isEmpty(){return (true);}
 
-    public String getLabel(){
-        String label = "[   ] ";
-        return label;
-    }
-
     public void convertToKing(){
         GUI.setMessage("Cannot convert empty space to King ");
     }
 
-    // I guess this is fine, it has to be here, but if it is called it will not do anything
+
     void updateField() {}
     void updatePosition(int X, int Y){}
     boolean isMoveStored(Move move){return false;}
+    boolean isJumpMoveStored(Move move){return false;}
+    boolean isAnyMovePossible(){return false;}
 }
 
 class PieceField extends Field {
@@ -48,7 +47,9 @@ class PieceField extends Field {
     private int x0;
     private int y0;
 
-    private Move[] possibleMoves = new Move[8];
+    //possible moves
+    private Move[] possibleSimpleMoves;
+    private Move[] possibleJumpMoves ;
 
     private final Color color;
     private Type type;
@@ -60,36 +61,54 @@ class PieceField extends Field {
 
     public void updateField() {
         int k = 0;
-        //redundant
-        /*
-        for (int i = 0; i < 8; i++){
-            possibleMoves[i] = null;
-        }
-         */
+        int l = 0;
+        possibleSimpleMoves = new Move[4];
+        possibleJumpMoves = new Move[4];
 
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+            Move evaluatedMove = new Move(x0, y0, i, j);
+            if (RuleEvaluator.checkValidity(evaluatedMove)){
+                if ((x0-i)==1 ||(y0-j) ==1 || (x0-i)==-1 ||(y0-j)==-1){
+                    possibleSimpleMoves[k] = evaluatedMove;
+                k++;}
+                else { possibleJumpMoves[l] = evaluatedMove;
+                l++;}
+        } } }
+
+
+
+/*//
         // jump moves
-        for (int i = y0-2; i >= 0 && i < 8; i += 4 ) {
-            for (int j = x0-2; j >= 0 && j < 8; j += 4) {
-                Move evaluatedMove = new Move(x0, y0, j, i);
+        for (int i = y0-2; i < 8; i += 4 ) {
+            for (int j = x0-2; j < 8; j += 4) {
+                if (i >= 0 && j >= 0){
+
+                 Move evaluatedMove = new Move(x0, y0, j, i);
                 if (RuleEvaluator.checkValidity(evaluatedMove)){
                     possibleMoves[k] = evaluatedMove;
                     k++;
+                }
                 }
             }
         }
 
         // simple moves
         if (k==0){
-            for (int i = y0-1; i >= 0 && i < 8; i += 2 ) {
-                for (int j = x0-1; j >= 0 && j < 8; j += 2) {
+            for (int i = y0-1; i < 8; i += 2 ) {
+                for (int j = x0-1; j < 8; j += 2) {
+                    if (i >= 0 &&j >= 0){
                     Move evaluatedMove = new Move(x0, y0, j, i);
                     if (RuleEvaluator.checkValidity(evaluatedMove)){
                         possibleMoves[k] = evaluatedMove;
                         // k++;
                     }
+                    }
                 }
             }
         }
+
+ */
     }
 
     public void updatePosition(int X, int Y) {
@@ -97,35 +116,36 @@ class PieceField extends Field {
         y0 = Y;
     }
 
-    public boolean isMoveStored(Move move){
-        for (int i = 0; i < possibleMoves.length; i++){
-            if (possibleMoves[i] != null && (possibleMoves[i].ToX() == move.ToX() && possibleMoves[i].ToY() == move.ToY())){
+    private boolean isSimpleMoveStored(Move move){
+        for (Move possibleSimpleMove : possibleSimpleMoves) {
+            if (possibleSimpleMove != null && (possibleSimpleMove.ToX() == move.ToX() && possibleSimpleMove.ToY() == move.ToY())) {
                 return true;
             }
         }
+
         return false;
+
     }
- 
 
-    public String getLabel (){
-        String label = "[";
-
-
-        if (this.color==Color.RED){
-            label += "R_";
-        }
-        else if (this.color==Color.WHITE){
-            label += "W_";
+    public boolean isJumpMoveStored(Move move){
+        for (Move possibleJumpMove : possibleJumpMoves) {
+            if (possibleJumpMove != null && (possibleJumpMove.ToX() == move.ToX() && possibleJumpMove.ToY() == move.ToY())) {
+                return true;
+            }
         }
 
-        if (this.type==Type.KING){
-            label += "K] ";
-        }
-        else if (this.type==Type.PAWN){
-            label += "P] ";
-        }
+        return false;
 
-        return label;
+    }
+
+    public boolean isMoveStored(Move move){
+        return (isJumpMoveStored(move)||isSimpleMoveStored(move));
+
+    }
+
+    public boolean isAnyMovePossible(){
+        return (!(possibleSimpleMoves.length == 0 &&possibleJumpMoves.length ==0));
+
     }
 
     public void convertToKing(){

@@ -17,44 +17,57 @@ public class Board {
             for (int j = 7; j > 4; j--){
                 if ((i+j) %2 == 1){
                 this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
-                this.board[j][i].updatePosition(i, j);
-                this.board[j][i].updateField();
+
+
+                    // this.board[j][i].updateField();
                 }
                 else{
                     this.board[j][i] = new EmptyField();
                 }
+                this.board[j][i].updatePosition(j, i);
             }
             for (int j = 3; j < 5; j++){
                 this.board[j][i] = new EmptyField();
+                this.board[j][i].updatePosition(j, i);
             }
             for (int j = 0; j < 3; j++){
                 if ((i+j) %2 == 1){
                     this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
-                    this.board[j][i].updatePosition(i, j);
-                    this.board[j][i].updateField();
+
+
+                    // this.board[j][i].updateField();
                 }
                 else{
                     this.board[j][i] = new EmptyField();
                 }
+                this.board[j][i].updatePosition(j, i);
+
             }
+
         }
+        updatePieces();
     }
 
     /*
     moves a piece by removing it at the actual location
     and creating a new piece at the new location
     */
-    public void movePiece(int x1, int y1, int x2, int y2) {
-
-        // REMOVE ME!
-        //board[x1][y1].isMoveStored(x2, y2);
+    public void movePiece(int x1, int y1, int x2, int y2, boolean Check, boolean Convert) {
 
         Field temp = board[x1][y1];
-        board[x1][y1] = new EmptyField();
-        // updatePosition could, technically, be merged into update
-        temp.updatePosition(x2, y2);
+        removePiece(x1, y1);
         board[x2][y2] = temp;
-        this.updateBoard();
+        board[x2][y2].updatePosition(x2, y2);
+
+        if (Convert) { board[x2][y2].convertToKing();}
+
+        if (Check){
+            if (!RuleEvaluator.checkForJumpMoves(x2, y2, this))
+            {
+                RuleEvaluator.updateTurn(this);}
+            }
+        else RuleEvaluator.updateTurn(this);
+        this.updatePieces();
     }
 
     /*
@@ -69,16 +82,21 @@ public class Board {
         return(board[x][y]);
     }
 
-    private void updateBoard(){
+    private void updatePieces(){
+        RuleEvaluator.update(this);
         // condition could be changed as we don't need white squares
+
         for (int i = 0; i < board.length; i++) {
+
             for (int j = 0; j < board[i].length; j++) {
-                if ((i + j) % 2 == 1) {
-                    board[i][j].updateField();
+                if ((i + j) % 2 == 1)
+                {
+                    board[j][i].updateField();
                 }
             }
         }
     }
+
 }
 
 

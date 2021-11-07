@@ -13,6 +13,7 @@ public class GUI {
     private Move currentMove;
     private Board board;
 
+
     private int x1;
     private int y1;
     private boolean pawnActive;
@@ -33,9 +34,6 @@ public class GUI {
     }
 
     private void refresh(){
-        // disgusting
-        RuleEvaluator.board = board;
-
         gui.removeAll();
         message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
                 
@@ -113,8 +111,8 @@ public class GUI {
     }
 
     private void reset(){
-        board = new Board();
         RuleEvaluator.resetCurrentPlayer();
+        board = new Board();
         refresh();
     }
 

@@ -5,11 +5,15 @@ public class RuleEvaluator {
     /*
     variable to keep track of whose turn it is
     */
-    public static Board board;
-
+    private static Board board;
     private static int currentPlayer;
     private static int lastX = -1;
     private static int lastY = -1;
+
+    public static void update(Board CurrentBoard)
+    {
+       board = CurrentBoard;
+    }
 
     //sets first Player to 1
     public static void resetCurrentPlayer(){
@@ -58,14 +62,14 @@ public class RuleEvaluator {
         //red pawns can only move negative y
         if (board.getField(x1,y1).isRed() && !board.getField(x1,y1).isKing()
             && x2 - x1 <= 0 ){
-                GUI.setMessage("This move is not valid");
+            //GUI.setMessage("This move is not valid");
                 return false;
             }
 
         //white pawns can only move positive y
         if (board.getField(x1,y1).isWhite() && !board.getField(x1,y1).isKing()
             && x2 - x1 >= 0 ){
-                GUI.setMessage("This move is not valid");
+            //GUI.setMessage("This move is not valid");
                 return false;
             }
 
@@ -74,7 +78,7 @@ public class RuleEvaluator {
             if (isJumpMove(move, board) || isSimpleMove(move, board)){
                 
                 if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
-                    GUI.setMessage("Continue your move with same piece");
+                    //GUI.setMessage("Continue your move with same piece");
                     return false;
                 }
                 
@@ -88,7 +92,7 @@ public class RuleEvaluator {
                         for (int j = 0; j < 8; j++){
                             if (currentPlayer == 1 && board.getField(i,j).isRed() || currentPlayer == 2 && board.getField(i,j).isWhite()){
                                 if (checkForJumpMoves(i, j, board)){
-                                    GUI.setMessage("There is a possible jump move");
+                                    //GUI.setMessage("There is a possible jump move");
                                     return false;
                                 }
                             }
@@ -98,7 +102,7 @@ public class RuleEvaluator {
             return true;
             }
         }
-        GUI.setMessage("This move is not valid");
+        // GUI.setMessage("This move is not valid");
         return false;
     }
 
@@ -222,21 +226,24 @@ public class RuleEvaluator {
         //check if there are pins left and if they can move
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if (currentPlayer == 2 && board.getField(i,j).isWhite() || (currentPlayer == 1 && board.getField(i,j).isRed())){
-                    if (checkForJumpMoves(i, j,board) || checkForSimpleMoves(i, j,board)){
+                //if (currentPlayer == 2 && board.getField(i,j).isWhite() || (currentPlayer == 1 && board.getField(i,j).isRed())){
+                    if (board.getField(i,j).isAnyMovePossible()){
                         return false;
                     }
                 }
             }
-        }
         updateTurn(board);
         return true;        
     }
 
+
+
     public static boolean isMovePossible(Move move){
-        if (board.getField(move.FromX(), move.FromY()).isMoveStored(move)){
-            return true;
-        }
-        return false;
+        return(board.getField(move.FromX(), move.FromY()).isMoveStored(move));
+    }
+
+
+    public static boolean isItJump(Move move){
+        return(board.getField(move.FromX(), move.FromY()).isJumpMoveStored(move));
     }
 }
