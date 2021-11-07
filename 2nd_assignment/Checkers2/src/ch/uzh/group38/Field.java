@@ -1,6 +1,11 @@
 package ch.uzh.group38;
 
-public abstract class  Field {
+interface Observer{
+    void update();
+}
+
+
+public abstract class  Field implements Observer {
 
     abstract boolean isWhite();
     abstract boolean isRed();
@@ -8,7 +13,6 @@ public abstract class  Field {
     abstract boolean isEmpty();
 
     abstract void convertToKing();
-    abstract void updateField();
     abstract void updatePosition(int X, int Y);
     abstract boolean isMoveStored(Move move);
     abstract boolean isJumpMoveStored(Move move);
@@ -16,7 +20,7 @@ public abstract class  Field {
 
 }
 
-class EmptyField extends Field{
+class EmptyField extends Field implements Observer{
 
     public boolean isWhite(){return (false);}
 
@@ -31,14 +35,14 @@ class EmptyField extends Field{
     }
 
 
-    void updateField() {}
+    public void update() {}
     void updatePosition(int X, int Y){}
     boolean isMoveStored(Move move){return false;}
     boolean isJumpMoveStored(Move move){return false;}
     boolean isAnyMovePossible(){return false;}
 }
 
-class PieceField extends Field {
+class PieceField extends Field implements Observer{
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
@@ -61,7 +65,7 @@ class PieceField extends Field {
         this.type = t;
     }
 
-    public void updateField() {
+    public void update() {
         int k = 0;
         int l = 0;
         possibleSimpleMoves = new Move[4];
@@ -76,42 +80,13 @@ class PieceField extends Field {
                 k++;}
                 else { possibleJumpMoves[l] = evaluatedMove;
                 l++;}
-        } } }
-
-
-
-/*//
-        // jump moves
-        for (int i = y0-2; i < 8; i += 4 ) {
-            for (int j = x0-2; j < 8; j += 4) {
-                if (i >= 0 && j >= 0){
-
-                 Move evaluatedMove = new Move(x0, y0, j, i);
-                if (RuleEvaluator.checkValidity(evaluatedMove)){
-                    possibleMoves[k] = evaluatedMove;
-                    k++;
-                }
                 }
             }
         }
-
-        // simple moves
-        if (k==0){
-            for (int i = y0-1; i < 8; i += 2 ) {
-                for (int j = x0-1; j < 8; j += 2) {
-                    if (i >= 0 &&j >= 0){
-                    Move evaluatedMove = new Move(x0, y0, j, i);
-                    if (RuleEvaluator.checkValidity(evaluatedMove)){
-                        possibleMoves[k] = evaluatedMove;
-                        // k++;
-                    }
-                    }
-                }
-            }
-        }
-
- */
     }
+
+
+
 
     public void updatePosition(int X, int Y) {
         x0 = X;

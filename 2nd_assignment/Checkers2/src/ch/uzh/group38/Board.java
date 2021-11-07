@@ -1,10 +1,20 @@
 package ch.uzh.group38;
+import java.util.ArrayList;
+import java.util.List;
+
+interface Subject{
+    void registerObserver(Observer observer);
+    void removeObserver(Observer observer);
+    void notifyObservers();
 
 
-public class Board {
+}
+
+    public class Board implements Subject {
 
 
-    private Field[][] board;
+    private final Field[][] board;
+    private List<Observer> observers = new ArrayList<>();
 
 
     /*
@@ -41,8 +51,19 @@ public class Board {
             }
 
         }
+
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if ((i + j) % 2 == 1)
+                {
+                    registerObserver(board[j][i]);
+                }
+            }
+        }
+
         RuleEvaluator.update(this);
-        updatePieces();
+        notifyObservers();
     }
 
     /*
@@ -72,7 +93,7 @@ public class Board {
             {RuleEvaluator.updateTurn();}
             }
         else {RuleEvaluator.updateTurn();}
-        this.updatePieces();
+        this.notifyObservers();
     }
 
     /*
@@ -86,16 +107,20 @@ public class Board {
         return(board[x][y]);
     }
 
-    private void updatePieces(){
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if ((i + j) % 2 == 1)
-                {
-                    board[j][i].updateField();
-                }
-            }
+    public void registerObserver(Observer observer){
+        if(!observers.contains(observer)){
+            observers.add(observer);
         }
     }
+
+    public void removeObserver(Observer observer){
+            observers.remove(observer);
+            }
+
+    public void notifyObservers(){
+        observers.forEach(Observer::update);
+
+            }
 }
 
 
