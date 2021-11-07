@@ -81,11 +81,7 @@ public class RuleEvaluator {
                     //GUI.setMessage("Continue your move with same piece");
                     return false;
                 }
-                
-                if (isJumpMove(move, board)){
-                    lastX = move.ToX();
-                    lastY = move.ToY();
-                } 
+
                     //check if a jump move was possible
                 if (isSimpleMove(move, board)){
                     for (int i = 0; i < 8; i++){
@@ -187,7 +183,7 @@ public class RuleEvaluator {
         return false;
     }
 
-    public static boolean isJumpMove(Move move, Board board){
+    private static boolean isJumpMove(Move move, Board board){
 
         int x1 = move.FromX();
         int y1 = move.FromY();
@@ -244,6 +240,10 @@ public class RuleEvaluator {
 
 
     public static boolean isItJump(Move move){
-        return(board.getField(move.FromX(), move.FromY()).isJumpMoveStored(move));
+        if (board.getField(move.FromX(), move.FromY()).isJumpMoveStored(move)){
+            lastX = move.ToX();
+            lastY = move.ToY();
+            return true;}
+        return false;
     }
 }

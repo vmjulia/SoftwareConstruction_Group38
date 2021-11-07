@@ -18,8 +18,6 @@ public class Board {
                 if ((i+j) %2 == 1){
                 this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
 
-
-                    // this.board[j][i].updateField();
                 }
                 else{
                     this.board[j][i] = new EmptyField();
@@ -34,8 +32,6 @@ public class Board {
                 if ((i+j) %2 == 1){
                     this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
 
-
-                    // this.board[j][i].updateField();
                 }
                 else{
                     this.board[j][i] = new EmptyField();
@@ -84,7 +80,6 @@ public class Board {
 
     private void updatePieces(){
         RuleEvaluator.update(this);
-        // condition could be changed as we don't need white squares
 
         for (int i = 0; i < board.length; i++) {
 

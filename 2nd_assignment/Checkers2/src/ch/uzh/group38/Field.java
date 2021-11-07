@@ -51,8 +51,10 @@ class PieceField extends Field {
     private Move[] possibleSimpleMoves;
     private Move[] possibleJumpMoves ;
 
+    //color and type
     private final Color color;
     private Type type;
+
 
     public PieceField(Color c, Type t){
         this.color = c;
