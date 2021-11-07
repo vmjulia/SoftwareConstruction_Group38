@@ -235,6 +235,7 @@ public class RuleEvaluator {
 
 
     public static boolean isMovePossible(Move move){
+        GUI.setMessage("This move is not valid");
         return(board.getField(move.FromX(), move.FromY()).isMoveStored(move));
     }
 
