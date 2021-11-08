@@ -16,25 +16,25 @@ public class Move {
         this.to[1] = y2;
     }
 
-    public int FromX(){
+    public int fromX(){
         return (this.from[0]);
     }
 
-    public int FromY(){
+    public int fromY(){
         return (this.from[1]);
     }
 
-    public int ToX(){
+    public int toX(){
         return (this.to[0]);
     }
 
-    public int ToY(){
+    public int toY(){
         return (this.to[1]);
     }
 
 
     public void move(Board board){
-        if (board.getField(this.FromX(), this.FromY()).isJumpMoveStored(this)){
+        if (board.getField(this.fromX(), this.fromY()).isJumpMoveStored(this)){
             jumpMove(board);
         }
         else{

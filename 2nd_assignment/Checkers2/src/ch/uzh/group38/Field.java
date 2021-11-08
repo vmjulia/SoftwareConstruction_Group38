@@ -95,7 +95,7 @@ class PieceField extends Field implements Observer{
 
     private boolean isSimpleMoveStored(Move move){
         for (Move possibleSimpleMove : possibleSimpleMoves) {
-            if (possibleSimpleMove != null && (possibleSimpleMove.ToX() == move.ToX() && possibleSimpleMove.ToY() == move.ToY())) {
+            if (possibleSimpleMove != null && (possibleSimpleMove.toX() == move.toX() && possibleSimpleMove.toY() == move.toY())) {
                 return true;
             }
         }
@@ -106,7 +106,7 @@ class PieceField extends Field implements Observer{
 
     public boolean isJumpMoveStored(Move move){
         for (Move possibleJumpMove : possibleJumpMoves) {
-            if (possibleJumpMove != null && (possibleJumpMove.ToX() == move.ToX() && possibleJumpMove.ToY() == move.ToY())) {
+            if (possibleJumpMove != null && (possibleJumpMove.toX() == move.toX() && possibleJumpMove.toY() == move.toY())) {
                 return true;
             }
         }

@@ -72,10 +72,10 @@ interface Subject{
     */
     public void movePiece(Move move, boolean Check, boolean Convert) {
 
-        int x1 = move.FromX();
-        int y1 = move.FromY();
-        int x2 = move.ToX();
-        int y2 = move.ToY();
+        int x1 = move.fromX();
+        int y1 = move.fromY();
+        int x2 = move.toX();
+        int y2 = move.toY();
 
         Field temp = board[x1][y1];
         removePiece(x1, y1);
