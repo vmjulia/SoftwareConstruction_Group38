@@ -1,4 +1,4 @@
-package ch.uzh.group38;// basic reference: https://introcs.cs.princeton.edu/java/15inout/GUI.java.html
+package ch.uzh.group38;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
