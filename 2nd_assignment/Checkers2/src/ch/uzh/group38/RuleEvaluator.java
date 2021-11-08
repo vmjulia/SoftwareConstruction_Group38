@@ -32,9 +32,9 @@ public class RuleEvaluator {
     checks whether a given Move is a valid
     */
     public static boolean checkValidity(Move move, Board board){
-        int x1 = move.FromX();
-        int y1 = move.FromY();
-        int y2 = move.ToY();
+        int x1 = move.fromX();
+        int y1 = move.fromY();
+        int y2 = move.toY();
 
         //check if move is going in the right direction
         //red pawns can only move negative y
@@ -159,10 +159,10 @@ public class RuleEvaluator {
     checks whether a given Move is a jumpMove
     */
     public static boolean isJumpMove(Move move, Board board){
-        int x1 = move.FromX();
-        int y1 = move.FromY();
-        int x2 = move.ToX();
-        int y2 = move.ToY();
+        int x1 = move.fromX();
+        int y1 = move.fromY();
+        int x2 = move.toX();
+        int y2 = move.toY();
 
         if ((x1 - x2 == 2 || x1 - x2 == -2)
             && (y1 - y2 == 2 || y1 - y2 == -2) 
@@ -179,10 +179,10 @@ public class RuleEvaluator {
     checks whether a given Move is a simpleMove
     */
     private static boolean isSimpleMove(Move move, Board board){
-        int x1 = move.FromX();
-        int y1 = move.FromY();
-        int x2 = move.ToX();
-        int y2 = move.ToY();
+        int x1 = move.fromX();
+        int y1 = move.fromY();
+        int x2 = move.toX();
+        int y2 = move.toY();
 
         return (x1 - x2 == 1 || x1 - x2 == -1)
                 && (y1 - y2 == 1 || y1 - y2 == -1)
