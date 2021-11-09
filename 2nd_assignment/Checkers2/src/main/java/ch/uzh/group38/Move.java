@@ -66,7 +66,7 @@ public class Move {
         board.removePiece((from[0]+ to[0])/2,(from[1]+ to[1])/2);
 
         //case other side of board is reached -> king, dont need to check for further jump moves
-        if ((to[0] == 0 || to[0] == 7)&& !board.getField(to[0], to[1]).isKing()){
+        if ((to[0] == 0 || to[0] == 7)&& !board.getField(from[0], from[1]).isKing()){
             board.movePiece(this, false, true);
         }
 
