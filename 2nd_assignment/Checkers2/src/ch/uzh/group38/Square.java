@@ -25,7 +25,6 @@ class BlackSquare extends Square {
 }
 
 class BlackSquareWithPawn extends BlackSquare {
-
     public BlackSquareWithPawn(ActionListener passedAction, Icon passedIcon) {
         super(passedAction);
         this.setIcon(passedIcon);

@@ -36,10 +36,10 @@ class EmptyField extends Field implements Observer{
 
 
     public void update() {}
-    void updatePosition(int X, int Y){}
-    boolean isMoveStored(Move move){return false;}
-    boolean isJumpMoveStored(Move move){return false;}
-    boolean isAnyMovePossible(){return false;}
+    public void updatePosition(int X, int Y){}
+    public boolean isMoveStored(Move move){return false;}
+    public boolean isJumpMoveStored(Move move){return false;}
+    public boolean isAnyMovePossible(){return false;}
 }
 
 class PieceField extends Field implements Observer{
