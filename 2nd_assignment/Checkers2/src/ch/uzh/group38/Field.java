@@ -20,7 +20,7 @@ public abstract class  Field implements Observer {
 
 }
 
-class EmptyField extends Field implements Observer{
+class EmptyField extends Field {
 
     public boolean isWhite(){return (false);}
 
@@ -42,7 +42,7 @@ class EmptyField extends Field implements Observer{
     public boolean isAnyMovePossible(){return false;}
 }
 
-class PieceField extends Field implements Observer{
+class PieceField extends Field {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
