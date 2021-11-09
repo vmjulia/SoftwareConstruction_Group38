@@ -12,10 +12,10 @@ public class GUI {
 
     public static final ClassLoader loader = GUI.class.getClassLoader();
     //the argument might be null, but intellij's suggestion does not solve that issue
-    private final Icon whitePawnIcon = new ImageIcon(GUI.loader.getResource("white_pawn.png"));
-    private final Icon whiteKingIcon = new ImageIcon(GUI.loader.getResource("white_king.png"));
-    private final Icon redPawnIcon = new ImageIcon(GUI.loader.getResource("red_pawn.png"));
-    private final Icon redKingIcon = new ImageIcon(GUI.loader.getResource("red_king.png"));
+    private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
+    private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
+    private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
+    private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
 
     private Move currentMove;
     private Board board;
