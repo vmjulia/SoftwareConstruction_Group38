@@ -3,7 +3,6 @@ package ch.uzh.group38;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public abstract class Square extends JButton {}
 
