@@ -2,12 +2,11 @@ package ch.uzh.group38;
 
 interface Field {
 
-    abstract boolean isWhite();
-    abstract boolean isRed();
-    abstract boolean isKing();
-    abstract boolean isEmpty();
-    abstract String getLabel();
-    abstract void convertToKing();
+    boolean isWhite();
+    boolean isRed();
+    boolean isKing();
+    boolean isEmpty();
+    void convertToKing();
 
 }
 
