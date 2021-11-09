@@ -1,6 +1,6 @@
 package ch.uzh.group38;
 
-interface Field {
+public abstract class  Field {
 
     abstract boolean isWhite();
     abstract boolean isRed();
@@ -11,7 +11,7 @@ interface Field {
 
 }
 
-class EmptyField implements Field{
+class EmptyField extends Field{
 
     public boolean isWhite(){return (false);}
 
@@ -31,7 +31,7 @@ class EmptyField implements Field{
     }
 }
 
-class PieceField implements Field {
+class PieceField extends Field {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}

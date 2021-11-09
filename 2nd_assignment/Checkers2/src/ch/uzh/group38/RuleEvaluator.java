@@ -48,9 +48,9 @@ public class RuleEvaluator {
     */
     public static boolean checkValidity(Move move, Board board){
 
-        int x1 = move.fromX();
-        int y1 = move.fromY();
-        int x2 = move.toX();
+        int x1 = move.FromX();
+        int y1 = move.FromY();
+        int x2 = move.ToX();
 
         //check if move is going in the right direction
         //red pawns can only move negative y
@@ -77,8 +77,8 @@ public class RuleEvaluator {
                 }
                 
                 if (isJumpMove(move, board)){
-                    lastX = move.toX();
-                    lastY = move.toY();
+                    lastX = move.ToX();
+                    lastY = move.ToY();
                 } 
                     //check if a jump move was possible
                 if (isSimpleMove(move, board)){
@@ -183,10 +183,10 @@ public class RuleEvaluator {
 
     public static boolean isJumpMove(Move move, Board board){
 
-        int x1 = move.fromX();
-        int y1 = move.fromY();
-        int x2 = move.toX();
-        int y2 = move.toY();
+        int x1 = move.FromX();
+        int y1 = move.FromY();
+        int x2 = move.ToX();
+        int y2 = move.ToY();
 
 
         if ((x1 - x2 == 2 || x1 - x2 == -2)
@@ -202,10 +202,10 @@ public class RuleEvaluator {
 
     private static boolean isSimpleMove(Move move, Board board){
 
-        int x1 = move.fromX();
-        int y1 = move.fromY();
-        int x2 = move.toX();
-        int y2 = move.toY();
+        int x1 = move.FromX();
+        int y1 = move.FromY();
+        int x2 = move.ToX();
+        int y2 = move.ToY();
 
 
         return (x1 - x2 == 1 || x1 - x2 == -1)

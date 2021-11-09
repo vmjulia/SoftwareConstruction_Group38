@@ -1,4 +1,4 @@
-package ch.uzh.group38;
+package ch.uzh.group38;// basic reference: https://introcs.cs.princeton.edu/java/15inout/GUI.java.html
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,13 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI {
-
-    public static final ClassLoader loader = GUI.class.getClassLoader();
-    //the argument might be null, but intellij's suggestion does not solve that issue
-    private final Icon whitePawnIcon = new ImageIcon(GUI.loader.getResource("white_pawn.png"));
-    private final Icon whiteKingIcon = new ImageIcon(GUI.loader.getResource("white_king.png"));
-    private final Icon redPawnIcon = new ImageIcon(GUI.loader.getResource("red_pawn.png"));
-    private final Icon redKingIcon = new ImageIcon(GUI.loader.getResource("red_king.png"));
 
     private Move currentMove;
     private Board board;
@@ -62,16 +55,16 @@ public class GUI {
                 //the square is black
                 if ((i+j) %2 == 1) {
                     if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redKingIcon);
+                        playBoardSquares[i][j] = new RedKingSquare(new ButtonPressed(i, j));
                     }
                     else if (board.getField(i, j).isRed() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redPawnIcon);
+                        playBoardSquares[i][j] = new RedPawnSquare(new ButtonPressed(i, j));
                     }
                     else if (board.getField(i, j).isWhite() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whiteKingIcon);
+                        playBoardSquares[i][j] = new WhiteKingSquare(new ButtonPressed(i, j));
                     }
                     else if (board.getField(i, j).isWhite() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whitePawnIcon);
+                        playBoardSquares[i][j] = new WhitePawnSquare(new ButtonPressed(i, j));
                     }
                     else {
                         playBoardSquares[i][j] = new BlackSquare(new ButtonPressed(i, j));
@@ -189,5 +182,5 @@ public class GUI {
 
     public static void main(String[] args) {
         new GUI();
-    }
+    } 
 }

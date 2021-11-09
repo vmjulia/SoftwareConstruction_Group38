@@ -4,7 +4,7 @@ package ch.uzh.group38;
 public class Board {
 
 
-    private final Field[][] board;
+    private Field[][] board;
 
 
     /*

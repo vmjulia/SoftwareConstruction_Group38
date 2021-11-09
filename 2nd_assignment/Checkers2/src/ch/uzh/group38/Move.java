@@ -16,19 +16,19 @@ public class Move {
         this.to[1] = y2;
     }
 
-    public int fromX(){
+    public int FromX(){
         return (this.from[0]);
     }
 
-    public int fromY(){
+    public int FromY(){
         return (this.from[1]);
     }
 
-    public int toX(){
+    public int ToX(){
         return (this.to[0]);
     }
 
-    public int toY(){
+    public int ToY(){
         return (this.to[1]);
     }
 
