@@ -78,7 +78,7 @@ class PieceField implements Field {
         if (this.type != Type.KING){
             System.out.print("Well done Player ");
             RuleEvaluator.printCurrentPlayer();
-            System.out.print("! Your pawn is now a king!");
+            System.out.print("! Your pawn is now a king!\n");
             this.type = Type.KING;
         }
     }

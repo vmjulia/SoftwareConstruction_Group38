@@ -30,11 +30,29 @@ public class RuleEvaluator {
 
     /*
     checks whether a given Move is a valid
+    checks if the pawn can be accessed by current player
+     */
+    public static boolean checkInput(int x, int y, Board board) {
+        if (currentPlayer == 1) {
+            return board.isRed(x, y);
+        }
+        else if (currentPlayer == 2) {
+            return board.isWhite(x, y);
+        }
+        return false;
+    }
+
+    /*
+    checks whether a given Move is a valid
     */
     public static boolean checkValidity(Move move, Board board){
         int x1 = move.fromX();
         int y1 = move.fromY();
         int y2 = move.toY();
+        int x1 = move.FromX();
+        int y1 = move.FromY();
+        int x2 = move.ToX();
+        int y2 = move.ToY();
 
         //check if move is going in the right direction
         //red pawns can only move negative y
@@ -163,7 +181,6 @@ public class RuleEvaluator {
         int y1 = move.fromY();
         int x2 = move.toX();
         int y2 = move.toY();
-
         if ((x1 - x2 == 2 || x1 - x2 == -2)
             && (y1 - y2 == 2 || y1 - y2 == -2) 
             && board.getField(x2,y2).isEmpty()){
@@ -183,7 +200,6 @@ public class RuleEvaluator {
         int y1 = move.fromY();
         int x2 = move.toX();
         int y2 = move.toY();
-
         return (x1 - x2 == 1 || x1 - x2 == -1)
                 && (y1 - y2 == 1 || y1 - y2 == -1)
                 && board.getField(x2, y2).isEmpty();

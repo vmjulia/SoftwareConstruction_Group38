@@ -16,7 +16,7 @@ public class Game {
     private void askForInput(){
         System.out.print("Player ");
         RuleEvaluator.printCurrentPlayer();
-        System.out.print(" please enter your next move in this format [a3]X[b4]:");
+        System.out.print(" please enter your next move in this format [a3]X[b4]:\n");
     }
 
     private String readInput(){
@@ -60,6 +60,7 @@ public class Game {
 
         int x2 = input.charAt(6) - 'a';
         int y2 = Character.getNumericValue(input.charAt(7)) - 1;
+
         currentMove = new Move(x1, y1, x2, y2);
     }
 
@@ -67,15 +68,13 @@ public class Game {
     Prints the board. gets the input. executes the move.
     */
     private void nextMove(){
-        this.board.printBoard();
-        getInput();
-        currentMove.move(board);
+        new GUI(this.board);
     }
 
     public static void main(String[] args) {
         Game game = new Game();
         RuleEvaluator.resetCurrentPlayer();
-        while (true) game.nextMove();
+        game.nextMove();
     }
 
 }
