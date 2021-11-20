@@ -14,6 +14,9 @@ public class Piece {
         this.type = t;
     }
 
+    /*
+    return s String representation of the Piece for it to be printed
+    */
     public String getLabel (){
         String label = "[";
 
@@ -36,7 +39,9 @@ public class Piece {
 
     public void convertToKing(){
         if (this.type != Type.KING){
-            System.out.println("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
+            System.out.print("Well done Player ");
+            RuleEvaluator.printCurrentPlayer();
+            System.out.print("! Your pawn is now a king!\n");
             this.type = Type.KING;
         }
     }

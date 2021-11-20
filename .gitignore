@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.idea/
+
+/2nd_assignment/2nd_assignment.iml
+/1st_assignment/1st_assignment.iml
+/0th_assignment/0th_assignment.iml
+/0th_assignment/src/.idea/
+/1st_assignment/Checkers/.idea/
