@@ -117,14 +117,14 @@ public class GUI implements ActionListener {
             //i.e. the first chosen pawn is valid input
             if (pawnActive) {
                 //press the same button again to cancel
+                Move move = new Move(x1, y1, x, y);
                 if (associatedButton.getBackground() == Color.green) {
                     associatedButton.setBackground(Color.black);
                     pawnActive = false;
                 }
                 //i.e. the move is valid
-                else if (RuleEvaluator.checkValidity(x1, y1, x, y, localBoard)) {
+                else if (RuleEvaluator.checkValidity(move, localBoard)) {
                     label.setText("Good Stuff!");
-                    Move move = new Move(x1, y1, x, y);
                     move.move(localBoard);
                     new GUI(localBoard);
                     frame.dispose();
