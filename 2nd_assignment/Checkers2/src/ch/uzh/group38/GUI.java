@@ -1,148 +1,193 @@
-package ch.uzh.group38;// from: https://introcs.cs.princeton.edu/java/15inout/GUI.java.html
+package ch.uzh.group38;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
+public class GUI {
 
-public class GUI implements ActionListener {
+    public static final ClassLoader loader = GUI.class.getClassLoader();
+    //the argument might be null, but intellij's suggestion does not solve that issue
+    private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
+    private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
+    private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
+    private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
+
+    private Move currentMove;
+    private Board board;
 
     private int x1;
     private int y1;
     private boolean pawnActive;
-    private final JLabel label;
     private JFrame frame;
-    private JPanel panel;
-    private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
-    private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
-    private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
-    private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
+    private final JPanel gui = new JPanel();
+    private Square[][] playBoardSquares = new Square[8][8];
+    private final String COLS = "ABCDEFGH";
+    private static final JLabel message = new JLabel("Your add here!");
 
-    public GUI(Board board) {
-        /*
-        basically the window
-         */
+    private GUI() {
+
+        //creating new window
         frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Checkers");
+        reset();
+        frame.pack();
+    }
 
-        /*
-        actions for the buttons
-         */
+    private void refresh(){
+        gui.removeAll();
+        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
+                
+        //creating toolbar
+        JButton rb = new JButton("Reset");
+        rb.addActionListener(new ResetButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb); 
+        toolbar.addSeparator();
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+        
+        //creating the board
+        JPanel playBoard = new JPanel(new GridLayout(0, 10));
+        playBoard.setBorder(new LineBorder(Color.black));
 
-        label = new JLabel("Your add here!");
-
-        /*
-        layout to put stuff in the window
-         */
-        panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 200, 100));
-        panel.setLayout(new GridLayout(9, 8));
-
-        boolean timeForWhite = false;
-        for (int i = 0; i<8; i++) {
-            for (int j = 0; j<8; j++) {
-                if (timeForWhite) {
-                    JButton button = new JButton();
-                    button.setBackground(Color.white);
-                    button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25,
-                            25));
-                    button.setOpaque(true);
-                    panel.add(button);
-                }
-                else {
-                    JButton button;
-                    if (board.getField(i, j).isWhite()) {
-                        if (board.getField(i, j).isKing()) {
-                            button = new JButton(whiteKingIcon);
-                        }
-                        else {
-                            button = new JButton(whitePawnIcon);
-                        }
+        for (int i = 0; i< playBoardSquares.length; i++) {
+            for (int j = 0; j< playBoardSquares[i].length; j++) {
+                //the square is black
+                if ((i+j) %2 == 1) {
+                    if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
+                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redKingIcon);
                     }
-                    else if (board.getField(i, j).isRed()) {
-                        if (board.getField(i, j).isKing()){
-                            button = new JButton(redKingIcon);
-                        }
-                        else {
-                            button = new JButton(redPawnIcon);
-                        }
+                    else if (board.getField(i, j).isRed() && !board.getField(i, j).isKing()){
+                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redPawnIcon);
+                    }
+                    else if (board.getField(i, j).isWhite() && board.getField(i, j).isKing()){
+                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whiteKingIcon);
+                    }
+                    else if (board.getField(i, j).isWhite() && !board.getField(i, j).isKing()){
+                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whitePawnIcon);
                     }
                     else {
-                        button = new JButton();
+                        playBoardSquares[i][j] = new BlackSquare(new ButtonPressed(i, j));
                     }
-                    button.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-                    button.setBackground(Color.black);
-                    button.setOpaque(true);
-                    button.addActionListener(new GoodAction(i, j, button, board));
-                    panel.add(button);
                 }
-                timeForWhite = !timeForWhite;
+                else playBoardSquares[i][j] = new EmptySquare();
             }
-            timeForWhite = !timeForWhite;
         }
-        panel.add(label);
 
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Our GUI");
+        //fill in top row
+        playBoard.add(new JLabel("+",SwingConstants.CENTER));
+        for (int i = 0; i < 8; i++) {
+            playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
+        }
+        playBoard.add(new JLabel("+",SwingConstants.CENTER));
+        
+        //fill in playboard
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (j == 0 || j==9) {
+                        playBoard.add(new JLabel("" + (8-i), SwingConstants.CENTER));
+                }
+                else {
+                        playBoard.add(playBoardSquares[i][j-1]);
+                }
+            }
+        }
+        //fill in bottom row
+        playBoard.add(new JLabel("+",SwingConstants.CENTER));
+        for (int i = 0; i < 8; i++) {
+            playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
+        } 
+        playBoard.add(new JLabel("+", SwingConstants.CENTER));
+
+
+        //set up GUI
+        gui.setBorder(new EmptyBorder(5, 5, 5, 5));
+        gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+        gui.add(toolbar);
+        gui.add(playBoard);
+        frame.add(gui);
         frame.setVisible(true);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setBounds(0, 0, screenSize.width, screenSize.height);
-
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    private void reset(){
+        board = new Board();
+        RuleEvaluator.resetCurrentPlayer();
+        refresh();
     }
-    class GoodAction implements ActionListener {
-        private JButton associatedButton;
-        private Board localBoard;
-        private Integer x;
-        private Integer y;
 
-        public GoodAction(int i, int j, JButton button, Board board) {
-            associatedButton = button;
-            localBoard = board;
-            x = i;
-            y = j;
+    public static void setMessage(String msg){
+        message.setText(msg);
+    }
+
+    class ButtonPressed implements ActionListener {
+        private boolean buttonActive = false;
+        private final int x;
+        private final int y;
+
+        //x and y of a button are stored in AL upon creation for further reference
+        public ButtonPressed(int X, int Y) {
+            x = X;
+            y = Y;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //see which button is pressed
-            label.setText(x.toString() + y.toString());
-
-            //i.e. the first chosen pawn is valid input
             if (pawnActive) {
-                //press the same button again to cancel
-                Move move = new Move(x1, y1, x, y);
-                if (associatedButton.getBackground() == Color.green) {
-                    associatedButton.setBackground(Color.black);
+                //touchable button pressed again
+                if (buttonActive) {
+                    playBoardSquares[x][y].setBackground(Color.black);
+                    playBoardSquares[x][y].setOpaque(true);
                     pawnActive = false;
+                    buttonActive = false;
+                    message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
                 }
-                //i.e. the move is valid
-                else if (RuleEvaluator.checkValidity(move, localBoard)) {
-                    label.setText("Good Stuff!");
-                    move.move(localBoard);
-                    new GUI(localBoard);
-                    frame.dispose();
+                //potential move
+                else {
+                    currentMove = new Move(x1, y1, x, y);
+                    if (RuleEvaluator.checkValidity(currentMove, board)) {
+                        currentMove.move(board);
+                        pawnActive = false;
+                        refresh();
+                        if (RuleEvaluator.checkWinner(board)) {
+                            JOptionPane.showMessageDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + " wins!!");
+                            reset();
+                        }
+                    }
                 }
             }
-            //no valid pawn has been chosen yet
             else {
-                if (RuleEvaluator.checkInput(x, y, localBoard)) {
-                    associatedButton.setBackground(Color.green);
+                if(RuleEvaluator.checkInput(x, y, board)) {
+                    playBoardSquares[x][y].setBackground(Color.green);
+                    playBoardSquares[x][y].setOpaque(true);
+                    //the coordinates are stored in GUI
                     x1 = x;
                     y1 = y;
                     pawnActive = true;
-                } else {
-                    label.setText("Please touch your pawns only");
+                    buttonActive = true;
+                    message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please select target field!");
+                }
+                else {
+                    message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
                 }
             }
-
         }
     }
 
+    class ResetButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            reset();
+        }
+    }
+
+    public static void main(String[] args) {
+        new GUI();
+    }
 }

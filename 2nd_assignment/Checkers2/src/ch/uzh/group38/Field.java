@@ -1,34 +1,24 @@
 package ch.uzh.group38;
 
-
 interface Field {
 
     boolean isWhite();
     boolean isRed();
     boolean isKing();
     boolean isEmpty();
-    String getLabel();
     void convertToKing();
 
 }
 
 class EmptyField implements Field{
 
-    public boolean isWhite(){
-        return (false);
-    }
+    public boolean isWhite(){return (false);}
 
-    public boolean isRed(){
-        return (false);
-    }
+    public boolean isRed(){ return (false);}
 
-    public boolean isKing(){
-        return (false);
-    }
+    public boolean isKing(){return (false);}
 
-    public boolean isEmpty(){
-        return (true);
-    }
+    public boolean isEmpty(){return (true);}
 
     public String getLabel(){
         String label = "[   ] ";
@@ -36,9 +26,8 @@ class EmptyField implements Field{
     }
 
     public void convertToKing(){
-        System.out.println("Cannot convert empty space to King ");
+        GUI.setMessage("Cannot convert empty space to King ");
     }
-
 }
 
 class PieceField implements Field {
@@ -56,6 +45,7 @@ class PieceField implements Field {
 
     public String getLabel (){
         String label = "[";
+
 
         if (this.color==Color.RED){
             label += "R_";
@@ -76,9 +66,7 @@ class PieceField implements Field {
 
     public void convertToKing(){
         if (this.type != Type.KING){
-            System.out.print("Well done Player ");
-            RuleEvaluator.printCurrentPlayer();
-            System.out.print("! Your pawn is now a king!\n");
+            GUI.setMessage("Well done Player " + RuleEvaluator.getCurrentPlayer() + "! Your pawn is now a king!");
             this.type = Type.KING;
         }
     }
@@ -95,8 +83,6 @@ class PieceField implements Field {
         return (this.type == Type.KING);
     }
 
-    public boolean isEmpty(){
-        return (false);
-    }
+    public boolean isEmpty(){ return (false);}
 
 }

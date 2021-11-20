@@ -4,7 +4,7 @@ package ch.uzh.group38;
 public class Board {
 
 
-    private Field[][] board;
+    private final Field[][] board;
 
 
     /*
@@ -14,44 +14,26 @@ public class Board {
         this.board = new Field[8][8];
 
         for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 3; j++){
-                if ((i+j) %2 ==0){
-                this.board[i][j] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
+            for (int j = 7; j > 4; j--){
+                if ((i+j) %2 == 1){
+                this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
                 }
                 else{
-                    this.board[i][j] = new EmptyField();
+                    this.board[j][i] = new EmptyField();
                 }
             }
             for (int j = 3; j < 5; j++){
-                this.board[i][j] = new EmptyField();
+                this.board[j][i] = new EmptyField();
             }
-            for (int j = 5; j < 8; j++){
-                if ((i+j) %2 ==0){
-                    this.board[i][j] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
+            for (int j = 0; j < 3; j++){
+                if ((i+j) %2 == 1){
+                    this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
                 }
                 else{
-                    this.board[i][j] = new EmptyField();
+                    this.board[j][i] = new EmptyField();
                 }
             }
         }
-    }
-
-    /*
-    prints actual state of the board 
-    */
-    public void printBoard(){
-        System.out.println("      a     b     c     d     e     f     g     h");
-        System.out.println("  +-------------------------------------------------+");
-        for (int i = 7; i >= 0; i--){
-            System.out.print(i+1 + " | ");
-            for (int j = 0; j < 8; j++){
-                    System.out.print(board[j][i].getLabel());
-            }
-            System.out.print("| " + (i+1));
-            System.out.print("\n");
-        }
-        System.out.println("  +-------------------------------------------------+");
-        System.out.println("      a     b     c     d     e     f     g     h");
     }
 
     /*
