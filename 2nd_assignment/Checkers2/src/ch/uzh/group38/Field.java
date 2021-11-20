@@ -1,16 +1,26 @@
 package ch.uzh.group38;
 
-interface Field {
+interface Observer{
+    void update();
+}
 
-    boolean isWhite();
-    boolean isRed();
-    boolean isKing();
-    boolean isEmpty();
-    void convertToKing();
+
+public abstract class  Field implements Observer {
+
+    abstract boolean isWhite();
+    abstract boolean isRed();
+    abstract boolean isKing();
+    abstract boolean isEmpty();
+
+    abstract void convertToKing();
+    abstract void updatePosition(int X, int Y);
+    abstract boolean isMoveStored(Move move);
+    abstract boolean isJumpMoveStored(Move move);
+    abstract boolean isAnyMovePossible();
 
 }
 
-class EmptyField implements Field{
+class EmptyField extends Field {
 
     public boolean isWhite(){return (false);}
 
@@ -20,48 +30,99 @@ class EmptyField implements Field{
 
     public boolean isEmpty(){return (true);}
 
-    public String getLabel(){
-        String label = "[   ] ";
-        return label;
-    }
-
     public void convertToKing(){
         GUI.setMessage("Cannot convert empty space to King ");
     }
+
+
+    public void update() {}
+    public void updatePosition(int X, int Y){}
+    public boolean isMoveStored(Move move){return false;}
+    public boolean isJumpMoveStored(Move move){return false;}
+    public boolean isAnyMovePossible(){return false;}
 }
 
-class PieceField implements Field {
+class PieceField extends Field {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
 
+    //own position
+    private int x0;
+    private int y0;
+
+    //possible moves
+    private Move[] possibleSimpleMoves;
+    private Move[] possibleJumpMoves ;
+
+    //color and type
     private final Color color;
     private Type type;
+
 
     public PieceField(Color c, Type t){
         this.color = c;
         this.type = t;
     }
 
-    public String getLabel (){
-        String label = "[";
+    public void update() {
+        int k = 0;
+        int l = 0;
+        possibleSimpleMoves = new Move[4];
+        possibleJumpMoves = new Move[4];
+
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+            Move evaluatedMove = new Move(x0, y0, i, j);
+            if (RuleEvaluator.checkValidity(evaluatedMove)){
+                if ((x0-i)==1 ||(y0-j) ==1 || (x0-i)==-1 ||(y0-j)==-1){
+                    possibleSimpleMoves[k] = evaluatedMove;
+                k++;}
+                else { possibleJumpMoves[l] = evaluatedMove;
+                l++;}
+                }
+            }
+        }
+    }
 
 
-        if (this.color==Color.RED){
-            label += "R_";
-        }
-        else if (this.color==Color.WHITE){
-            label += "W_";
+
+
+    public void updatePosition(int X, int Y) {
+        x0 = X;
+        y0 = Y;
+    }
+
+    private boolean isSimpleMoveStored(Move move){
+        for (Move possibleSimpleMove : possibleSimpleMoves) {
+            if (possibleSimpleMove != null && (possibleSimpleMove.toX() == move.toX() && possibleSimpleMove.toY() == move.toY())) {
+                return true;
+            }
         }
 
-        if (this.type==Type.KING){
-            label += "K] ";
-        }
-        else if (this.type==Type.PAWN){
-            label += "P] ";
+        return false;
+
+    }
+
+    public boolean isJumpMoveStored(Move move){
+        for (Move possibleJumpMove : possibleJumpMoves) {
+            if (possibleJumpMove != null && (possibleJumpMove.toX() == move.toX() && possibleJumpMove.toY() == move.toY())) {
+                return true;
+            }
         }
 
-        return label;
+        return false;
+
+    }
+
+    public boolean isMoveStored(Move move){
+        return (isJumpMoveStored(move)||isSimpleMoveStored(move));
+
+    }
+
+    public boolean isAnyMovePossible(){
+        return (!(possibleSimpleMoves[0] == null && possibleJumpMoves[0] == null));
+
     }
 
     public void convertToKing(){

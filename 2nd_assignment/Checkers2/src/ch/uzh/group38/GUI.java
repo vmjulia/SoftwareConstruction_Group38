@@ -20,6 +20,7 @@ public class GUI {
     private Move currentMove;
     private Board board;
 
+
     private int x1;
     private int y1;
     private boolean pawnActive;
@@ -117,8 +118,8 @@ public class GUI {
     }
 
     private void reset(){
-        board = new Board();
         RuleEvaluator.resetCurrentPlayer();
+        board = new Board();
         refresh();
     }
 
@@ -151,7 +152,7 @@ public class GUI {
                 //potential move
                 else {
                     currentMove = new Move(x1, y1, x, y);
-                    if (RuleEvaluator.checkValidity(currentMove, board)) {
+                    if (board.getField(currentMove.fromX(), currentMove.fromY()).isMoveStored(currentMove)) {
                         currentMove.move(board);
                         pawnActive = false;
                         refresh();
@@ -163,7 +164,7 @@ public class GUI {
                 }
             }
             else {
-                if(RuleEvaluator.checkInput(x, y, board)) {
+                if(RuleEvaluator.checkInput(x, y)) {
                     playBoardSquares[x][y].setBackground(Color.green);
                     playBoardSquares[x][y].setOpaque(true);
                     //the coordinates are stored in GUI

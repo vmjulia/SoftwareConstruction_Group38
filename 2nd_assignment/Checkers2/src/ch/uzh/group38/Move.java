@@ -34,7 +34,7 @@ public class Move {
 
 
     public void move(Board board){
-        if (RuleEvaluator.isJumpMove(this, board)){
+        if (board.getField(this.fromX(), this.fromY()).isJumpMoveStored(this)){
             jumpMove(board);
         }
         else{
@@ -46,32 +46,33 @@ public class Move {
     executing a simple move
     */
     private void simpleMove(Board board){
-        board.movePiece(from[0], from[1], to[0] , to[1]);
 
         //case other side of board is reached -> king
         if (to[0] == 0 || to[0] == 7){
-            board.getField(to[0], to[1]).convertToKing();
-        }
+            board.movePiece(this, false, true);
 
-        RuleEvaluator.updateTurn(board);
+        }
+        //else move the piece without conversion
+
+        else{ board.movePiece(this, false, false);
+        }
     }
 
     /*
     executing a jump move
     */
     private void jumpMove(Board board){
-        board.movePiece(from[0], from[1], to[0] , to[1]);
+        // remove the piece in between
         board.removePiece((from[0]+ to[0])/2,(from[1]+ to[1])/2);
 
-        //case other side of board is reached -> king
-        if ((to[0] == 0 || to[0] == 7) && !board.getField(to[0], to[1]).isKing()){
-            board.getField(to[0], to[1]).convertToKing();
-            RuleEvaluator.updateTurn(board);
+        //case other side of board is reached -> king, dont need to check for further jump moves
+        if ((to[0] == 0 || to[0] == 7)&& !board.getField(from[0], from[1]).isKing()){
+            board.movePiece(this, false, true);
         }
 
-        //case no other jumpMove is possible
-        else if (!RuleEvaluator.checkForJumpMoves(to[0], to[1], board)){
-            RuleEvaluator.updateTurn(board);
+        // move the piece and check for further jump moves
+        else{ board.movePiece(this, true, false); }
+
         }
     }
-}
+
