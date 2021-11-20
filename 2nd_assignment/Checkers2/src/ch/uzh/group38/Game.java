@@ -68,15 +68,13 @@ public class Game {
     Prints the board. gets the input. executes the move.
     */
     private void nextMove(){
-        this.board.printBoard();
-        getInput();
-        currentMove.move(board);
+        new GUI(this.board);
     }
 
     public static void main(String[] args) {
         Game game = new Game();
         RuleEvaluator.resetCurrentPlayer();
-        while (true) game.nextMove();
+        game.nextMove();
     }
 
 }
