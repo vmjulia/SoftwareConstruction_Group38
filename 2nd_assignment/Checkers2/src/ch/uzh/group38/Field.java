@@ -1,7 +1,47 @@
 package ch.uzh.group38;
 
 
-public class Piece {
+interface Field {
+
+    boolean isWhite();
+    boolean isRed();
+    boolean isKing();
+    boolean isEmpty();
+    String getLabel();
+    void convertToKing();
+
+}
+
+class EmptyField implements Field{
+
+    public boolean isWhite(){
+        return (false);
+    }
+
+    public boolean isRed(){
+        return (false);
+    }
+
+    public boolean isKing(){
+        return (false);
+    }
+
+    public boolean isEmpty(){
+        return (true);
+    }
+
+    public String getLabel(){
+        String label = "[   ] ";
+        return label;
+    }
+
+    public void convertToKing(){
+        System.out.println("Cannot convert empty space to King ");
+    }
+
+}
+
+class PieceField implements Field {
 
     public enum Color {WHITE, RED}
     public enum Type {PAWN, KING}
@@ -9,14 +49,11 @@ public class Piece {
     private final Color color;
     private Type type;
 
-    public Piece (Color c, Type t){
+    public PieceField(Color c, Type t){
         this.color = c;
         this.type = t;
     }
 
-    /*
-    return s String representation of the Piece for it to be printed
-    */
     public String getLabel (){
         String label = "[";
 
@@ -56,6 +93,10 @@ public class Piece {
 
     public boolean isKing(){
         return (this.type == Type.KING);
+    }
+
+    public boolean isEmpty(){
+        return (false);
     }
 
 }

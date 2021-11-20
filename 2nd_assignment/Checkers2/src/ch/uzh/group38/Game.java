@@ -28,7 +28,7 @@ public class Game {
     Calls askForInput and readInput.
     Checks the format of the input.
     Calls createMove with the input.
-     */
+    */
     private void getInput(){
         askForInput();
         String input = readInput();

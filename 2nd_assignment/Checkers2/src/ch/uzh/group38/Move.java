@@ -7,6 +7,7 @@ public class Move {
     private int[] to;
 
     public Move(int x1, int y1, int x2, int y2){
+
         this.from = new int[2];
         this.to = new int[2];
         this.from[0] = x1;
@@ -15,21 +16,22 @@ public class Move {
         this.to[1] = y2;
     }
 
-    public int FromX(){
+    public int fromX(){
         return (this.from[0]);
     }
 
-    public int FromY(){
+    public int fromY(){
         return (this.from[1]);
     }
 
-    public int ToX(){
+    public int toX(){
         return (this.to[0]);
     }
 
-    public int ToY(){
+    public int toY(){
         return (this.to[1]);
     }
+
 
     public void move(Board board){
         if (RuleEvaluator.isJumpMove(this, board)){
@@ -48,7 +50,7 @@ public class Move {
 
         //case other side of board is reached -> king
         if (to[1] == 0 || to[1] == 7){
-            board.convertToKing(to[0], to[1]);
+            board.getField(to[0], to[1]).convertToKing();
         }
 
         RuleEvaluator.updateTurn(board);
@@ -62,8 +64,8 @@ public class Move {
         board.removePiece((from[0]+ to[0])/2,(from[1]+ to[1])/2);
 
         //case other side of board is reached -> king
-        if ((to[1] == 0 || to[1] == 7) && !board.isKing(to[0], to[1])){
-            board.convertToKing(to[0], to[1]);
+        if ((to[0] == 0 || to[0] == 7) && !board.getField(to[0], to[1]).isKing()){
+            board.getField(to[0], to[1]).convertToKing();
             RuleEvaluator.updateTurn(board);
         }
 
@@ -72,5 +74,4 @@ public class Move {
             RuleEvaluator.updateTurn(board);
         }
     }
-
 }
