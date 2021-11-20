@@ -34,10 +34,10 @@ public class RuleEvaluator {
      */
     public static boolean checkInput(int x, int y, Board board) {
         if (currentPlayer == 1) {
-            return board.isRed(x, y);
+            return board.getField(x, y).isRed();
         }
         else if (currentPlayer == 2) {
-            return board.isWhite(x, y);
+            return board.getField(x, y).isWhite();
         }
         return false;
     }
@@ -49,10 +49,6 @@ public class RuleEvaluator {
         int x1 = move.fromX();
         int y1 = move.fromY();
         int y2 = move.toY();
-        int x1 = move.FromX();
-        int y1 = move.FromY();
-        int x2 = move.ToX();
-        int y2 = move.ToY();
 
         //check if move is going in the right direction
         //red pawns can only move negative y

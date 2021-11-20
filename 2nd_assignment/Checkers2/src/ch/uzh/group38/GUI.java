@@ -52,16 +52,16 @@ public class GUI implements ActionListener {
                 }
                 else {
                     JButton button;
-                    if (board.isWhite(i, j)) {
-                        if (board.isKing(i, j)) {
+                    if (board.getField(i, j).isWhite()) {
+                        if (board.getField(i, j).isKing()) {
                             button = new JButton(whiteKingIcon);
                         }
                         else {
                             button = new JButton(whitePawnIcon);
                         }
                     }
-                    else if (board.isRed(i, j)) {
-                        if (board.isKing(i, j)){
+                    else if (board.getField(i, j).isRed()) {
+                        if (board.getField(i, j).isKing()){
                             button = new JButton(redKingIcon);
                         }
                         else {
