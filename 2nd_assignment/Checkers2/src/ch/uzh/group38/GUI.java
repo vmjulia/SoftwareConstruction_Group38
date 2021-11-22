@@ -80,6 +80,7 @@ public class GUI {
                     }
                     else {
                         playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackEmptyState());
+                        playBoardSquares[i][j].applyIcon(null);
                     }
                 }
                 else playBoardSquares[i][j].setState(playBoardSquares[i][j].getWhiteState());
