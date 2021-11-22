@@ -149,7 +149,6 @@ public class GUI {
     class ButtonPressed implements ActionListener{
         private final int x;
         private final int y;
-        private Square square;
 
         private State currentState;
 
