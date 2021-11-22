@@ -139,6 +139,9 @@ public class GUI {
     private void reset(){
         RuleEvaluator.resetCurrentPlayer();
         board = new Board();
+        if (pawnActive) {
+            playBoardSquares[x1][y1].deactivate();
+        }
         refresh();
     }
 
@@ -221,6 +224,9 @@ public class GUI {
                         reset();
                     }
                 }
+                else {
+                    message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " this is not a valid move");
+                }
             }
             else {
                 message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
@@ -239,9 +245,10 @@ public class GUI {
         public void actionPerformed(ActionEvent e) {
             if(RuleEvaluator.checkInput(buttonPressed.x, buttonPressed.y)) {
                 //deactivate the previously pressed button
-                playBoardSquares[x1][y1].setInactiveAction();
-                playBoardSquares[x1][y1].deactivate();
-
+                if (pawnActive) {
+                    playBoardSquares[x1][y1].setInactiveAction();
+                    playBoardSquares[x1][y1].deactivate();
+                }
                 //activate this button
                 buttonPressed.setState(buttonPressed.getActiveState());
                 playBoardSquares[buttonPressed.x][buttonPressed.y].activate();
