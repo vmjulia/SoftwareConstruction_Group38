@@ -36,15 +36,6 @@ public class GUI {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Checkers");
-
-        //creating action listeners once at the start of the programme
-        for (int i = 0; i< playBoardSquares.length; i++) {
-            for (int j = 0; j< playBoardSquares[i].length; j++) {
-                playBoardSquares[i][j] = new Square(new VoidAction(i, j), new EmptyAction(i, j),
-                        new InactiveAction(i, j), new ActiveAction(i, j));
-            }
-        }
-
         reset();
         frame.pack();
     }
@@ -133,6 +124,15 @@ public class GUI {
     private void reset(){
         RuleEvaluator.resetCurrentPlayer();
         board = new Board();
+
+        //creating action listeners
+        for (int i = 0; i< playBoardSquares.length; i++) {
+            for (int j = 0; j< playBoardSquares[i].length; j++) {
+                playBoardSquares[i][j] = new Square(new VoidAction(i, j), new EmptyAction(i, j),
+                        new InactiveAction(i, j), new ActiveAction(i, j));
+            }
+        }
+
         refresh();
     }
 

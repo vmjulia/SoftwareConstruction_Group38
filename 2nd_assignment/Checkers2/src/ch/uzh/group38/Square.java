@@ -53,10 +53,11 @@ interface State {
 class WhiteState implements State {
     private final Square square;
     private final Color bgColor = Color.white;
+    private final ActionListener actionListener;
 
     public WhiteState(Square passedSquare, ActionListener passedAction) {
         this.square = passedSquare;
-        this.square.addActionListener(passedAction);
+        this.actionListener = passedAction;
     }
 
     public void applyIcon(Icon passedIcon) {
@@ -66,16 +67,18 @@ class WhiteState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        this.square.addActionListener(actionListener);
     }
 }
 
 class BlackEmptyState implements State {
     private final Square square;
     private final Color bgColor = Color.black;
+    private final ActionListener actionListener;
 
     public BlackEmptyState(Square passedSquare, ActionListener passedAction) {
         this.square = passedSquare;
-        this.square.addActionListener(passedAction);
+        this.actionListener = passedAction;
     }
 
     public void applyIcon(Icon passedIcon) {
@@ -85,16 +88,18 @@ class BlackEmptyState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        this.square.addActionListener(actionListener);
     }
 }
 
 class BlackInactiveState implements State {
     private final Square square;
     private final Color bgColor = Color.black;
+    private final ActionListener actionListener;
 
     public BlackInactiveState(Square passedSquare, ActionListener passedAction) {
         this.square = passedSquare;
-        this.square.addActionListener(passedAction);
+        this.actionListener = passedAction;
     }
 
     public void applyIcon(Icon passedIcon) {
@@ -104,16 +109,18 @@ class BlackInactiveState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        this.square.addActionListener(actionListener);
     }
 }
 
 class BlackActiveState implements State {
     private final Square square;
     private final Color bgColor = Color.green;
+    private final ActionListener actionListener;
 
     public BlackActiveState(Square passedSquare, ActionListener passedAction) {
         this.square = passedSquare;
-        this.square.addActionListener(passedAction);
+        this.actionListener = passedAction;
     }
 
     public void applyIcon(Icon passedIcon) {
@@ -123,5 +130,6 @@ class BlackActiveState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        this.square.addActionListener(actionListener);
     }
 }
