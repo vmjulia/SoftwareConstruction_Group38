@@ -10,6 +10,7 @@ abstract class Square extends JButton {
     public abstract void setActiveAction();
     public abstract void applyIcon(Icon passedIcon);
     public abstract void activate();
+    public abstract void deactivate();
 }
 
 class EmptySquare extends Square {
@@ -38,6 +39,7 @@ class EmptySquare extends Square {
 
     public void applyIcon(Icon passedIcon) {}
     public void activate() {}
+    public void deactivate() {}
 }
 
 class BlackSquare extends Square {
@@ -69,11 +71,10 @@ class BlackSquare extends Square {
     }
 
     public void activate() {
-        if (this.getBackground() == Color.black) {
-            this.setBackground(Color.green);
-        }
-        else {
-            this.setBackground(Color.black);
-        }
+        this.setBackground(Color.green);
+    }
+
+    public void deactivate() {
+        this.setBackground(Color.black);
     }
 }

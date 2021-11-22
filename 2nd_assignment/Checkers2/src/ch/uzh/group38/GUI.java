@@ -213,7 +213,7 @@ public class GUI {
                 currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
                 if (board.getField(x1, y1).isMoveStored(currentMove)) {
                     currentMove.move(board);
-                    playBoardSquares[x1][y1].activate();
+                    playBoardSquares[x1][y1].deactivate();
                     pawnActive = false;
                     refresh();
                     if (RuleEvaluator.checkWinner(board)) {
@@ -239,6 +239,11 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(RuleEvaluator.checkInput(buttonPressed.x, buttonPressed.y)) {
+                //deactivate the previously pressed button
+                playBoardSquares[x1][y1].setInactiveAction();
+                playBoardSquares[x1][y1].deactivate();
+
+                //activate this button
                 buttonPressed.setState(buttonPressed.getActiveState());
                 playBoardSquares[buttonPressed.x][buttonPressed.y].activate();
                 x1 = buttonPressed.x;
@@ -262,7 +267,7 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             buttonPressed.setState(buttonPressed.getInactiveState());
-            playBoardSquares[buttonPressed.x][buttonPressed.y].activate();
+            playBoardSquares[buttonPressed.x][buttonPressed.y].deactivate();
             pawnActive = false;
             message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
         }
