@@ -67,6 +67,9 @@ class WhiteState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        for (ActionListener al: this.square.getActionListeners()) {
+            this.square.removeActionListener(al);
+        }
         this.square.addActionListener(actionListener);
     }
 }
@@ -88,6 +91,9 @@ class BlackEmptyState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        for (ActionListener al: this.square.getActionListeners()) {
+            this.square.removeActionListener(al);
+        }
         this.square.addActionListener(actionListener);
     }
 }
@@ -109,6 +115,9 @@ class BlackInactiveState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        for (ActionListener al: this.square.getActionListeners()) {
+            this.square.removeActionListener(al);
+        }
         this.square.addActionListener(actionListener);
     }
 }
@@ -130,6 +139,9 @@ class BlackActiveState implements State {
     public void redraw() {
         this.square.setBackground(bgColor);
         this.square.setOpaque(true);
+        for (ActionListener al: this.square.getActionListeners()) {
+            this.square.removeActionListener(al);
+        }
         this.square.addActionListener(actionListener);
     }
 }
