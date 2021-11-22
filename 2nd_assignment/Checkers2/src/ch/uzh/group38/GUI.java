@@ -26,7 +26,7 @@ public class GUI {
     private boolean pawnActive = false;
     private JFrame frame;
     private final JPanel gui = new JPanel();
-    private Square[][] playBoardSquares = new Square[8][8];
+    private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
 
@@ -36,6 +36,15 @@ public class GUI {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Checkers");
+
+        //creating action listeners
+        for (int i = 0; i< playBoardSquares.length; i++) {
+            for (int j = 0; j< playBoardSquares[i].length; j++) {
+                playBoardSquares[i][j] = new Square(new VoidAction(i, j), new EmptyAction(i, j),
+                        new InactiveAction(i, j), new ActiveAction(i, j));
+            }
+        }
+
         reset();
         frame.pack();
     }
@@ -125,15 +134,6 @@ public class GUI {
     private void reset(){
         RuleEvaluator.resetCurrentPlayer();
         board = new Board();
-
-        //creating action listeners
-        for (int i = 0; i< playBoardSquares.length; i++) {
-            for (int j = 0; j< playBoardSquares[i].length; j++) {
-                playBoardSquares[i][j] = new Square(new VoidAction(i, j), new EmptyAction(i, j),
-                        new InactiveAction(i, j), new ActiveAction(i, j));
-            }
-        }
-
         refresh();
     }
 
@@ -147,7 +147,7 @@ public class GUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " white square pressed");
+            message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
         }
     }
 
@@ -177,7 +177,7 @@ public class GUI {
                 }
             }
             else {
-                message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " black square touched");
+                message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
             }
         }
     }
