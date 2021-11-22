@@ -2,146 +2,78 @@ package ch.uzh.group38;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
-public class Square extends JButton {
-    private State currentState;
+abstract class Square extends JButton {
+    public abstract void setVoidAction();
+    public abstract void setEmptyAction();
+    public abstract void setInactiveAction();
+    public abstract void setActiveAction();
+    public abstract void applyIcon(Icon passedIcon);
+    public abstract void activate();
+}
 
-    private final State whiteState;
-    private final State blackEmptyState;
-    private final State blackInactiveState;
-    private final State blackActiveState;
+class EmptySquare extends Square {
+    GUI.ButtonPressed buttonPressed;
 
-    public Square(ActionListener voidAction, ActionListener emptyAction,
-                  ActionListener inactiveAction, ActionListener activeAction) {
-
-        this.whiteState = new WhiteState(this, voidAction);
-        this.blackEmptyState = new BlackEmptyState(this, emptyAction);
-        this.blackInactiveState = new BlackInactiveState(this, inactiveAction);
-        this.blackActiveState = new BlackActiveState(this, activeAction);
-
-        this.currentState = this.whiteState;
+    public EmptySquare(GUI.ButtonPressed passedAction) {
+        this.buttonPressed = passedAction;
         this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-        this.redraw();
+        this.addActionListener(passedAction);
+        this.setBackground(Color.white);
+        this.setOpaque(true);
     }
 
-    public State getWhiteState() {return this.whiteState;}
-    public State getBlackEmptyState() {return this.blackEmptyState;}
-    public State getBlackInactiveState() {return this.blackInactiveState;}
-    public State getBlackActiveState() {return this.blackActiveState;}
-
-    public void setState(State passedState) {
-        this.currentState = passedState;
-        this.redraw();
+    public void setVoidAction() {
+        buttonPressed.setState(buttonPressed.getVoidState());
+    }
+    public void setEmptyAction() {
+        buttonPressed.setState(buttonPressed.getEmptyState());
+    }
+    public void setInactiveAction() {
+        buttonPressed.setState(buttonPressed.getInactiveState());
+    }
+    public void setActiveAction() {
+        buttonPressed.setState(buttonPressed.getActiveState());
     }
 
-    //implementation in states is likely to change in future
-    public void applyIcon(Icon passedIcon) {
-        currentState.applyIcon(passedIcon);
-    }
-
-    public void redraw() {
-        currentState.redraw();
-    }
+    public void applyIcon(Icon passedIcon) {}
+    public void activate() {}
 }
 
-interface State {
-    void applyIcon(Icon passedIcon);
-    void redraw();
-}
+class BlackSquare extends Square {
+    GUI.ButtonPressed buttonPressed;
 
-class WhiteState implements State {
-    private final Square square;
-    private final Color bgColor = Color.white;
-    private final ActionListener actionListener;
+    public BlackSquare(GUI.ButtonPressed passedAction) {
+        this.buttonPressed = passedAction;
+        this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        this.addActionListener(passedAction);
+        this.setBackground(Color.black);
+        this.setOpaque(true);
+    }
 
-    public WhiteState(Square passedSquare, ActionListener passedAction) {
-        this.square = passedSquare;
-        this.actionListener = passedAction;
+    public void setVoidAction() {
+        buttonPressed.setState(buttonPressed.getVoidState());
+    }
+    public void setEmptyAction() {
+        buttonPressed.setState(buttonPressed.getEmptyState());
+    }
+    public void setInactiveAction() {
+        buttonPressed.setState(buttonPressed.getInactiveState());
+    }
+    public void setActiveAction() {
+        buttonPressed.setState(buttonPressed.getActiveState());
     }
 
     public void applyIcon(Icon passedIcon) {
-        throw new java.lang.Error("White Squares should not have an icon");
+        this.setIcon(passedIcon);
     }
 
-    public void redraw() {
-        this.square.setBackground(bgColor);
-        this.square.setOpaque(true);
-        for (ActionListener al: this.square.getActionListeners()) {
-            this.square.removeActionListener(al);
+    public void activate() {
+        if (this.getBackground() == Color.black) {
+            this.setBackground(Color.green);
         }
-        this.square.addActionListener(actionListener);
-    }
-}
-
-class BlackEmptyState implements State {
-    private final Square square;
-    private final Color bgColor = Color.black;
-    private final ActionListener actionListener;
-
-    public BlackEmptyState(Square passedSquare, ActionListener passedAction) {
-        this.square = passedSquare;
-        this.actionListener = passedAction;
-    }
-
-    public void applyIcon(Icon passedIcon) {
-        this.square.setIcon(passedIcon);
-    }
-
-    public void redraw() {
-        this.square.setBackground(bgColor);
-        this.square.setOpaque(true);
-        for (ActionListener al: this.square.getActionListeners()) {
-            this.square.removeActionListener(al);
+        else {
+            this.setBackground(Color.black);
         }
-        this.square.addActionListener(actionListener);
-    }
-}
-
-class BlackInactiveState implements State {
-    private final Square square;
-    private final Color bgColor = Color.black;
-    private final ActionListener actionListener;
-
-    public BlackInactiveState(Square passedSquare, ActionListener passedAction) {
-        this.square = passedSquare;
-        this.actionListener = passedAction;
-    }
-
-    public void applyIcon(Icon passedIcon) {
-        this.square.setIcon(passedIcon);
-    }
-
-    public void redraw() {
-        this.square.setBackground(bgColor);
-        this.square.setOpaque(true);
-        for (ActionListener al: this.square.getActionListeners()) {
-            this.square.removeActionListener(al);
-        }
-        this.square.addActionListener(actionListener);
-    }
-}
-
-class BlackActiveState implements State {
-    private final Square square;
-    private final Color bgColor = Color.green;
-    private final ActionListener actionListener;
-
-    public BlackActiveState(Square passedSquare, ActionListener passedAction) {
-        this.square = passedSquare;
-        this.actionListener = passedAction;
-    }
-
-    public void applyIcon(Icon passedIcon) {
-        this.square.setIcon(passedIcon);
-    }
-
-    public void redraw() {
-        this.square.setBackground(bgColor);
-        this.square.setOpaque(true);
-        for (ActionListener al: this.square.getActionListeners()) {
-            this.square.removeActionListener(al);
-        }
-        this.square.addActionListener(actionListener);
     }
 }

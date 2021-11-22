@@ -40,8 +40,12 @@ public class GUI {
         //creating action listeners
         for (int i = 0; i< playBoardSquares.length; i++) {
             for (int j = 0; j< playBoardSquares[i].length; j++) {
-                playBoardSquares[i][j] = new Square(new VoidAction(i, j), new EmptyAction(i, j),
-                        new InactiveAction(i, j), new ActiveAction(i, j));
+                if ((i+j) %2 == 1){
+                    playBoardSquares[i][j] = new BlackSquare(new ButtonPressed(i, j));
+                }
+                else {
+                    playBoardSquares[i][j] = new EmptySquare(new ButtonPressed(i, j));
+                }
             }
         }
 
@@ -72,27 +76,28 @@ public class GUI {
                 //the square is black
                 if ((i+j) %2 == 1) {
                     if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackInactiveState());
-                        playBoardSquares[i][j].setIcon(redKingIcon);
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].applyIcon(redKingIcon);
                     }
                     else if (board.getField(i, j).isRed() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackInactiveState());
-                        playBoardSquares[i][j].setIcon(redPawnIcon);
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].applyIcon(redPawnIcon);
                     }
                     else if (board.getField(i, j).isWhite() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackInactiveState());
-                        playBoardSquares[i][j].setIcon(whiteKingIcon);
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].applyIcon(whiteKingIcon);
                     }
                     else if (board.getField(i, j).isWhite() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackInactiveState());
-                        playBoardSquares[i][j].setIcon(whitePawnIcon);
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].applyIcon(whitePawnIcon);
                     }
                     else {
-                        playBoardSquares[i][j].setState(playBoardSquares[i][j].getBlackEmptyState());
+                        playBoardSquares[i][j].setEmptyAction();
+                        //removes any icon
                         playBoardSquares[i][j].applyIcon(null);
                     }
                 }
-                else playBoardSquares[i][j].setState(playBoardSquares[i][j].getWhiteState());
+                else playBoardSquares[i][j].setVoidAction();
             }
         }
 
@@ -141,9 +146,52 @@ public class GUI {
         message.setText(msg);
     }
 
+    class ButtonPressed implements ActionListener{
+        private final int x;
+        private final int y;
+        private Square square;
+
+        private State currentState;
+
+        private final VoidState voidState;
+        private final EmptyState emptyState;
+        private final InactiveState inactiveState;
+        private final ActiveState activeState;
+
+        public ButtonPressed(int x, int y) {
+            this.x = x;
+            this.y = y;
+            //initialise states
+            this.voidState = new VoidState();
+            this.emptyState = new EmptyState(this);
+            this.inactiveState = new InactiveState(this);
+            this.activeState = new ActiveState(this);
+
+            this.currentState = voidState;
+        }
+
+        public void setState(State passedState) {
+            this.currentState = passedState;
+        }
+
+        public State getVoidState() {return this.voidState;}
+        public State getEmptyState() {return this.emptyState;}
+        public State getInactiveState() {return this.inactiveState;}
+        public State getActiveState() {return this.activeState;}
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            this.currentState.actionPerformed(e);
+        }
+    }
+
+    interface State {
+        void actionPerformed(ActionEvent e);
+    }
+
     //white square pressed, mustn't be static
-    class VoidAction implements ActionListener {
-        public VoidAction(int x, int y) {}
+    class VoidState implements State {
+        public VoidState() {}
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -152,21 +200,20 @@ public class GUI {
     }
 
     //empty square pressed
-    class EmptyAction implements ActionListener {
-        private final int x;
-        private final int y;
+    class EmptyState implements State {
+        private final ButtonPressed buttonPressed;
 
-        public EmptyAction(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public EmptyState(ButtonPressed actionListener) {
+            this.buttonPressed = actionListener;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (pawnActive) {
-                currentMove = new Move(x1, y1, x, y);
+                currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
                 if (board.getField(x1, y1).isMoveStored(currentMove)) {
                     currentMove.move(board);
+                    playBoardSquares[x1][y1].activate();
                     pawnActive = false;
                     refresh();
                     if (RuleEvaluator.checkWinner(board)) {
@@ -182,25 +229,20 @@ public class GUI {
         }
     }
 
-    class InactiveAction implements ActionListener {
-        private final int x;
-        private final int y;
-        private Square square;
+    class InactiveState implements State {
+        private final ButtonPressed buttonPressed;
 
-        public InactiveAction(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public InactiveState(ButtonPressed buttonPressed) {
+            this.buttonPressed = buttonPressed;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (this.square == null) {
-                this.square = playBoardSquares[x][y];
-            }
-            if(RuleEvaluator.checkInput(x, y)) {
-                this.square.setState(this.square.getBlackActiveState());
-                x1 = x;
-                y1 = y;
+            if(RuleEvaluator.checkInput(buttonPressed.x, buttonPressed.y)) {
+                buttonPressed.setState(buttonPressed.getActiveState());
+                playBoardSquares[buttonPressed.x][buttonPressed.y].activate();
+                x1 = buttonPressed.x;
+                y1 = buttonPressed.y;
                 pawnActive = true;
                 message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please select target field!");
             }
@@ -210,22 +252,17 @@ public class GUI {
         }
     }
 
-    class ActiveAction implements ActionListener{
-        private final int x;
-        private final int y;
-        private Square square;
+    class ActiveState implements State{
+        private final ButtonPressed buttonPressed;
 
-        public ActiveAction(int x, int y) {
-            this.x = x;
-            this.y = y;
+        public ActiveState(ButtonPressed buttonPressed) {
+            this.buttonPressed = buttonPressed;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (this.square == null) {
-                this.square = playBoardSquares[x][y];
-            }
-            this.square.setState(this.square.getBlackInactiveState());
+            buttonPressed.setState(buttonPressed.getInactiveState());
+            playBoardSquares[buttonPressed.x][buttonPressed.y].activate();
             pawnActive = false;
             message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
         }
