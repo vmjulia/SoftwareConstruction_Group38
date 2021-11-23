@@ -6,15 +6,21 @@ interface Subject{
     void registerObserver(Observer observer);
     void removeObserver(Observer observer);
     void notifyObservers();
-
-
 }
 
-    public class Board implements Subject {
 
+
+
+    public class Board implements Subject{
 
     private final Field[][] board;
     private List<Observer> observers = new ArrayList<>();
+
+    public Iterator createIterator(){
+        return new BoardIterator(board);
+    }
+
+
 
 
     /*
@@ -26,25 +32,25 @@ interface Subject{
         for (int i = 0; i < 8; i++){
             for (int j = 7; j > 4; j--){
                 if ((i+j) %2 == 1){
-                this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN);
+                this.board[j][i] = new PieceField(PieceField.Color.WHITE, PieceField.Type.PAWN,j, i);
 
                 }
                 else{
-                    this.board[j][i] = new EmptyField();
+                    this.board[j][i] = new EmptyField(j, i);
                 }
                 this.board[j][i].updatePosition(j, i);
             }
             for (int j = 3; j < 5; j++){
-                this.board[j][i] = new EmptyField();
+                this.board[j][i] = new EmptyField(j, i);
                 this.board[j][i].updatePosition(j, i);
             }
             for (int j = 0; j < 3; j++){
                 if ((i+j) %2 == 1){
-                    this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN);
+                    this.board[j][i] = new PieceField(PieceField.Color.RED, PieceField.Type.PAWN, j, i);
 
                 }
                 else{
-                    this.board[j][i] = new EmptyField();
+                    this.board[j][i] = new EmptyField(j, i);
                 }
                 this.board[j][i].updatePosition(j, i);
 
@@ -100,7 +106,7 @@ interface Subject{
     removes a piece from the board 
     */
     public void removePiece(int x, int y){
-        board[x][y] = new EmptyField();
+        board[x][y] = new EmptyField(x, y);
     }
 
     public Field getField(int x, int y){

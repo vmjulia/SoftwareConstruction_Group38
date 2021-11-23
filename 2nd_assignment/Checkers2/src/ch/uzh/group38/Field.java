@@ -17,10 +17,19 @@ public abstract class  Field implements Observer {
     abstract boolean isMoveStored(Move move);
     abstract boolean isJumpMoveStored(Move move);
     abstract boolean isAnyMovePossible();
+    abstract int getX();
+    abstract int getY();
 
 }
 
 class EmptyField extends Field {
+    private  int x0;
+    private  int y0;
+
+    public EmptyField( int x, int y){
+        this.x0 = x;
+        this.y0 = y;
+    }
 
     public boolean isWhite(){return (false);}
 
@@ -36,10 +45,17 @@ class EmptyField extends Field {
 
 
     public void update() {}
-    public void updatePosition(int X, int Y){}
+
+    public void updatePosition(int X, int Y){
+        x0 = X;
+        y0 = Y;
+    }
     public boolean isMoveStored(Move move){return false;}
     public boolean isJumpMoveStored(Move move){return false;}
     public boolean isAnyMovePossible(){return false;}
+
+    public int getX() { return (x0);}
+    public int getY() { return (y0);}
 }
 
 class PieceField extends Field {
@@ -48,8 +64,8 @@ class PieceField extends Field {
     public enum Type {PAWN, KING}
 
     //own position
-    private int x0;
-    private int y0;
+    private int x0 ;
+    private int y0 ;
 
     //possible moves
     private Move[] possibleSimpleMoves;
@@ -60,9 +76,11 @@ class PieceField extends Field {
     private Type type;
 
 
-    public PieceField(Color c, Type t){
+    public PieceField(Color c, Type t, int x, int y){
         this.color = c;
         this.type = t;
+        this.x0 = x;
+        this.y0 = y;
     }
 
     public void update() {
@@ -145,5 +163,8 @@ class PieceField extends Field {
     }
 
     public boolean isEmpty(){ return (false);}
+
+    public int getX() { return (x0);}
+    public int getY() { return (y0);}
 
 }

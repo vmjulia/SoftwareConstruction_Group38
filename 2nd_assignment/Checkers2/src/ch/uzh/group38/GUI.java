@@ -58,29 +58,34 @@ public class GUI {
         JPanel playBoard = new JPanel(new GridLayout(0, 10));
         playBoard.setBorder(new LineBorder(Color.black));
 
-        for (int i = 0; i< playBoardSquares.length; i++) {
-            for (int j = 0; j< playBoardSquares[i].length; j++) {
-                //the square is black
-                if ((i+j) %2 == 1) {
-                    if (board.getField(i, j).isRed() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redKingIcon);
-                    }
-                    else if (board.getField(i, j).isRed() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redPawnIcon);
-                    }
-                    else if (board.getField(i, j).isWhite() && board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whiteKingIcon);
-                    }
-                    else if (board.getField(i, j).isWhite() && !board.getField(i, j).isKing()){
-                        playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whitePawnIcon);
-                    }
-                    else {
-                        playBoardSquares[i][j] = new BlackSquare(new ButtonPressed(i, j));
-                    }
+
+
+        Iterator currentIterator = board.createIterator();
+        while (currentIterator.hasNext()){
+            Field currentField = currentIterator.next();
+            int i =currentField.getX();
+            int j = currentField.getY();
+            if ((i+ j)%2 ==1){
+                if (currentField.isRed() && currentField.isKing()){
+                    playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redKingIcon);
                 }
-                else playBoardSquares[i][j] = new EmptySquare();
+                else if (currentField.isRed() && !currentField.isKing()){
+                    playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), redPawnIcon);
+                }
+                else if (currentField.isWhite() && currentField.isKing()){
+                    playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whiteKingIcon);
+                }
+                else if (currentField.isWhite() && !currentField.isKing()){
+                    playBoardSquares[i][j] = new BlackSquareWithPawn(new ButtonPressed(i, j), whitePawnIcon);
+                }
+                else {
+                    playBoardSquares[i][j] = new BlackSquare(new ButtonPressed(i, j));
+                }
+
             }
+            else playBoardSquares[i][j] = new EmptySquare();
         }
+
 
         //fill in top row
         playBoard.add(new JLabel("+",SwingConstants.CENTER));
