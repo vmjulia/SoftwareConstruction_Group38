@@ -195,7 +195,6 @@ public class GUI {
     class VoidState implements State {
         public VoidState() {}
 
-        @Override
         public void actionPerformed(ActionEvent e) {
             message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
         }
@@ -209,7 +208,6 @@ public class GUI {
             this.buttonPressed = actionListener;
         }
 
-        @Override
         public void actionPerformed(ActionEvent e) {
             if (pawnActive) {
                 currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
@@ -241,7 +239,6 @@ public class GUI {
             this.buttonPressed = buttonPressed;
         }
 
-        @Override
         public void actionPerformed(ActionEvent e) {
             if(RuleEvaluator.checkInput(buttonPressed.x, buttonPressed.y)) {
                 //deactivate the previously pressed button
@@ -270,7 +267,6 @@ public class GUI {
             this.buttonPressed = buttonPressed;
         }
 
-        @Override
         public void actionPerformed(ActionEvent e) {
             buttonPressed.setState(buttonPressed.getInactiveState());
             playBoardSquares[buttonPressed.x][buttonPressed.y].deactivate();
