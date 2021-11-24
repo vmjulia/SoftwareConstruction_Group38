@@ -18,6 +18,8 @@ public class RuleEvaluator {
     //sets first Player to 1
     public static void resetCurrentPlayer(){
         currentPlayer = 1;
+        lastX = -1;
+        lastY = -1;
     }
 
     public static int getCurrentPlayer(){

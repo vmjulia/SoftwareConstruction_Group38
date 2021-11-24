@@ -16,7 +16,7 @@ public class BoardTest {
     @Before
     public void CreateBoard(){
         RuleEvaluator.resetCurrentPlayer();
-        b  = new Board();
+        this.b  = new Board();
         this.defaultBoard = new Field[8][8];
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -134,7 +134,7 @@ public class BoardTest {
 
     /*
   remove all observers, add just one, and try to update it
-  test if that observer has list of valid moves, while others dont*/
+  test if that observer has list of valid moves ( when it is registere and npt*/
 
     @Test
     public void testObserver(){

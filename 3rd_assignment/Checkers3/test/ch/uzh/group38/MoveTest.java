@@ -1,10 +1,27 @@
 package ch.uzh.group38;
 
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class MoveTest {
+
+    Board b;
+    Field[][] defaultBoard;
+
+    @Before
+    public void CreateBoard(){
+        RuleEvaluator.resetCurrentPlayer();
+        b  = new Board();
+        this.defaultBoard = new Field[8][8];
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                defaultBoard[i][j] = b.getField(i, j);
+            }
+        }
+    }
 
     @Test
     public void testGetters(){
@@ -32,9 +49,8 @@ public class MoveTest {
 
     @Test
     public void testSimpleMove(){
-        RuleEvaluator.resetCurrentPlayer();
-        Board b = new Board();
-        Board c = new Board();
+
+
         int x1 = 2;
         int y1 = 1;
         int x2 = 3;
@@ -43,20 +59,15 @@ public class MoveTest {
         Move m = new Move(x1, y1, x2, y2);
         m.move(b);
 
+        assertEquals(defaultBoard[x1][y1].isEmpty(), b.getField(x2, y2).isEmpty());
+        assertTrue( b.getField(x1, x1).isEmpty());
+
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
-                if (i == x1 && j == y1){
-                    assertTrue( b.getField(i, j).isEmpty());
-                }
-                else if (i == x2 && j ==y2){
-                    assertEquals(c.getField(x1,y1).isEmpty(), b.getField(i,j).isEmpty());
-
-                }
-                else {
-                    assertEquals(c.getField(i,j).isEmpty(), b.getField(i,j).isEmpty());
-                    assertEquals(c.getField(i,j).isRed(), b.getField(i,j).isRed());
-                    assertEquals(c.getField(i,j).isKing(), b.getField(i,j).isKing());
-
+                if ((i != x1 || j != y1)&&(i != x2 || j != y2) ){
+                    assertEquals(defaultBoard[i][j].isEmpty(), b.getField(i,j).isEmpty());
+                    assertEquals(defaultBoard[i][j].isRed(), b.getField(i,j).isRed());
+                    assertEquals(defaultBoard[i][j].isKing(), b.getField(i,j).isKing());
                 }
             }
         }
@@ -69,9 +80,8 @@ public class MoveTest {
      */
     @Test
     public void testJumpMove(){
-        RuleEvaluator.resetCurrentPlayer();
-        Board b = new Board();
-        Board c = new Board();
+
+
         int x1 = 2;
         int y1 = 1;
         int x2 = 3;
@@ -93,7 +103,6 @@ public class MoveTest {
 
 
 
-
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if ((i == x1 && j == y1) || (i == x2 && j == y2)||(i == x4 && j == y4)) {
@@ -104,9 +113,9 @@ public class MoveTest {
 
                 }
                 else {
-                    assertEquals(c.getField(i,j).isEmpty(), b.getField(i,j).isEmpty());
-                    assertEquals(c.getField(i,j).isRed(), b.getField(i,j).isRed());
-                    assertEquals(c.getField(i,j).isKing(), b.getField(i,j).isKing());
+                    assertEquals(defaultBoard[i][j].isEmpty(), b.getField(i,j).isEmpty());
+                    assertEquals(defaultBoard[i][j].isRed(), b.getField(i,j).isRed());
+                    assertEquals(defaultBoard[i][j].isKing(), b.getField(i,j).isKing());
 
                 }
             }
