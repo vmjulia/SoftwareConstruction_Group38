@@ -3,6 +3,9 @@ package ch.uzh.group38;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class BoardTest {
@@ -129,8 +132,28 @@ public class BoardTest {
 
     }
 
+    /*
+  remove all observers, add just one, and try to update it
+  test if that observer has list of valid moves, while others dont*/
+
     @Test
     public void testObserver(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((i + j) % 2 == 1)
+                {
+                    b.removeObserver(b.getField(i, j));
+                }
+            }
+    }
+        b.removePiece(2, 1);
+        RuleEvaluator.updateBoard(b);
+        b.notifyObservers();
+        assertFalse(b.getField(1, 0).isAnyMovePossible());
+
+        b.registerObserver(b.getField(1, 0));
+        b.notifyObservers();
+        assertTrue(b.getField(1, 0).isAnyMovePossible());
 
     }
 
