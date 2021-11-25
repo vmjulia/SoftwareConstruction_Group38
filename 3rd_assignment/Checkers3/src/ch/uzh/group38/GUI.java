@@ -24,20 +24,19 @@ public class GUI {
     private int x1;
     private int y1;
     private boolean pawnActive = false;
-    private JFrame frame;
     private final JPanel gui = new JPanel();
+    private final JPanel history = new JPanel();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
+    private Launcher launcher;
 
-    private GUI() {
 
-        //creating new window
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Checkers");
 
-        //creating action listeners
+    public GUI(Launcher launcher) {
+
+        this.launcher = launcher;
+
         for (int i = 0; i< playBoardSquares.length; i++) {
             for (int j = 0; j< playBoardSquares[i].length; j++) {
                 if ((i+j) %2 == 1){
@@ -49,20 +48,23 @@ public class GUI {
             }
         }
 
-        reset();
-        frame.pack();
     }
 
-    private void refresh(){
+    public JPanel refresh(int currentRound){
         gui.removeAll();
-        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
+        history.removeAll();
+        message.setText("Round " + currentRound + ". Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
                 
         //creating toolbar
         JButton rb = new JButton("Reset");
         rb.addActionListener(new ResetButton());
+        JButton rb2 = new JButton("Check game history");
+        rb2.addActionListener(new ScoreTableButton());
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
         toolbar.add(rb); 
+        toolbar.addSeparator();
+        toolbar.add(rb2);
         toolbar.addSeparator();
         toolbar.add(message);
         toolbar.setOpaque(false);
@@ -70,8 +72,6 @@ public class GUI {
         //creating the board
         JPanel playBoard = new JPanel(new GridLayout(0, 10));
         playBoard.setBorder(new LineBorder(Color.black));
-
-
 
         Iterator currentIterator = board.createIterator();
         while (currentIterator.hasNext()){
@@ -136,17 +136,37 @@ public class GUI {
         gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
         gui.add(toolbar);
         gui.add(playBoard);
-        frame.add(gui);
-        frame.setVisible(true);
+        return(gui);
+
     }
 
-    private void reset(){
-        RuleEvaluator.resetCurrentPlayer();
+    public JPanel displayHistory(int currentRound){
+        gui.removeAll();
+        history.removeAll();
+        message.setText("Round " + currentRound );
+
+        //creating toolbar
+        JButton rb3 = new JButton("back to game");
+        rb3.addActionListener(new BackButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb3);
+        toolbar.addSeparator();
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+
+        history.setBorder(new EmptyBorder(5, 5, 5, 5));
+        history.setLayout(new BoxLayout(history, BoxLayout.Y_AXIS));
+        history.add(toolbar);
+        return(history);
+
+    }
+
+    public void reset(){
         board = new Board();
         if (pawnActive) {
             playBoardSquares[x1][y1].deactivate();
         }
-        refresh();
     }
 
     public static void setMessage(String msg){
@@ -219,12 +239,12 @@ public class GUI {
                     currentMove.move(board);
                     playBoardSquares[x1][y1].deactivate();
                     pawnActive = false;
-                    refresh();
+                    launcher.nextMove();
+
                     if (RuleEvaluator.checkWinner(board)) {
-                        JOptionPane.showMessageDialog(frame, "Player " +
-                                RuleEvaluator.getCurrentPlayer() + " wins!!");
-                        reset();
+                        launcher.finishRound();
                     }
+
                 }
                 else {
                     message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " this is not a valid move");
@@ -282,11 +302,23 @@ public class GUI {
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            reset();
+            launcher.reset();
         }
     }
 
-    public static void main(String[] args) {
-        new GUI();
+    class ScoreTableButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Launcher.displayHistory();
+        }
     }
+
+    class BackButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Launcher.returnToGame();
+        }
+    }
+
+
 }
