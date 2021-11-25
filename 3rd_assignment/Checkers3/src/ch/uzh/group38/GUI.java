@@ -325,9 +325,12 @@ public class GUI {
                     currentMove.move(board);
                     playBoardSquares[x1][y1].deactivate();
                     pawnActive = false;
-                    launcher.nextMove();
+                    if (!RuleEvaluator.checkWinner(board)) {
+                        launcher.nextMove();
+                    }
 
-                    if (RuleEvaluator.checkWinner(board)) {
+
+                    else {
                         launcher.finishRound();
                     }
 
