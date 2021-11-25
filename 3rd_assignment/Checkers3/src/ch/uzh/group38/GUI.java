@@ -57,7 +57,7 @@ public class GUI {
         gui.removeAll();
         history.removeAll();
         user.removeAll();
-        message.setText("Round " + currentRound + ". Player " + User.getName() + " please enter your move");
+        message.setText("Round " + currentRound + ". Player " + currentUser.getName() + " please enter your move");
                 
         //creating toolbar
         JButton rb = new JButton("Reset");
@@ -382,7 +382,7 @@ public class GUI {
         public void actionPerformed(ActionEvent e){
         String name1 = User1.getText();
         String name2 = User2.getText();
-        launcher.startRound(name1, name2);
+        launcher.startGame(name1, name2);
         }
 
     }

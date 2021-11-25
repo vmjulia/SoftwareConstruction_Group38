@@ -9,22 +9,29 @@ public class Launcher {
     private static int currentRound = 0;
     private static User user1;
     private static User user2;
+    private static boolean Continue;
 
+    private static User currentPlayer(){
+        if (RuleEvaluator.getCurrentPlayer() == 1){
+            return (user1);}
+        return(user2);
+    }
 
 
     public void nextMove(){
-        int currentPlayerNumber = RuleEvaluator.getCurrentPlayer();
-        User currentPlayer = user1;
-        if (currentPlayerNumber == 2){
-            currentPlayer = user2;}
-        frame.add(gui.refresh(currentRound, currentPlayer));
+        frame.add(gui.refresh(currentRound, currentPlayer()));
         frame.setVisible(true);
 
     }
 
     public void finishRound(){
         JOptionPane.showMessageDialog(frame, "Player " +
-                RuleEvaluator.getCurrentPlayer() + " wins this round!! Do you want to play one more?");
+                currentPlayer() + " wins this round!! Do you want to play one more?");
+        currentPlayer().increaseScore();
+        if (Continue){
+            nextRound();
+
+        }
 
     }
 
@@ -33,24 +40,24 @@ public class Launcher {
         frame.setVisible(true);
     }
 
-    public static void startRound(String name1, String name2){
+    public static void startGame(String name1, String name2){
         currentRound = 1;
         user1 = new User(name1);
         user2 = new User(name2);
-        startGame();
+        startRound();
     }
 
-    public static void startGame(){
+    public static void startRound(){
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
-        frame.add(gui.refresh(currentRound, user1));
+        frame.add(gui.refresh(currentRound, currentPlayer()));
         frame.setVisible(true);
     }
 
 
     public static void nextRound(){
         currentRound = currentRound +1;
-        startGame();
+        startRound();
     }
 
     public static void displayHistory(){
@@ -60,7 +67,7 @@ public class Launcher {
     }
 
     public static void returnToGame(){
-        frame.add(gui.refresh(currentRound, user1));
+        frame.add(gui.refresh(currentRound, currentPlayer()));
         frame.setVisible(true);
 
     }
