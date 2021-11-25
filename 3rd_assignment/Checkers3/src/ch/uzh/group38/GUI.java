@@ -31,6 +31,8 @@ public class GUI {
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
     private Launcher launcher;
+    private JTextField User1;
+    private JTextField User2;
 
 
 
@@ -183,10 +185,10 @@ public class GUI {
 
         JLabel Username1 = new JLabel("Enter name of the Player 1: ");
         JLabel Username2 = new JLabel("Enter name of the Player 2: ");
-        JTextField User1 = new JTextField(20);
-        JTextField User2 = new JTextField(20);
+        User1 = new JTextField(20);
+        User2 = new JTextField(20);
         JButton rb = new JButton("Start the game");
-        rb.addActionListener(new ResetButton());
+        rb.addActionListener(new ReadInputButton());
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -360,6 +362,7 @@ public class GUI {
         }
     }
 
+
     class ScoreTableButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -372,6 +375,16 @@ public class GUI {
         public void actionPerformed(ActionEvent e) {
             Launcher.returnToGame();
         }
+    }
+
+    class ReadInputButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+        String name1 = User1.getText();
+        String name2 = User1.getText();
+        launcher.startRound(name1, name2);
+        }
+
     }
 
 

@@ -22,17 +22,26 @@ public class Launcher {
 
     }
 
-    public void reset(){
+    public static void reset(){
+        frame.add(gui.enterUser(currentRound));
+        frame.setVisible(true);
+    }
+
+    public static void startRound(String name1, String name2){
         currentRound = 1;
+        User user1 = new User(name1);
+        User user2 = new User(name2);
         startGame();
     }
 
-    private static void startGame(){
+    public static void startGame(){
+
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
         frame.add(gui.refresh(currentRound));
         frame.setVisible(true);
     }
+
 
     public static void nextRound(){
         currentRound = currentRound +1;
@@ -61,9 +70,7 @@ public class Launcher {
         frame.pack();
 
         gui = new GUI(launcher);
-        frame.add(gui.enterUser(currentRound));
-        frame.setVisible(true);
-
+        reset();
 
         }
 
