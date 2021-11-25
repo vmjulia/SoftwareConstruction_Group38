@@ -11,26 +11,30 @@ public class Launcher {
     private static User user2;
     private static boolean Continue;
 
-    public String currentPlayer(){
+    private User currentPlayer(){
         if (RuleEvaluator.getCurrentPlayer() ==1){
-            return (user1.getName());}
-        return(user2.getName());
+            return (user1);}
+        return(user2);
+    }
+
+    public String currentPlayerName(){
+        return(currentPlayer().getName());
     }
 
 
+
     public void nextMove(){
-        frame.add(gui.refresh(currentRound, currentPlayer()));
+        frame.add(gui.refresh(currentRound, currentPlayerName()));
         frame.setVisible(true);
 
     }
 
     public void finishRound(){
         JOptionPane.showMessageDialog(frame, "Player " +
-                currentPlayer() + " wins this round!! Do you want to play one more?");
-
+                currentPlayerName() + " wins this round!! Do you want to play one more?");
+        currentPlayer().increaseScore();
         if (Continue){
             nextRound();
-
         }
 
     }
@@ -50,7 +54,7 @@ public class Launcher {
     public  void startRound(){
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
-        frame.add(gui.refresh(currentRound, currentPlayer()));
+        frame.add(gui.refresh(currentRound, currentPlayerName()));
         frame.setVisible(true);
     }
 
@@ -60,14 +64,14 @@ public class Launcher {
         startRound();
     }
 
-    public static void displayHistory(){
-        frame.add(gui.displayHistory(currentRound));
+    public  void displayHistory(){
+        frame.add(gui.displayHistory(currentRound, user1, user2));
         frame.setVisible(true);
 
     }
 
     public  void returnToGame(){
-        frame.add(gui.refresh(currentRound, currentPlayer()));
+        frame.add(gui.refresh(currentRound, currentPlayerName()));
         frame.setVisible(true);
 
     }

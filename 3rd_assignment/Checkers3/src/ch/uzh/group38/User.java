@@ -2,7 +2,7 @@ package ch.uzh.group38;
 
 public class User {
     private String UserName ;
-    private int score;
+    private int score = 0;
 
     public  User (String name){
 
@@ -13,6 +13,10 @@ public class User {
         return (UserName);
 
     }
+
+    public int getScore(){
+        return (score);
+}
     public void increaseScore(){
         score = score+1;
     }

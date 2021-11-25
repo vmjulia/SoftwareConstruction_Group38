@@ -3,6 +3,7 @@ package ch.uzh.group38;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -144,7 +145,7 @@ public class GUI {
 
     }
 
-    public JPanel displayHistory(int currentRound){
+    public JPanel displayHistory(int currentRound, User User1, User User2){
         gui.removeAll();
         history.removeAll();
         user.removeAll();
@@ -155,14 +156,24 @@ public class GUI {
         rb3.addActionListener(new BackButton());
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
-        toolbar.add(rb3);
         toolbar.addSeparator();
         toolbar.add(message);
+        toolbar.add(rb3);
         toolbar.setOpaque(false);
 
+        history.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), "ODI Rankings", TitledBorder.CENTER, TitledBorder.TOP));
+        String[][] rec = {
+                { User1.getName(), String.valueOf(User1.getScore())},
+                { User2.getName(), String.valueOf(User2.getScore()) },
+
+        };
+        String[] header = { "Player", "Score"};
+        JTable table = new JTable(rec, header);
         history.setBorder(new EmptyBorder(5, 5, 5, 5));
         history.setLayout(new BoxLayout(history, BoxLayout.Y_AXIS));
         history.add(toolbar);
+        history.add(new JScrollPane(table));
         return(history);
 
     }
@@ -276,7 +287,7 @@ public class GUI {
         public VoidState() {}
 
         public void actionPerformed(ActionEvent e) {
-            message.setText("Player" + launcher.currentPlayer() + " please touch your pawns only!");
+            message.setText("Player" + launcher.currentPlayerName() + " please touch your pawns only!");
         }
     }
 
@@ -303,11 +314,11 @@ public class GUI {
 
                 }
                 else {
-                    message.setText("Player" + launcher.currentPlayer()+ " this is not a valid move");
+                    message.setText("Player" + launcher.currentPlayerName()+ " this is not a valid move");
                 }
             }
             else {
-                message.setText("Player" + launcher.currentPlayer() + " please touch your pawns only!");
+                message.setText("Player" + launcher.currentPlayerName() + " please touch your pawns only!");
             }
         }
     }
@@ -332,10 +343,10 @@ public class GUI {
                 x1 = buttonPressed.x;
                 y1 = buttonPressed.y;
                 pawnActive = true;
-                message.setText("Player " + launcher.currentPlayer() + " please select target field!");
+                message.setText("Player " + launcher.currentPlayerName() + " please select target field!");
             }
             else {
-                message.setText("Player " + launcher.currentPlayer() + " please touch your pawns only!");
+                message.setText("Player " + launcher.currentPlayerName() + " please touch your pawns only!");
             }
         }
     }
@@ -351,7 +362,7 @@ public class GUI {
             buttonPressed.setState(buttonPressed.getInactiveState());
             playBoardSquares[buttonPressed.x][buttonPressed.y].deactivate();
             pawnActive = false;
-            message.setText("Player " + launcher.currentPlayer()+ " please enter your move");
+            message.setText("Player " + launcher.currentPlayerName()+ " please enter your move");
         }
     }
 
@@ -366,7 +377,7 @@ public class GUI {
     class ScoreTableButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            Launcher.displayHistory();
+            launcher.displayHistory();
         }
     }
 
