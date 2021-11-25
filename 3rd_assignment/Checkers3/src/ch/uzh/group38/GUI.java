@@ -156,13 +156,13 @@ public class GUI {
         rb3.addActionListener(new BackButton());
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
+        toolbar.add(rb3);
         toolbar.addSeparator();
         toolbar.add(message);
-        toolbar.add(rb3);
         toolbar.setOpaque(false);
 
         history.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "ODI Rankings", TitledBorder.CENTER, TitledBorder.TOP));
+                BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
         String[][] rec = {
                 { User1.getName(), String.valueOf(User1.getScore())},
                 { User2.getName(), String.valueOf(User2.getScore()) },
@@ -170,8 +170,6 @@ public class GUI {
         };
         String[] header = { "Player", "Score"};
         JTable table = new JTable(rec, header);
-        history.setBorder(new EmptyBorder(5, 5, 5, 5));
-        history.setLayout(new BoxLayout(history, BoxLayout.Y_AXIS));
         history.add(toolbar);
         history.add(new JScrollPane(table));
         return(history);
