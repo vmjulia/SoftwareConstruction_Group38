@@ -7,12 +7,13 @@ public class Launcher {
     private static GUI gui;
     private static JFrame frame;
     private static int currentRound = 0;
-    private static User user1;
+    private  User user1;
     private static User user2;
     private static boolean Continue;
 
-    private static User currentPlayer(){
-        if (RuleEvaluator.getCurrentPlayer() == 1){
+    private  User currentPlayer(){
+        if (RuleEvaluator.getCurrentPlayer() ==1){
+            System.out.println("thisi is " +user1.getName());
             return (user1);}
         return(user2);
     }
@@ -40,14 +41,14 @@ public class Launcher {
         frame.setVisible(true);
     }
 
-    public static void startGame(String name1, String name2){
+    public void startGame(String name1, String name2){
         currentRound = 1;
         user1 = new User(name1);
         user2 = new User(name2);
         startRound();
     }
 
-    public static void startRound(){
+    public  void startRound(){
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
         frame.add(gui.refresh(currentRound, currentPlayer()));
@@ -55,7 +56,7 @@ public class Launcher {
     }
 
 
-    public static void nextRound(){
+    public  void nextRound(){
         currentRound = currentRound +1;
         startRound();
     }
@@ -66,7 +67,7 @@ public class Launcher {
 
     }
 
-    public static void returnToGame(){
+    public  void returnToGame(){
         frame.add(gui.refresh(currentRound, currentPlayer()));
         frame.setVisible(true);
 

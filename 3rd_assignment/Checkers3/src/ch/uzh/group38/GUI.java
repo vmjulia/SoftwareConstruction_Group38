@@ -373,7 +373,7 @@ public class GUI {
     class BackButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            Launcher.returnToGame();
+            launcher.returnToGame();
         }
     }
 

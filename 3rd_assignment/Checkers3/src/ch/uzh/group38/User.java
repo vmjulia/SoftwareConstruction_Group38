@@ -1,15 +1,16 @@
 package ch.uzh.group38;
 
 public class User {
-    private static String name;
+    private String UserName ;
     private int score;
 
-    public User (String name){
-        this.name = name;
+    public  User (String name){
+
+        this.UserName = name;
     }
 
-    public static String getName(){
-        return (name);
+    public String getName(){
+        return (UserName);
 
     }
     public void increaseScore(){
