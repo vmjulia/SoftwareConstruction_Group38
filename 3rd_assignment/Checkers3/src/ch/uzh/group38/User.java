@@ -1,9 +1,15 @@
 package ch.uzh.group38;
 
 public class User {
-    private String name;
+    private static String name;
     private int score;
     public User (String name){
         this.name = name;
+    }
+
+    public static String getName(){
+        return (name);
+
+
     }
 }

@@ -7,11 +7,14 @@ public class Launcher {
     private static GUI gui;
     private static JFrame frame;
     private static int currentRound = 0;
+    private static User user1;
+    private static User user2;
+
 
 
     public void nextMove(){
 
-        frame.add(gui.refresh(currentRound));
+        frame.add(gui.refresh(currentRound, user1));
         frame.setVisible(true);
 
     }
@@ -29,8 +32,8 @@ public class Launcher {
 
     public static void startRound(String name1, String name2){
         currentRound = 1;
-        User user1 = new User(name1);
-        User user2 = new User(name2);
+        user1 = new User(name1);
+        user2 = new User(name2);
         startGame();
     }
 
@@ -38,7 +41,7 @@ public class Launcher {
 
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
-        frame.add(gui.refresh(currentRound));
+        frame.add(gui.refresh(currentRound, user1));
         frame.setVisible(true);
     }
 
@@ -55,7 +58,7 @@ public class Launcher {
     }
 
     public static void returnToGame(){
-        frame.add(gui.refresh(currentRound));
+        frame.add(gui.refresh(currentRound, user1));
         frame.setVisible(true);
 
     }
