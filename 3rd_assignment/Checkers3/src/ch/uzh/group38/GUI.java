@@ -53,11 +53,11 @@ public class GUI {
 
     }
 
-    public JPanel refresh(int currentRound, User currentUser){
+    public JPanel refresh(int currentRound, String currentUser){
         gui.removeAll();
         history.removeAll();
         user.removeAll();
-        message.setText("Round " + currentRound + ". Player " + currentUser.getName() + " please enter your move");
+        message.setText("Round " + currentRound + ". Player " + currentUser + " please enter your move");
                 
         //creating toolbar
         JButton rb = new JButton("Reset");
@@ -276,7 +276,7 @@ public class GUI {
         public VoidState() {}
 
         public void actionPerformed(ActionEvent e) {
-            message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+            message.setText("Player" + launcher.currentPlayer() + " please touch your pawns only!");
         }
     }
 
@@ -303,11 +303,11 @@ public class GUI {
 
                 }
                 else {
-                    message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " this is not a valid move");
+                    message.setText("Player" + launcher.currentPlayer()+ " this is not a valid move");
                 }
             }
             else {
-                message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+                message.setText("Player" + launcher.currentPlayer() + " please touch your pawns only!");
             }
         }
     }
@@ -332,10 +332,10 @@ public class GUI {
                 x1 = buttonPressed.x;
                 y1 = buttonPressed.y;
                 pawnActive = true;
-                message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please select target field!");
+                message.setText("Player " + launcher.currentPlayer() + " please select target field!");
             }
             else {
-                message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+                message.setText("Player " + launcher.currentPlayer() + " please touch your pawns only!");
             }
         }
     }
@@ -351,7 +351,7 @@ public class GUI {
             buttonPressed.setState(buttonPressed.getInactiveState());
             playBoardSquares[buttonPressed.x][buttonPressed.y].deactivate();
             pawnActive = false;
-            message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
+            message.setText("Player " + launcher.currentPlayer()+ " please enter your move");
         }
     }
 

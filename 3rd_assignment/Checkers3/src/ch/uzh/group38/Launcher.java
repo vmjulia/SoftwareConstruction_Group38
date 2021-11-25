@@ -11,11 +11,10 @@ public class Launcher {
     private static User user2;
     private static boolean Continue;
 
-    private  User currentPlayer(){
+    public String currentPlayer(){
         if (RuleEvaluator.getCurrentPlayer() ==1){
-            System.out.println("thisi is " +user1.getName());
-            return (user1);}
-        return(user2);
+            return (user1.getName());}
+        return(user2.getName());
     }
 
 
@@ -28,7 +27,7 @@ public class Launcher {
     public void finishRound(){
         JOptionPane.showMessageDialog(frame, "Player " +
                 currentPlayer() + " wins this round!! Do you want to play one more?");
-        currentPlayer().increaseScore();
+
         if (Continue){
             nextRound();
 
