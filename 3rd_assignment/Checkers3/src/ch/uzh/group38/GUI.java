@@ -180,18 +180,43 @@ public class GUI {
         message.setText("Round " + currentRound );
 
         //creating toolbar
+
+        JLabel Username1 = new JLabel("Enter name of the Player 1: ");
+        JLabel Username2 = new JLabel("Enter name of the Player 2: ");
+        JTextField User1 = new JTextField(20);
+        JTextField User2 = new JTextField(20);
         JButton rb = new JButton("Start the game");
         rb.addActionListener(new ResetButton());
-        JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-        toolbar.add(rb);
-        toolbar.addSeparator();
-        toolbar.add(message);
-        toolbar.setOpaque(false);
 
-        user.setBorder(new EmptyBorder(5, 5, 5, 5));
-        user.setLayout(new BoxLayout(user, BoxLayout.Y_AXIS));
-        user.add(toolbar);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        // add components to the panel
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        user.add(Username1, constraints);
+
+        constraints.gridx = 1;
+        user.add(User1, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        user.add(Username2, constraints);
+
+        constraints.gridx = 1;
+        user.add(User2, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        user.add(rb, constraints);
+
+        // set border for the panel
+        user.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), "Start the game Panel"));
+
         return(user);
 
     }
