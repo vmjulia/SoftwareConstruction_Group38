@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EmptyFieldTest {
-    Field f;
+    EmptyField f;
     @Before
     public void createField(){
         f = new EmptyField(1, 2 );
@@ -35,8 +35,8 @@ public class EmptyFieldTest {
 
     @Test
     public void testMoveStorage(){
+        RuleEvaluator.resetCurrentPlayer();
         Move m;
-
        Board b  = new Board();
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
