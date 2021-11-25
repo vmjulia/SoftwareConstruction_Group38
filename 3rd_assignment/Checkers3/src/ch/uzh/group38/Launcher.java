@@ -61,8 +61,9 @@ public class Launcher {
         frame.pack();
 
         gui = new GUI(launcher);
-        // making 10 rounds of game
-        nextRound();
+        frame.add(gui.enterUser(currentRound));
+        frame.setVisible(true);
+
 
         }
 

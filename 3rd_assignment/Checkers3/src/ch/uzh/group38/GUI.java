@@ -26,6 +26,7 @@ public class GUI {
     private boolean pawnActive = false;
     private final JPanel gui = new JPanel();
     private final JPanel history = new JPanel();
+    private final JPanel user = new JPanel();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
@@ -53,6 +54,7 @@ public class GUI {
     public JPanel refresh(int currentRound){
         gui.removeAll();
         history.removeAll();
+        user.removeAll();
         message.setText("Round " + currentRound + ". Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
                 
         //creating toolbar
@@ -143,6 +145,7 @@ public class GUI {
     public JPanel displayHistory(int currentRound){
         gui.removeAll();
         history.removeAll();
+        user.removeAll();
         message.setText("Round " + currentRound );
 
         //creating toolbar
@@ -168,6 +171,32 @@ public class GUI {
             playBoardSquares[x1][y1].deactivate();
         }
     }
+
+
+    public JPanel enterUser(int currentRound){
+        gui.removeAll();
+        history.removeAll();
+        user.removeAll();
+        message.setText("Round " + currentRound );
+
+        //creating toolbar
+        JButton rb = new JButton("Start the game");
+        rb.addActionListener(new ResetButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb);
+        toolbar.addSeparator();
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+
+        user.setBorder(new EmptyBorder(5, 5, 5, 5));
+        user.setLayout(new BoxLayout(user, BoxLayout.Y_AXIS));
+        user.add(toolbar);
+        return(user);
+
+    }
+
+
 
     public static void setMessage(String msg){
         message.setText(msg);
