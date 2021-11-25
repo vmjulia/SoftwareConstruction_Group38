@@ -30,12 +30,10 @@ public class Launcher {
     }
 
     public void finishRound(){
-        JOptionPane.showMessageDialog(frame, "Player " +
-                currentPlayerName() + " wins this round!! Do you want to play one more?");
         currentPlayer().increaseScore();
-        if (Continue){
-            nextRound();
-        }
+        frame.add(gui.displayHistory(currentRound, user1, user2, true));
+        frame.setVisible(true);
+
 
     }
 
@@ -65,7 +63,7 @@ public class Launcher {
     }
 
     public  void displayHistory(){
-        frame.add(gui.displayHistory(currentRound, user1, user2));
+        frame.add(gui.displayHistory(currentRound, user1, user2, false));
         frame.setVisible(true);
 
     }

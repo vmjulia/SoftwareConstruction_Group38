@@ -145,12 +145,31 @@ public class GUI {
 
     }
 
-    public JPanel displayHistory(int currentRound, User User1, User User2){
+    public JPanel displayHistory(int currentRound, User User1, User User2, boolean roundEnd){
         gui.removeAll();
         history.removeAll();
         user.removeAll();
-        message.setText("Round " + currentRound );
+        if (roundEnd){
+            message.setText("Player " +
+                    launcher.currentPlayerName() + " wins this round!! Do you want to play one more?");
 
+        //creating toolbar
+        JButton rb = new JButton("One more round");
+        rb.addActionListener(new NextRoundButton());
+        JButton rb1 = new JButton("New Game");
+        rb1.addActionListener(new ResetButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb);
+        toolbar.addSeparator();
+        toolbar.add(rb1);
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+        history.add(toolbar);
+
+        }
+        else{
+        message.setText("Round " + currentRound );
         //creating toolbar
         JButton rb3 = new JButton("back to game");
         rb3.addActionListener(new BackButton());
@@ -160,6 +179,10 @@ public class GUI {
         toolbar.addSeparator();
         toolbar.add(message);
         toolbar.setOpaque(false);
+        history.add(toolbar);
+        }
+
+
 
         history.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
@@ -170,7 +193,6 @@ public class GUI {
         };
         String[] header = { "Player", "Score"};
         JTable table = new JTable(rec, header);
-        history.add(toolbar);
         history.add(new JScrollPane(table));
         return(history);
 
@@ -371,6 +393,13 @@ public class GUI {
         }
     }
 
+
+    class NextRoundButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            launcher.nextRound();
+        }
+    }
 
     class ScoreTableButton implements ActionListener{
         @Override
