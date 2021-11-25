@@ -381,7 +381,7 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e){
         String name1 = User1.getText();
-        String name2 = User1.getText();
+        String name2 = User2.getText();
         launcher.startRound(name1, name2);
         }
 

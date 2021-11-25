@@ -13,8 +13,11 @@ public class Launcher {
 
 
     public void nextMove(){
-
-        frame.add(gui.refresh(currentRound, user1));
+        int currentPlayerNumber = RuleEvaluator.getCurrentPlayer();
+        User currentPlayer = user1;
+        if (currentPlayerNumber == 2){
+            currentPlayer = user2;}
+        frame.add(gui.refresh(currentRound, currentPlayer));
         frame.setVisible(true);
 
     }
@@ -38,7 +41,6 @@ public class Launcher {
     }
 
     public static void startGame(){
-
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
         frame.add(gui.refresh(currentRound, user1));
