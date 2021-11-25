@@ -79,7 +79,7 @@ public class RuleEvaluator {
         if (((currentBoard.getField(x1,y1).isRed() && currentPlayer == 1) || (currentBoard.getField(x1,y1).isWhite() && currentPlayer == 2))){
             if (isJumpMove(move) || isSimpleMove(move)){
                 
-                if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
+                if ((lastX != -1 && lastY != -1) && (x1 != lastX || y1 != lastY)){
                     //GUI.setMessage("Continue your move with same piece");
                     return false;
                 }

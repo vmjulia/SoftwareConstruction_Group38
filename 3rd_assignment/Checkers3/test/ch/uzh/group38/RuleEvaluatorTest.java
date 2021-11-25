@@ -64,6 +64,38 @@ public class RuleEvaluatorTest {
 
     }
 
+    /*
+  checks if RE does not allow to make a move anybody if last move is stord. ( so can only move from that cell on)
+   */
+
+    @Test
+    public void testMultipleJump(){
+        RuleEvaluator.resetCurrentPlayer();
+        Board b = new Board();
+        Move m = new Move (0,0,2,1);
+        RuleEvaluator.storeLastMove(m);
+
+
+
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                Move m1 = new Move(i, j, i+1, j+1);
+                if(j+1<8){
+                if((i==2) &&(j==1)){
+                   assertTrue(RuleEvaluator.checkValidity(m1));
+                }
+                   else {
+                    assertFalse(RuleEvaluator.checkValidity(m1));
+                }
+                }
+
+            }
+
+        }
+
+
+    }
+
 
 }
 
