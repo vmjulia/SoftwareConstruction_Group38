@@ -11,14 +11,13 @@ import java.awt.event.ActionListener;
 
 public class GUI {
 
-    public static final ClassLoader loader = GUI.class.getClassLoader();
+
     //the argument might be null, but intellij's suggestion does not solve that issue
     private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
     private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
     private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
     private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
 
-    private Move currentMove;
     private Board board;
 
 
@@ -29,9 +28,8 @@ public class GUI {
     private final JPanel history = new JPanel();
     private final JPanel user = new JPanel();
     private final Square[][] playBoardSquares = new Square[8][8];
-    private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
-    private Launcher launcher;
+    private final Launcher launcher;
     private JTextField User1;
     private JTextField User2;
 
@@ -112,6 +110,7 @@ public class GUI {
 
         //fill in top row
         playBoard.add(new JLabel("+",SwingConstants.CENTER));
+        String COLS = "ABCDEFGH";
         for (int i = 0; i < 8; i++) {
             playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
         }
@@ -321,7 +320,7 @@ public class GUI {
 
         public void actionPerformed(ActionEvent e) {
             if (pawnActive) {
-                currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
+                Move currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
                 if (board.getField(x1, y1).isMoveStored(currentMove)) {
                     currentMove.move(board);
                     playBoardSquares[x1][y1].deactivate();

@@ -9,7 +9,7 @@ public class Launcher {
     private static int currentRound = 0;
     private  User user1;
     private static User user2;
-    private static boolean Continue;
+
 
     private User currentPlayer(){
         if (RuleEvaluator.getCurrentPlayer() ==1){
@@ -33,7 +33,6 @@ public class Launcher {
         currentPlayer().increaseScore();
         frame.add(gui.displayHistory(currentRound, user1, user2, true));
         frame.setVisible(true);
-
 
     }
 
