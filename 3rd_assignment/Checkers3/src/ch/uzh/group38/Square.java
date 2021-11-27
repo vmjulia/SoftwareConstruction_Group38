@@ -18,7 +18,7 @@ class EmptySquare extends Square {
 
     public EmptySquare(GUI.ButtonPressed passedAction) {
         this.buttonPressed = passedAction;
-        this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.addActionListener(passedAction);
         this.setBackground(Color.white);
         this.setOpaque(true);

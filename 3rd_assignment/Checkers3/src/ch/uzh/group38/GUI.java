@@ -52,11 +52,11 @@ public class GUI {
 
     }
 
-    public JPanel refresh(int currentRound, String currentUser){
+    public JPanel refresh(){
         gui.removeAll();
         history.removeAll();
         user.removeAll();
-        message.setText("Round " + currentRound + ". Player " + currentUser + " please enter your move");
+        message.setText("Round " + launcher.getCurrentRound() + ". Player " + launcher.currentPlayerName() + " please enter your move");
                 
         //creating toolbar
         JButton rb = new JButton("Reset");

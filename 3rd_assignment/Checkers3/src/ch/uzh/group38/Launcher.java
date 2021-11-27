@@ -1,5 +1,7 @@
 package ch.uzh.group38;
 
+import java.awt.Dimension;
+
 import javax.swing.*;
 
 public class Launcher {
@@ -10,6 +12,14 @@ public class Launcher {
     private  User user1;
     private static User user2;
 
+    private Launcher(){
+        // creating new window
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Checkers");
+        frame.setPreferredSize(new Dimension(600, 1000));
+        frame.pack();
+    }
 
     private User currentPlayer(){
         if (RuleEvaluator.getCurrentPlayer() ==1){
@@ -24,7 +34,7 @@ public class Launcher {
 
 
     public void nextMove(){
-        frame.add(gui.refresh(currentRound, currentPlayerName()));
+        frame.add(gui.refresh());
         frame.setVisible(true);
 
     }
@@ -51,7 +61,7 @@ public class Launcher {
     public  void startRound(){
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
-        frame.add(gui.refresh(currentRound, currentPlayerName()));
+        gui.refresh();
         frame.setVisible(true);
     }
 
@@ -68,20 +78,18 @@ public class Launcher {
     }
 
     public  void returnToGame(){
-        frame.add(gui.refresh(currentRound, currentPlayerName()));
+        frame.add(gui.refresh());
         frame.setVisible(true);
 
     }
 
+    public int getCurrentRound(){
+        return currentRound;
+    }
+
 
         public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-    // creating new window
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Checkers");
-        frame.pack();
-
+        Launcher launcher = new Launcher();        
         gui = new GUI(launcher);
         reset();
 
