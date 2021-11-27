@@ -30,6 +30,7 @@ public class GUI {
     private static User player2;
     private final JPanel gui = new JPanel();
     private final JPanel history = new JPanel();
+    private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
@@ -60,7 +61,9 @@ public class GUI {
 
     private void refresh(){
         history.removeAll();
+        history.setVisible(false);
         gui.removeAll();
+        toolbar.removeAll();
         message.setText(GUI.currentPlayerName() + " please enter your move");
                 
         //creating toolbar
@@ -68,7 +71,6 @@ public class GUI {
         rb.addActionListener(new ResetButton());
         JButton hb = new JButton("Game history");
         hb.addActionListener(new ScoreTableButton());
-        JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
         toolbar.add(rb); 
         toolbar.addSeparator();
@@ -147,6 +149,7 @@ public class GUI {
         gui.add(toolbar);
         gui.add(playBoard);
         frame.add(gui);
+        gui.setVisible(true);
         frame.setVisible(true);
     }
 
@@ -187,8 +190,9 @@ public class GUI {
 
     public void displayHistory(boolean roundEnd){
         gui.removeAll();
+        gui.setVisible(false);
         history.removeAll();
-        JToolBar toolbar = new JToolBar();
+        toolbar.removeAll();
         toolbar.setFloatable(false);
 
         if (roundEnd){
@@ -227,6 +231,7 @@ public class GUI {
         JTable table = new JTable(rec, header);
         history.add(new JScrollPane(table));
         frame.add(history);
+        history.setVisible(true);
         frame.setVisible(true);
     }
     
