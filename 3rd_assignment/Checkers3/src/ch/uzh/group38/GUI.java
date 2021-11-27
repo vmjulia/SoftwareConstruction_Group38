@@ -3,6 +3,7 @@ package ch.uzh.group38;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ public class GUI {
     private static User player1;
     private static User player2;
     private final JPanel gui = new JPanel();
+    private final JPanel history = new JPanel();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
@@ -50,7 +52,7 @@ public class GUI {
                 }
             }
         }
-
+        RuleEvaluator.resetCurrentRound();
         reset();
         frame.pack();
     }
@@ -62,9 +64,13 @@ public class GUI {
         //creating toolbar
         JButton rb = new JButton("Reset");
         rb.addActionListener(new ResetButton());
+        JButton hb = new JButton("Game history");
+        hb.addActionListener(new ScoreTableButton());
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
         toolbar.add(rb); 
+        toolbar.addSeparator();
+        toolbar.add(hb); 
         toolbar.addSeparator();
         toolbar.add(message);
         toolbar.setOpaque(false);
@@ -173,6 +179,57 @@ public class GUI {
 
     public static String currentPlayerName(){
         return(GUI.currentPlayer().getName());
+    }
+
+    public void displayHistory(boolean roundEnd){
+        gui.removeAll();
+        history.removeAll();
+        if (roundEnd){
+            message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
+
+        //creating toolbar
+        JButton rb = new JButton("One more round");
+        rb.addActionListener(new NextRoundButton());
+        JButton rb1 = new JButton("New Game");
+        rb1.addActionListener(new ResetButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb);
+        toolbar.addSeparator();
+        toolbar.add(rb1);
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+        history.add(toolbar);
+
+        }
+        else{
+        message.setText("Round " + RuleEvaluator.getCurrentRound());
+        //creating toolbar
+        JButton rb3 = new JButton("back to game");
+        rb3.addActionListener(new BackButton());
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.add(rb3);
+        toolbar.addSeparator();
+        toolbar.add(message);
+        toolbar.setOpaque(false);
+        history.add(toolbar);
+        }
+
+
+
+        history.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
+        String[][] rec = {
+                { player1.getName(), String.valueOf(player1.getScore())},
+                { player2.getName(), String.valueOf(player2.getScore()) },
+
+        };
+        String[] header = { "Player", "Score"};
+        JTable table = new JTable(rec, header);
+        history.add(new JScrollPane(table));
+        frame.add(history);
+        frame.setVisible(true);
     }
     
     class ButtonPressed implements ActionListener{
@@ -303,6 +360,30 @@ public class GUI {
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            RuleEvaluator.resetCurrentRound();
+            reset();
+        }
+    }
+
+    class ScoreTableButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            displayHistory(false);
+        }
+    }
+
+    class BackButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            history.removeAll();
+            refresh();
+        }
+    }
+
+    class NextRoundButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            RuleEvaluator.updateCurrentRound();
             reset();
         }
     }
