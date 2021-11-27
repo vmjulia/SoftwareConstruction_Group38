@@ -391,7 +391,7 @@ public class GUI {
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            launcher.reset();
+            Launcher.reset();
         }
     }
 
