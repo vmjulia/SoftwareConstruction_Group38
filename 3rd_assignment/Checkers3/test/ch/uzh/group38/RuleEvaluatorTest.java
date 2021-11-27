@@ -11,8 +11,8 @@ public class RuleEvaluatorTest {
 
     @Before
     public void setup() {
-        this.b = new Board();
         RuleEvaluator.resetCurrentPlayer();
+        this.b = new Board();
     }
 
     @Test
