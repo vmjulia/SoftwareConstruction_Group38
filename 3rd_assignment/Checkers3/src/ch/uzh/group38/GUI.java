@@ -169,10 +169,6 @@ public class GUI {
         refresh();
     }
 
-    public static void setMessage(String msg){
-        message.setText(msg);
-    }
-
     private String askPlayerName(){
         String playername = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
         return playername;

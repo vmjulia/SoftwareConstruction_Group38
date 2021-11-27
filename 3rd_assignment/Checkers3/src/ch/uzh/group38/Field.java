@@ -39,9 +39,7 @@ class EmptyField extends Field {
 
     public boolean isEmpty(){return (true);}
 
-    public void convertToKing(){
-        GUI.setMessage("Cannot convert empty space to King ");
-    }
+    public void convertToKing(){}
 
 
     public void update() {}
@@ -145,7 +143,6 @@ class PieceField extends Field {
 
     public void convertToKing(){
         if (this.type != Type.KING){
-            GUI.setMessage("Well done " + GUI.currentPlayerName() + "! Your pawn is now a king!");
             this.type = Type.KING;
         }
     }
