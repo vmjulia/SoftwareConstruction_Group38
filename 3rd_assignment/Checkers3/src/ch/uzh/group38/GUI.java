@@ -25,6 +25,8 @@ public class GUI {
     private int y1;
     private boolean pawnActive = false;
     private JFrame frame;
+    private User player1;
+    private User player2;
     private final JPanel gui = new JPanel();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
@@ -142,6 +144,11 @@ public class GUI {
 
     private void reset(){
         RuleEvaluator.resetCurrentPlayer();
+        player1 = new User(askPlayerName());
+        RuleEvaluator.updateTurn();
+        player2 = new User(askPlayerName());
+        RuleEvaluator.resetCurrentPlayer();
+
         board = new Board();
         if (pawnActive) {
             playBoardSquares[x1][y1].deactivate();
@@ -153,6 +160,21 @@ public class GUI {
         message.setText(msg);
     }
 
+    private String askPlayerName(){
+        String playername = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
+        return playername;
+    }
+
+    private User currentPlayer(){
+        if (RuleEvaluator.getCurrentPlayer() == 1){
+            return (player1);}
+        return(player2);
+    }
+
+    public String currentPlayerName(){
+        return(currentPlayer().getName());
+    }
+    
     class ButtonPressed implements ActionListener{
         private final int x;
         private final int y;
