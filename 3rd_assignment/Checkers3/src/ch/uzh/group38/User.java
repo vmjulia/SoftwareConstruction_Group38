@@ -14,8 +14,8 @@ public class User {
 
     public int getScore(){
         return (score);
-}
+    }
     public void increaseScore(){
-        score = score+1;
+        score += 1;
     }
 }
