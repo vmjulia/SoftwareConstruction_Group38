@@ -13,10 +13,10 @@ public class GUI {
 
     public static final ClassLoader loader = GUI.class.getClassLoader();
     //the argument might be null, but intellij's suggestion does not solve that issue
-    private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
-    private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
-    private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
-    private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
+    private final Icon whitePawnIcon = new WhitePawn();
+    private final Icon whiteKingIcon = new WhiteKing();
+    private final Icon redPawnIcon = new RedPawn();
+    private final Icon redKingIcon = new RedKing();
 
     private Move currentMove;
     private Board board;
@@ -93,24 +93,24 @@ public class GUI {
             if ((i+ j)%2 ==1){
                 if (currentField.isRed() && currentField.isKing()){
                     playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(redKingIcon);
+                        playBoardSquares[i][j].setIcon(redKingIcon);
                 }
                 else if (currentField.isRed() && !currentField.isKing()){
                     playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(redPawnIcon);
+                        playBoardSquares[i][j].setIcon(redPawnIcon);
                 }
                 else if (currentField.isWhite() && currentField.isKing()){
                     playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(whiteKingIcon);
+                        playBoardSquares[i][j].setIcon(whiteKingIcon);
                 }
                 else if (currentField.isWhite() && !currentField.isKing()){
                     playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(whitePawnIcon);
+                        playBoardSquares[i][j].setIcon(whitePawnIcon);
                 }
                 else {
                     playBoardSquares[i][j].setEmptyAction();
                         //removes any icon
-                        playBoardSquares[i][j].applyIcon(null);
+                        playBoardSquares[i][j].setIcon(null);
                 }
 
             }
