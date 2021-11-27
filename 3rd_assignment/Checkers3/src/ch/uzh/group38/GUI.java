@@ -53,11 +53,13 @@ public class GUI {
             }
         }
         RuleEvaluator.resetCurrentRound();
+        setPlayers();
         reset();
         frame.pack();
     }
 
     private void refresh(){
+        history.removeAll();
         gui.removeAll();
         message.setText(GUI.currentPlayerName() + " please enter your move");
                 
@@ -148,13 +150,15 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    private void reset(){
+    private void setPlayers(){
         RuleEvaluator.resetCurrentPlayer();
         player1 = new User(askPlayerName());
         RuleEvaluator.updateTurn();
         player2 = new User(askPlayerName());
         RuleEvaluator.resetCurrentPlayer();
-        
+    }
+
+    private void reset(){        
         board = new Board();
         if (pawnActive) {
             playBoardSquares[x1][y1].deactivate();
@@ -184,40 +188,34 @@ public class GUI {
     public void displayHistory(boolean roundEnd){
         gui.removeAll();
         history.removeAll();
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+
         if (roundEnd){
             message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
-
-        //creating toolbar
-        JButton rb = new JButton("One more round");
-        rb.addActionListener(new NextRoundButton());
-        JButton rb1 = new JButton("New Game");
-        rb1.addActionListener(new ResetButton());
-        JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-        toolbar.add(rb);
-        toolbar.addSeparator();
-        toolbar.add(rb1);
-        toolbar.add(message);
-        toolbar.setOpaque(false);
-        history.add(toolbar);
-
+            JButton resb = new JButton("One more round");
+            resb.addActionListener(new NextRoundButton());
+            JButton rb1 = new JButton("New Game");
+            rb1.addActionListener(new ResetButton());
+            toolbar.add(resb);
+            toolbar.addSeparator();
+            toolbar.add(rb1);
+            toolbar.addSeparator();
+            toolbar.add(message);
         }
+
         else{
-        message.setText("Round " + RuleEvaluator.getCurrentRound());
-        //creating toolbar
-        JButton rb3 = new JButton("back to game");
-        rb3.addActionListener(new BackButton());
-        JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-        toolbar.add(rb3);
-        toolbar.addSeparator();
-        toolbar.add(message);
-        toolbar.setOpaque(false);
-        history.add(toolbar);
+            message.setText("Round " + RuleEvaluator.getCurrentRound());
+            JButton rb3 = new JButton("back to game");
+            rb3.addActionListener(new BackButton());
+            toolbar.add(rb3);
+            toolbar.addSeparator();
+            toolbar.add(message);
         }
 
 
-
+        toolbar.setOpaque(false);
+        history.add(toolbar);
         history.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
         String[][] rec = {
@@ -300,8 +298,8 @@ public class GUI {
                     pawnActive = false;
                     refresh();
                     if (RuleEvaluator.checkWinner(board)) {
-                        JOptionPane.showMessageDialog(frame, "Player " + GUI.currentPlayerName() + " wins!!");
-                        reset();
+                        currentPlayer().increaseScore();
+                        displayHistory(true);
                     }
                 }
                 else {
@@ -361,6 +359,7 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             RuleEvaluator.resetCurrentRound();
+            setPlayers();
             reset();
         }
     }
@@ -375,7 +374,6 @@ public class GUI {
     class BackButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            history.removeAll();
             refresh();
         }
     }
