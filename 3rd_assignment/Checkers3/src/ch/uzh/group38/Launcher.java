@@ -61,7 +61,7 @@ public class Launcher {
     public  void startRound(){
         RuleEvaluator.resetCurrentPlayer();
         gui.reset();
-        gui.refresh();
+        frame.add(gui.refresh());
         frame.setVisible(true);
     }
 
