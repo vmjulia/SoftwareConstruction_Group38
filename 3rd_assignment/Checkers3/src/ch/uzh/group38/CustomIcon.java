@@ -31,6 +31,9 @@ public abstract class CustomIcon implements Icon {
         g.setColor(new Color(0, 0, 0, 20));
         g.drawOval(w/2 - 2*d/5, h/2 - 2*d/5, 4*d/5, 4*d/5);
 
+        g.setColor(new Color(255, 255, 255, 50));
+        g.drawOval(w/2 - d/2, h/2 - d/2, d, d);
+
         if (isKing) {
             int m = 2*d/7;
             int[] xPoints = {w/2-m, w/2-m/2, w/2+m/2, w/2+m, w/2};
