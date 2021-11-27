@@ -26,15 +26,15 @@ public abstract class CustomIcon implements Icon {
         g.fillOval(w/2 - d/2, h/2 - d/2, d, d);
 
         g.setColor(color);
-        g.fillOval(w/2 - d/3, h/2 - d/3, 2*d/3, 2*d/3);
+        g.fillOval(w/2 - 2*d/5, h/2 - 2*d/5, 4*d/5, 4*d/5);
 
         g.setColor(new Color(0, 0, 0, 20));
-        g.drawOval(w/2 - d/3, h/2 - d/3, 2*d/3, 2*d/3);
+        g.drawOval(w/2 - 2*d/5, h/2 - 2*d/5, 4*d/5, 4*d/5);
 
         if (isKing) {
-            int m = d/4;
+            int m = 2*d/7;
             int[] xPoints = {w/2-m, w/2-m/2, w/2+m/2, w/2+m, w/2};
-            int[] yPoints = {h/2-m/4, h/2+2*m/3, h/2+2*m/3, h/2-m/4, h/2-2*m/3};
+            int[] yPoints = {h/2-m/6, h/2+2*m/3, h/2+2*m/3, h/2-m/6, h/2-2*m/3};
             Polygon crown = new Polygon(xPoints, yPoints, 5);
 
             g.setColor(new Color(0, 0, 0, 120));
@@ -58,13 +58,13 @@ public abstract class CustomIcon implements Icon {
 
 class RedKing extends CustomIcon {
     public RedKing() {
-        super(Color.red, true);
+        super(new Color(150, 10, 10), true);
     }
 }
 
 class RedPawn extends CustomIcon {
     public RedPawn() {
-        super(Color.red, false);
+        super(new Color(150, 10, 10), false);
     }
 }
 
