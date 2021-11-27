@@ -64,10 +64,6 @@ class BlackSquare extends Square {
         buttonPressed.setState(buttonPressed.getActiveState());
     }
 
-    public void applyIcon(Icon passedIcon) {
-        this.setIcon(passedIcon);
-    }
-
     public void activate() {
         this.setBackground(Color.green);
     }
