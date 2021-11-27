@@ -1,16 +1,22 @@
 package ch.uzh.group38;
 
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class RuleEvaluatorTest {
+    Board b;
 
+    @Before
+    public void setup() {
+        this.b = new Board();
+        RuleEvaluator.resetCurrentPlayer();
+    }
 
     @Test
     public void testPlayersUpdate(){
-        RuleEvaluator.resetCurrentPlayer();
         assertEquals(1, RuleEvaluator.getCurrentPlayer());
         RuleEvaluator.updateTurn();
         assertEquals(2, RuleEvaluator.getCurrentPlayer());
@@ -19,8 +25,6 @@ public class RuleEvaluatorTest {
 
     @Test
     public void testMoveValidation(){
-        RuleEvaluator.resetCurrentPlayer();
-        Board b = new Board();
         Move m = new Move (1, 0, 2, 1);
         assertFalse(RuleEvaluator.checkValidity(m));
         b.removePiece(2, 1);
@@ -31,7 +35,6 @@ public class RuleEvaluatorTest {
 
     @Test
     public void testCheckInput(){
-        RuleEvaluator.resetCurrentPlayer();
         assertFalse(RuleEvaluator.checkInput(5,0));
         assertTrue(RuleEvaluator.checkInput(0,1));
         RuleEvaluator.updateTurn();
@@ -40,8 +43,6 @@ public class RuleEvaluatorTest {
     }
     @Test
     public void testCheckWinner(){
-        RuleEvaluator.resetCurrentPlayer();
-        Board b = new Board();
         assertFalse(RuleEvaluator.checkWinner(b));
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -70,8 +71,6 @@ public class RuleEvaluatorTest {
 
     @Test
     public void testMultipleJump(){
-        RuleEvaluator.resetCurrentPlayer();
-        Board b = new Board();
         Move m = new Move (0,0,2,1);
         RuleEvaluator.storeLastMove(m);
 
