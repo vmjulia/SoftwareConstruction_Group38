@@ -180,7 +180,6 @@ public class GUI {
         });
         timer.start();
         String username = pane.showInputDialog(f, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
-
         return username;
     }
 
