@@ -6,21 +6,30 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.event.ActionListener;
+import java.lang.reflect.*;
 import java.lang.reflect.Field;
 
 public class GUITest {
     GUI gui;
+    Method refresh;
 
     @Before
-    public void createGUI() {
-        this.gui = new GUI(new Launcher());
+    public void createGUI() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+        Constructor<GUI> constructor = GUI.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        this.gui = constructor.newInstance();
+
+        this.refresh = GUI.class.getDeclaredMethod("refresh");
+        refresh.setAccessible(true);
+        refresh.invoke(gui);
 
     }
 
     @Test
-    public void refreshActionStatesTest() throws NoSuchFieldException, IllegalAccessException {
-        gui.reset();
-        gui.refresh(1, "Test User");
+    public void refreshActionStatesTest() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
+        refresh.invoke(gui);
         Field pBS = gui.getClass().getDeclaredField("playBoardSquares");
         pBS.setAccessible(true);
         Square[][] playBoardSquares = (Square[][]) pBS.get(gui);
