@@ -9,7 +9,7 @@ public class UserTest {
     String name;
     User u;
     @Before
-    public void CreateBoard(){
+    public void CreateUser(){
         name = "a";
         u = new User(name);
     }
