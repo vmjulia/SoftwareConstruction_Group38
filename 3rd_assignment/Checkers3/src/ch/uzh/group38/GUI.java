@@ -168,7 +168,19 @@ public class GUI {
     }
 
     private String askPlayerName(){
-        String username = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
+        JFrame f = new JFrame();
+        JOptionPane pane = new JOptionPane();
+        f.add(pane);
+        f.setVisible(true);
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+            }
+        });
+        timer.start();
+        String username = pane.showInputDialog(f, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
+
         return username;
     }
 
