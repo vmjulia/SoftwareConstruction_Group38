@@ -59,7 +59,7 @@ public class BoardTest {
 
 
     @Test
-    public void testKindConversion(){
+    public void testKingConversion(){
 
 
         /*

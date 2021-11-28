@@ -14,12 +14,13 @@ public class UserTest {
         u = new User(name);
     }
     @Test
-    public void UserStorageTest(){
+    public void UserNameTest(){
         assertEquals(name, u.getName());
-        assertEquals(0, u.getScore());
+
     }
 
     @Test public void ScoreTest(){
+        assertEquals(0, u.getScore());
         u.increaseScore();
         assertEquals(1, u.getScore());
 
