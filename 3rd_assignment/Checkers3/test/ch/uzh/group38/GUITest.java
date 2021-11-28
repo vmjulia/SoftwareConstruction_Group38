@@ -2,9 +2,12 @@ package ch.uzh.group38;
 
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.lang.reflect.*;
 import java.lang.reflect.Field;
@@ -29,6 +32,14 @@ public class GUITest {
         Field pBS = gui.getClass().getDeclaredField("playBoardSquares");
         pBS.setAccessible(true);
         this.playBoardSquares = (Square[][]) pBS.get(gui);
+    }
+
+    @After
+    public void cleanUp() throws NoSuchFieldException, IllegalAccessException {
+        Field frm = gui.getClass().getDeclaredField("frame");
+        frm.setAccessible(true);
+        JFrame frame = (JFrame) frm.get(gui);
+        frame.dispose();
     }
 
     @Test
@@ -114,7 +125,6 @@ public class GUITest {
         for (int i = 0; i < numberOfMoves; i++) {
             int m = (int) (8*Math.random());
             int n = (int) (8*Math.random());
-            System.out.println(Integer.toString(m) + Integer.toString(n));
             playBoardSquares[m][n].doClick();
         }
     }
