@@ -8,10 +8,14 @@ interface Subject{
     void notifyObservers();
 }
 
+interface Menu{
+    Iterator createIterator();
+}
 
 
 
-    public class Board implements Subject{
+
+    public class Board implements Subject, Menu{
 
     private final Field[][] board;
     private List<Observer> observers = new ArrayList<>();
