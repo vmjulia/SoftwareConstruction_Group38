@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 
 public class GUI {
 
-    public static final ClassLoader loader = GUI.class.getClassLoader();
-    //the argument might be null, but intellij's suggestion does not solve that issue
     private final Icon whitePawnIcon = new WhitePawn();
     private final Icon whiteKingIcon = new WhiteKing();
     private final Icon redPawnIcon = new RedPawn();
