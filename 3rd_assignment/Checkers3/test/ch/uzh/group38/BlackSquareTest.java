@@ -13,26 +13,7 @@ import java.lang.reflect.Modifier;
 import static org.junit.Assert.assertTrue;
 
 public class BlackSquareTest extends TestCase {
-    GUI gui;
-    Method refresh;
-    Square[][] playBoardSquares;
-
-    @Before
-    public void createGUI() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-
-        Constructor<GUI> constructor = GUI.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-        constructor.setAccessible(true);
-        this.gui = constructor.newInstance();
-
-        this.refresh = GUI.class.getDeclaredMethod("refresh");
-        refresh.setAccessible(true);
-        refresh.invoke(gui);
-
-        Field pBS = gui.getClass().getDeclaredField("playBoardSquares");
-        pBS.setAccessible(true);
-        this.playBoardSquares = (Square[][]) pBS.get(gui);
-    }
+   
 @Test
     public void SetActionTest(){
 
@@ -56,7 +37,7 @@ public class BlackSquareTest extends TestCase {
     bs.setActiveAction();
     assertEquals(activeState, buttonPressed.currentState);
 
-    
+
 
 }
 }
