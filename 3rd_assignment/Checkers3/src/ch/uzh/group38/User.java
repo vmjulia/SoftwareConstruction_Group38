@@ -1,7 +1,7 @@
 package ch.uzh.group38;
 
 public class User {
-    private String UserName ;
+    private final String UserName ;
     private int score = 0;
 
     public  User (String name){
