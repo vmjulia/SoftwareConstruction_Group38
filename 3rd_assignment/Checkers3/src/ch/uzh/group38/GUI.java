@@ -3,8 +3,6 @@ package ch.uzh.group38;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +25,7 @@ public class GUI {
     private static User player1;
     private static User player2;
     private final JPanel gui = new JPanel();
-    private final JPanel history = new JPanel();
+    private Display1 history;
     private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
@@ -57,7 +55,7 @@ public class GUI {
         frame.pack();
     }
 
-    private void refresh(){
+    public void refresh(){
         history.removeAll();
         history.setVisible(false);
         gui.removeAll();
@@ -151,7 +149,7 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    private void setPlayers(){
+    public void setPlayers(){
         RuleEvaluator.resetCurrentPlayer();
         player1 = new User(askPlayerName());
         RuleEvaluator.updateTurn();
@@ -159,11 +157,12 @@ public class GUI {
         RuleEvaluator.resetCurrentPlayer();
     }
 
-    private void reset(){        
+    public void reset(){
         board = new Board();
         if (pawnActive) {
             playBoardSquares[x1][y1].deactivate();
         }
+        this.history = new Display1(this);
         refresh();
     }
 
@@ -185,42 +184,7 @@ public class GUI {
     public void displayHistory(boolean roundEnd){
         gui.removeAll();
         gui.setVisible(false);
-        history.removeAll();
-        toolbar.removeAll();
-        toolbar.setFloatable(false);
-
-        if (roundEnd){
-            message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
-            JButton resb = new JButton("One more round");
-            resb.addActionListener(new NextRoundButton());
-            JButton rb1 = new JButton("New Game");
-            rb1.addActionListener(new ResetButton());
-            toolbar.add(resb);
-            toolbar.addSeparator();
-            toolbar.add(rb1);
-        }
-
-        else{
-            message.setText("Round " + RuleEvaluator.getCurrentRound());
-            JButton rb3 = new JButton("back to game");
-            rb3.addActionListener(new BackButton());
-            toolbar.add(rb3);
-        }
-
-        toolbar.addSeparator();
-        toolbar.add(message);
-        toolbar.setOpaque(false);
-        history.add(toolbar);
-        history.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
-        String[][] rec = {
-                { player1.getName(), String.valueOf(player1.getScore())},
-                { player2.getName(), String.valueOf(player2.getScore()) },
-
-        };
-        String[] header = { "Player", "Score"};
-        JTable table = new JTable(rec, header);
-        history.add(new JScrollPane(table));
+        history.displayHistory2( roundEnd, toolbar, message, player1, player2 );
         frame.add(history);
         history.setVisible(true);
         frame.setVisible(true);
@@ -366,21 +330,7 @@ public class GUI {
             displayHistory(false);
         }
     }
-
-    class BackButton implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            refresh();
-        }
-    }
-
-    class NextRoundButton implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            RuleEvaluator.updateCurrentRound();
-            reset();
-        }
-    }
+    
 
     public static void main(String[] args) {
         new GUI();
