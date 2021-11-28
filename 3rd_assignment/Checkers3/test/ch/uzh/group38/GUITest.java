@@ -14,7 +14,7 @@ public class GUITest {
     Method refresh;
 
     @Before
-    public void createGUI() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void createGUI() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
 
         Constructor<GUI> constructor = GUI.class.getDeclaredConstructor();
         assertTrue(Modifier.isPrivate(constructor.getModifiers()));
@@ -24,7 +24,6 @@ public class GUITest {
         this.refresh = GUI.class.getDeclaredMethod("refresh");
         refresh.setAccessible(true);
         refresh.invoke(gui);
-
     }
 
     @Test
@@ -59,5 +58,43 @@ public class GUITest {
                 }
             }
         }
+    }
+
+    @Test
+    public void endOfGameTest() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+
+        int x1 = 2;
+        int y1 = 1;
+        int x2 = 3;
+        int y2 = 0;
+
+        int x3 = 5;
+        int y3 = 2;
+        int x4 = 4;
+        int y4 = 1;
+
+        Move m1 = new Move(x1, y1, x2, y2);
+        m1.move(this.gui.board);
+        Move m2 = new Move(x3, y3, x4, y4);
+        m2.move(this.gui.board);
+
+        //removing all other pieces
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 3; j++) {
+                this.gui.board.removePiece(j, i);
+            }
+
+
+            for (int j = 5; j < 8; j++) {
+                this.gui.board.removePiece(j, i);
+            }
+        }
+        refresh.invoke(gui);
+
+        //executing last move
+        gui.playBoardSquares[3][0].doClick();
+        assertTrue(this.gui.pawnActive);
+        gui.playBoardSquares[5][2].doClick();
+        assertTrue(RuleEvaluator.checkWinner(this.gui.board));
     }
 }

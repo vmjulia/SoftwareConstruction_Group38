@@ -19,19 +19,19 @@ public class GUI {
     private final Icon redKingIcon = new RedKing();
 
     private Move currentMove;
-    private Board board;
+    public Board board;
 
 
     private int x1;
     private int y1;
-    private boolean pawnActive = false;
+    public boolean pawnActive = false;
     private JFrame frame;
     private static User player1;
     private static User player2;
     private final JPanel gui = new JPanel();
     private final JPanel history = new JPanel();
     private final JToolBar toolbar = new JToolBar();
-    private final Square[][] playBoardSquares = new Square[8][8];
+    public final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
 
@@ -170,8 +170,8 @@ public class GUI {
     }
 
     private String askPlayerName(){
-        String playername = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
-        return playername;
+        String username = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
+        return username;
     }
 
     private static User currentPlayer(){
@@ -200,8 +200,6 @@ public class GUI {
             toolbar.add(resb);
             toolbar.addSeparator();
             toolbar.add(rb1);
-            toolbar.addSeparator();
-            toolbar.add(message);
         }
 
         else{
@@ -209,11 +207,10 @@ public class GUI {
             JButton rb3 = new JButton("back to game");
             rb3.addActionListener(new BackButton());
             toolbar.add(rb3);
-            toolbar.addSeparator();
-            toolbar.add(message);
         }
 
-
+        toolbar.addSeparator();
+        toolbar.add(message);
         toolbar.setOpaque(false);
         history.add(toolbar);
         history.setBorder(BorderFactory.createTitledBorder(

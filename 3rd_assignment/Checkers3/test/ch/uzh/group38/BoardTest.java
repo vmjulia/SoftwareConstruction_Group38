@@ -134,7 +134,7 @@ public class BoardTest {
 
     /*
   remove all observers, add just one, and try to update it
-  test if that observer has list of valid moves ( when it is registere and npt*/
+  test if that observer has list of valid moves ( when it is registered and npt*/
 
     @Test
     public void testObserver(){
