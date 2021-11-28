@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 public class GUITest {
     GUI gui;
     Method refresh;
+    Square[][] playBoardSquares;
 
     @Before
     public void createGUI() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
@@ -24,14 +25,14 @@ public class GUITest {
         this.refresh = GUI.class.getDeclaredMethod("refresh");
         refresh.setAccessible(true);
         refresh.invoke(gui);
+
+        Field pBS = gui.getClass().getDeclaredField("playBoardSquares");
+        pBS.setAccessible(true);
+        this.playBoardSquares = (Square[][]) pBS.get(gui);
     }
 
     @Test
-    public void refreshActionStatesTest() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-        refresh.invoke(gui);
-        Field pBS = gui.getClass().getDeclaredField("playBoardSquares");
-        pBS.setAccessible(true);
-        Square[][] playBoardSquares = (Square[][]) pBS.get(gui);
+    public void refreshActionStatesTest() throws NoSuchFieldException, IllegalAccessException{
 
         for (int i = 0; i< playBoardSquares.length; i++) {
             for (int j = 0; j< playBoardSquares[i].length; j++) {
@@ -61,7 +62,11 @@ public class GUITest {
     }
 
     @Test
-    public void endOfGameTest() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+    public void endOfGameTest() throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+
+        Field brd = gui.getClass().getDeclaredField("board");
+        brd.setAccessible(true);
+        Board board = (Board) brd.get(gui);
 
         int x1 = 2;
         int y1 = 1;
@@ -74,27 +79,32 @@ public class GUITest {
         int y4 = 1;
 
         Move m1 = new Move(x1, y1, x2, y2);
-        m1.move(this.gui.board);
+        m1.move(board);
         Move m2 = new Move(x3, y3, x4, y4);
-        m2.move(this.gui.board);
+        m2.move(board);
 
         //removing all other pieces
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
-                this.gui.board.removePiece(j, i);
+                board.removePiece(j, i);
             }
 
 
             for (int j = 5; j < 8; j++) {
-                this.gui.board.removePiece(j, i);
+                board.removePiece(j, i);
             }
         }
         refresh.invoke(gui);
 
         //executing last move
-        gui.playBoardSquares[3][0].doClick();
-        assertTrue(this.gui.pawnActive);
-        gui.playBoardSquares[5][2].doClick();
-        assertTrue(RuleEvaluator.checkWinner(this.gui.board));
+        playBoardSquares[3][0].doClick();
+
+        Field pA = gui.getClass().getDeclaredField("pawnActive");
+        pA.setAccessible(true);
+        boolean pawnActive = (boolean) pA.get(gui);
+        assertTrue(pawnActive);
+
+        playBoardSquares[5][2].doClick();
+        assertTrue(RuleEvaluator.checkWinner(board));
     }
 }

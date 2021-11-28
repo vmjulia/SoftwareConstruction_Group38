@@ -19,19 +19,19 @@ public class GUI {
     private final Icon redKingIcon = new RedKing();
 
     private Move currentMove;
-    public Board board;
+    private Board board;
 
 
     private int x1;
     private int y1;
-    public boolean pawnActive = false;
+    private boolean pawnActive = false;
     private JFrame frame;
     private static User player1;
     private static User player2;
     private final JPanel gui = new JPanel();
     private final JPanel history = new JPanel();
     private final JToolBar toolbar = new JToolBar();
-    public final Square[][] playBoardSquares = new Square[8][8];
+    private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
 
