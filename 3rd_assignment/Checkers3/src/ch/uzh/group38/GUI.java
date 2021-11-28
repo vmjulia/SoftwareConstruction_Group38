@@ -22,6 +22,7 @@ public class GUI {
 
     private int x1;
     private int y1;
+    private static int currentRound = 0;
     private boolean pawnActive = false;
     private JFrame frame;
     private static User player1;
@@ -51,7 +52,7 @@ public class GUI {
                 }
             }
         }
-        RuleEvaluator.resetCurrentRound();
+        resetCurrentRound();
         setPlayers();
         reset();
         frame.pack();
@@ -182,6 +183,12 @@ public class GUI {
         String username = pane.showInputDialog(f, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
         return username;
     }
+    public static void resetCurrentRound(){
+        currentRound = 1;
+    }
+    public static void updateCurrentRound(){
+        currentRound += 1;
+    }
 
     private static User currentPlayer(){
         if (RuleEvaluator.getCurrentPlayer() == 1){
@@ -212,7 +219,7 @@ public class GUI {
         }
 
         else{
-            message.setText("Round " + RuleEvaluator.getCurrentRound());
+            message.setText("Round " + currentRound);
             JButton rb3 = new JButton("back to game");
             rb3.addActionListener(new BackButton());
             toolbar.add(rb3);
@@ -365,7 +372,7 @@ public class GUI {
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            RuleEvaluator.resetCurrentRound();
+            resetCurrentRound();
             setPlayers();
             reset();
         }
@@ -388,7 +395,7 @@ public class GUI {
     class NextRoundButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            RuleEvaluator.updateCurrentRound();
+            updateCurrentRound();
             reset();
         }
     }

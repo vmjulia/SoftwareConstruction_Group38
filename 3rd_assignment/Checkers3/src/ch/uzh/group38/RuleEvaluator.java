@@ -6,7 +6,6 @@ public class RuleEvaluator {
     variable to keep track of whose turn it is
     */
     private static Board currentBoard;
-    private static int currentRound = 0;
     private static int currentPlayer;
     private static int lastX = -1;
     private static int lastY = -1;
@@ -39,17 +38,6 @@ public class RuleEvaluator {
         lastY = -1;
     }
 
-    public static void resetCurrentRound(){
-        currentRound = 1;
-    }
-
-    public static void updateCurrentRound(){
-        currentRound += 1;
-    }
-
-    public static int getCurrentRound(){
-        return currentRound;
-    }
 
     /*
     checks if the piece can be accessed by current player
