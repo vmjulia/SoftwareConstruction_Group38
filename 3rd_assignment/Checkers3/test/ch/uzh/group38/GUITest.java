@@ -121,12 +121,67 @@ public class GUITest {
     }
 
     @Test
-    public void testClickSeries() {
+    public void testClickSeries() throws NoSuchFieldException, IllegalAccessException {
+
+        Field bP = playBoardSquares[2][3].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        GUI.ButtonPressed buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[2][3]);
+        Field cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
+        playBoardSquares[2][3].doClick();
+        assertEquals(buttonPressed.getActiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[3][4].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[3][4]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getEmptyState(), cS.get(buttonPressed));
         playBoardSquares[3][4].doClick();
-        playBoardSquares[4][5].doClick();
-        playBoardSquares[6][7].doClick();
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[5][6].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[5][6]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
         playBoardSquares[5][6].doClick();
+        assertEquals(buttonPressed.getActiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[4][5].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[4][5]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getEmptyState(), cS.get(buttonPressed));
         playBoardSquares[4][5].doClick();
-        playBoardSquares[6][7].doClick();
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[3][4].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[3][4]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
+        playBoardSquares[3][4].doClick();
+        assertEquals(buttonPressed.getActiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[5][6].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[5][6]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getEmptyState(), cS.get(buttonPressed));
+        playBoardSquares[5][6].doClick();
+        assertEquals(buttonPressed.getInactiveState(), cS.get(buttonPressed));
+
+        bP = playBoardSquares[4][5].getClass().getDeclaredField("buttonPressed");
+        bP.setAccessible(true);
+        buttonPressed = (GUI.ButtonPressed) bP.get(playBoardSquares[4][5]);
+        cS = buttonPressed.getClass().getDeclaredField("currentState");
+        cS.setAccessible(true);
+        assertEquals(buttonPressed.getEmptyState(), cS.get(buttonPressed));
     }
 }
