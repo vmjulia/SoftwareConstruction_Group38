@@ -13,7 +13,7 @@ abstract class Square extends JButton {
 }
 
 class EmptySquare extends Square {
-    GUI.ButtonPressed buttonPressed;
+    private GUI.ButtonPressed buttonPressed;
 
     public EmptySquare(GUI.ButtonPressed passedAction) {
         this.buttonPressed = passedAction;
@@ -41,7 +41,7 @@ class EmptySquare extends Square {
 }
 
 class BlackSquare extends Square {
-    GUI.ButtonPressed buttonPressed;
+    private GUI.ButtonPressed buttonPressed;
 
     public BlackSquare(GUI.ButtonPressed passedAction) {
         this.buttonPressed = passedAction;
