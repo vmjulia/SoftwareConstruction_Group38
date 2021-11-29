@@ -51,11 +51,9 @@ public class GUI {
 
 
     private void refresh(){
-        history.removeAll();
-        history.setVisible(false);
+        history.clear();
         gui.update();
         frame.add(gui);
-        gui.setVisible(true);
         frame.setVisible(true);
     }
 
@@ -96,22 +94,27 @@ public class GUI {
     }
 
     public void displayHistory(boolean roundEnd){
-        gui.removeAll();
-        gui.setVisible(false);
+        gui.clear();
         history.update(roundEnd);
         frame.add(history);
-        history.setVisible(true);
         frame.setVisible(true);
     }
 
 
     class GuiDisplay extends JPanel{
+
         private final JToolBar toolbar = new JToolBar();
 
         private final Icon whitePawnIcon = new WhitePawn();
         private final Icon whiteKingIcon = new WhiteKing();
         private final Icon redPawnIcon = new RedPawn();
         private final Icon redKingIcon = new RedKing();
+
+        public void clear(){
+            this.removeAll();
+            this.setVisible(false);
+
+        }
 
         public void update(){
             this.removeAll();
@@ -123,6 +126,7 @@ public class GUI {
             this.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
             this.add(toolbar);
             this.add (playBoard);
+            this.setVisible(true);
         }
 
         private void createToolbar() {
@@ -213,6 +217,12 @@ public class GUI {
     class HistoryDisplay extends JPanel{
         private final JToolBar toolbar = new JToolBar();
 
+        public void clear(){
+            this.removeAll();
+            this.setVisible(false);
+
+        }
+
         public void update(boolean RoundEnd){
             this.removeAll();
             toolbar.removeAll();
@@ -240,6 +250,7 @@ public class GUI {
             String[] header = { "Player", "Score"};
             JTable table = new JTable(rec, header);
             this.add(new JScrollPane(table));
+            this.setVisible(true);
 
         }
 
