@@ -28,7 +28,7 @@ public class GUI {
     private static User player1;
     private static User player2;
     private final JPanel gui = new JPanel();
-    private final JPanel history = new JPanel();
+    private final HistoryDisplay history = new HistoryDisplay();
     private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
     private final String COLS = "ABCDEFGH";
@@ -192,45 +192,62 @@ public class GUI {
     public void displayHistory(boolean roundEnd){
         gui.removeAll();
         gui.setVisible(false);
-        history.removeAll();
-        toolbar.removeAll();
-        toolbar.setFloatable(false);
+        history.update(roundEnd);
+        frame.add(history);
+        history.setVisible(true);
+        frame.setVisible(true);
+    }
 
-        if (roundEnd){
-            message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
-            JButton resb = new JButton("One more round");
-            resb.addActionListener(new NextRoundButton());
-            JButton rb1 = new JButton("New Game");
-            rb1.addActionListener(new ResetButton());
-            toolbar.add(resb);
+    class HistoryDisplay extends JPanel{
+        public void update(boolean RoundEnd){
+            this.removeAll();
+            toolbar.removeAll();
+            toolbar.setFloatable(false);
+
+            if (RoundEnd){
+                RoundEndToolbar();
+            }
+
+            else{
+                WithinRoundToolbar();
+            }
+
             toolbar.addSeparator();
-            toolbar.add(rb1);
+            toolbar.add(message);
+            toolbar.setOpaque(false);
+            this.add(toolbar);
+            this.setBorder(BorderFactory.createTitledBorder(
+                    BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
+            String[][] rec = {
+                    { player1.getName(), String.valueOf(player1.getScore())},
+                    { player2.getName(), String.valueOf(player2.getScore()) },
+
+            };
+            String[] header = { "Player", "Score"};
+            JTable table = new JTable(rec, header);
+            this.add(new JScrollPane(table));
+
         }
 
-        else{
+        private void RoundEndToolbar(){
+        message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
+        JButton resb = new JButton("One more round");
+        resb.addActionListener(new NextRoundButton());
+        JButton rb1 = new JButton("New Game");
+        rb1.addActionListener(new ResetButton());
+        toolbar.add(resb);
+        toolbar.addSeparator();
+        toolbar.add(rb1);
+        }
+
+        private void WithinRoundToolbar(){
             message.setText("Round " + currentRound);
             JButton rb3 = new JButton("back to game");
             rb3.addActionListener(new BackButton());
             toolbar.add(rb3);
+
         }
 
-        toolbar.addSeparator();
-        toolbar.add(message);
-        toolbar.setOpaque(false);
-        history.add(toolbar);
-        history.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
-        String[][] rec = {
-                { player1.getName(), String.valueOf(player1.getScore())},
-                { player2.getName(), String.valueOf(player2.getScore()) },
-
-        };
-        String[] header = { "Player", "Score"};
-        JTable table = new JTable(rec, header);
-        history.add(new JScrollPane(table));
-        frame.add(history);
-        history.setVisible(true);
-        frame.setVisible(true);
     }
     
     class ButtonPressed implements ActionListener{
