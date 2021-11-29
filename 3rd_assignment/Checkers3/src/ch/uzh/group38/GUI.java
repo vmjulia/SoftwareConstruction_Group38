@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 public class GUI {
 
-    private Move currentMove;
     private Board board;
 
 
@@ -19,14 +18,13 @@ public class GUI {
     private int y1;
     private static int currentRound = 0;
     private boolean pawnActive = false;
-    private JFrame frame;
+    private final JFrame frame;
     private static User player1;
     private static User player2;
     private final GuiDisplay gui = new GuiDisplay();
     private final HistoryDisplay history = new HistoryDisplay();
     private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
-    private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
 
     private GUI() {
@@ -80,8 +78,7 @@ public class GUI {
     }
 
     private String askPlayerName(){
-        String username = JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
-        return username;
+        return JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
     }
     public static void resetCurrentRound(){
         currentRound = 1;
@@ -185,6 +182,7 @@ public class GUI {
 
             //fill in top row
             playBoard.add(new JLabel("+",SwingConstants.CENTER));
+            String COLS = "ABCDEFGH";
             for (int i = 0; i < 8; i++) {
                 playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
             }
@@ -325,7 +323,7 @@ public class GUI {
 
         public void actionPerformed(ActionEvent e) {
             if (pawnActive) {
-                currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
+                Move currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
                 if (board.getField(x1, y1).isMoveStored(currentMove)) {
                     currentMove.move(board);
                     playBoardSquares[x1][y1].deactivate();
