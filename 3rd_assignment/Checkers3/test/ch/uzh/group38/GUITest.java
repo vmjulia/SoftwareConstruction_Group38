@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.*;
 import java.lang.reflect.Field;
@@ -117,5 +118,15 @@ public class GUITest {
 
         playBoardSquares[5][2].doClick();
         assertTrue(RuleEvaluator.checkWinner(board));
+    }
+
+    @Test
+    public void testClickSeries() {
+        playBoardSquares[3][4].doClick();
+        playBoardSquares[4][5].doClick();
+        playBoardSquares[6][7].doClick();
+        playBoardSquares[5][6].doClick();
+        playBoardSquares[4][5].doClick();
+        playBoardSquares[6][7].doClick();
     }
 }
