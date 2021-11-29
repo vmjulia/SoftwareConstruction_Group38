@@ -118,14 +118,4 @@ public class GUITest {
         playBoardSquares[5][2].doClick();
         assertTrue(RuleEvaluator.checkWinner(board));
     }
-
-    @Test
-    public void testRandomPresser(){
-        int numberOfMoves = 100;
-        for (int i = 0; i < numberOfMoves; i++) {
-            int m = (int) (8*Math.random());
-            int n = (int) (8*Math.random());
-            playBoardSquares[m][n].doClick();
-        }
-    }
 }
