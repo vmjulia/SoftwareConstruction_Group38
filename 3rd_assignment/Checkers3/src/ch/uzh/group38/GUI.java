@@ -11,11 +11,6 @@ import java.awt.event.ActionListener;
 
 public class GUI {
 
-    private final Icon whitePawnIcon = new WhitePawn();
-    private final Icon whiteKingIcon = new WhiteKing();
-    private final Icon redPawnIcon = new RedPawn();
-    private final Icon redKingIcon = new RedKing();
-
     private Move currentMove;
     private Board board;
 
@@ -116,6 +111,11 @@ public class GUI {
 
 
     class GuiDisplay extends JPanel{
+
+        private final Icon whitePawnIcon = new WhitePawn();
+        private final Icon whiteKingIcon = new WhiteKing();
+        private final Icon redPawnIcon = new RedPawn();
+        private final Icon redKingIcon = new RedKing();
 
         public void update(){
             this.removeAll();
