@@ -27,7 +27,7 @@ public class GUI {
     private JFrame frame;
     private static User player1;
     private static User player2;
-    private final guiDisplay gui = new guiDisplay();
+    private final GuiDisplay gui = new GuiDisplay();
     private final HistoryDisplay history = new HistoryDisplay();
     private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
@@ -115,7 +115,7 @@ public class GUI {
     }
 
 
-    class guiDisplay extends JPanel{
+    class GuiDisplay extends JPanel{
 
         public void update(){
             this.removeAll();
