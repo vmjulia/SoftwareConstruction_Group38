@@ -229,11 +229,11 @@ public class GUI {
             toolbar.setFloatable(false);
 
             if (RoundEnd){
-                RoundEndToolbar();
+                roundEndToolbar();
             }
 
             else{
-                WithinRoundToolbar();
+                withinRoundToolbar();
             }
 
             toolbar.addSeparator();
@@ -254,7 +254,7 @@ public class GUI {
 
         }
 
-        private void RoundEndToolbar(){
+        private void roundEndToolbar(){
         message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
         JButton resb = new JButton("One more round");
         resb.addActionListener(new NextRoundButton());
@@ -265,7 +265,7 @@ public class GUI {
         toolbar.add(rb1);
         }
 
-        private void WithinRoundToolbar(){
+        private void withinRoundToolbar(){
             message.setText("Round " + currentRound);
             JButton rb3 = new JButton("back to game");
             rb3.addActionListener(new BackButton());
