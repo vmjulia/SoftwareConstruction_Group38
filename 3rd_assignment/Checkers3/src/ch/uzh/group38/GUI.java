@@ -145,7 +145,7 @@ public class GUI {
             toolbar.setOpaque(false);
         }
 
-        public JPanel  createBoard()  {
+        private JPanel  createBoard()  {
 
             //creating the board
             JPanel playBoard = new JPanel(new GridLayout(0, 10));
