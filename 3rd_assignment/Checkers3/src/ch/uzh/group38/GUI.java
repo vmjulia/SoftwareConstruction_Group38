@@ -13,7 +13,6 @@ public class GUI {
 
     private Board board;
 
-
     private int x1;
     private int y1;
     private static int currentRound = 0;
@@ -23,7 +22,6 @@ public class GUI {
     private static User player2;
     private final GuiDisplay gui = new GuiDisplay();
     private final HistoryDisplay history = new HistoryDisplay();
-    private final JToolBar toolbar = new JToolBar();
     private final Square[][] playBoardSquares = new Square[8][8];
     private static final JLabel message = new JLabel("Your add here!");
 
@@ -108,6 +106,7 @@ public class GUI {
 
 
     class GuiDisplay extends JPanel{
+        private final JToolBar toolbar = new JToolBar();
 
         private final Icon whitePawnIcon = new WhitePawn();
         private final Icon whiteKingIcon = new WhiteKing();
@@ -143,6 +142,7 @@ public class GUI {
         }
 
         private JPanel  createBoard()  {
+
 
             //creating the board
             JPanel playBoard = new JPanel(new GridLayout(0, 10));
@@ -211,6 +211,8 @@ public class GUI {
     }
 
     class HistoryDisplay extends JPanel{
+        private final JToolBar toolbar = new JToolBar();
+
         public void update(boolean RoundEnd){
             this.removeAll();
             toolbar.removeAll();
