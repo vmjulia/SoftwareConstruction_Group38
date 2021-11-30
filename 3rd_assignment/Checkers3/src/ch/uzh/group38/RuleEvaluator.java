@@ -77,23 +77,23 @@ public class RuleEvaluator {
         if (((currentBoard.getField(x1,y1).isRed() && currentPlayer == 1) || (currentBoard.getField(x1,y1).isWhite() && currentPlayer == 2))){
             if (isJumpMove(move) || isSimpleMove(move)){
                 
-                if ((lastX != -1 && lastY != -1) && (x1 != lastX || y1 != lastY)){
+                if ((lastX != -1 && lastY != -1) && (x1 != lastX && y1 != lastY)){
                     //GUI.setMessage("Continue your move with same piece");
                     return false;
                 }
 
                     //check if a jump move was possible
                 if (isSimpleMove(move)){
-                    for (int i = 0; i < 8; i++){
-                        for (int j = 0; j < 8; j++){
-                            if (currentPlayer == 1 && currentBoard.getField(i,j).isRed() || currentPlayer == 2 && currentBoard.getField(i,j).isWhite()){
-                                if (checkForJumpMoves(i, j)){
-                                    //GUI.setMessage("There is a possible jump move");
-                                    return false;
-                                }
-                            }
-                        }
-                    }   
+                    Iterator currentIterator = currentBoard.createIterator();
+                    while (currentIterator.hasNext()){
+                        Field currentField = currentIterator.next();
+                        if (currentPlayer == 1 && currentField.isRed() || currentPlayer == 2 && currentField.isWhite()){
+                            if (checkForJumpMoves(currentField.getX(), currentField.getY())){
+                                //GUI.setMessage("There is a possible jump move");
+                                return false;
+
+                    } } }
+
                 }
             return true;
             }
@@ -181,19 +181,17 @@ public class RuleEvaluator {
     */
     public static boolean checkWinner(Board board){
         //check if there are pins left and if they can move
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                //if (currentPlayer == 2 && board.getField(i,j).isWhite() || (currentPlayer == 1 && board.getField(i,j).isRed())){
-                    if (board.getField(i,j).isAnyMovePossible()){
-                        return false;
-                    }
-                }
+        Iterator currentIterator = board.createIterator();
+        while (currentIterator.hasNext()){
+            Field currentField = currentIterator.next();
+            if (currentField.isAnyMovePossible()){
+                return false;
             }
+        }
+
         updateTurn();
         return true;        
     }
-
-
 
 
     public static void storeLastMove(Move move){
