@@ -20,8 +20,8 @@ public class GUI {
     private final JFrame frame;
     private static User player1;
     private static User player2;
-    private final GuiDisplay gui = new GuiDisplay();
-    private final HistoryDisplay history = new HistoryDisplay();
+    private final GameDisplay gameDisplay = new GameDisplay();
+    private final HistoryDisplay historyDisplay = new HistoryDisplay();
     private final Square[][] playBoardSquares = new Square[8][8];
     private static final JLabel message = new JLabel("Your add here!");
 
@@ -51,9 +51,9 @@ public class GUI {
 
 
     private void refresh(){
-        history.clear();
-        gui.update();
-        frame.add(gui);
+        historyDisplay.clear();
+        gameDisplay.update();
+        frame.add(gameDisplay);
         frame.setVisible(true);
     }
 
@@ -94,14 +94,14 @@ public class GUI {
     }
 
     public void displayHistory(boolean roundEnd){
-        gui.clear();
-        history.update(roundEnd);
-        frame.add(history);
+        gameDisplay.clear();
+        historyDisplay.update(roundEnd);
+        frame.add(historyDisplay);
         frame.setVisible(true);
     }
 
 
-    class GuiDisplay extends JPanel{
+    class GameDisplay extends JPanel{
 
         private final JToolBar toolbar = new JToolBar();
 
@@ -123,7 +123,7 @@ public class GUI {
             createToolbar();
             JPanel playBoard = createBoard();
             this.setBorder(new EmptyBorder(5, 5, 5, 5));
-            this.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+            this.setLayout(new BoxLayout(gameDisplay, BoxLayout.Y_AXIS));
             this.add(toolbar);
             this.add (playBoard);
             this.setVisible(true);
