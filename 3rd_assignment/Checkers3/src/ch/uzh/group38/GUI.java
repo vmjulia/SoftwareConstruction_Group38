@@ -3,6 +3,7 @@ package ch.uzh.group38;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,24 +11,18 @@ import java.awt.event.ActionListener;
 
 public class GUI {
 
-    public static final ClassLoader loader = GUI.class.getClassLoader();
-    //the argument might be null, but intellij's suggestion does not solve that issue
-    private final Icon whitePawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_pawn.png");
-    private final Icon whiteKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/white_king.png");
-    private final Icon redPawnIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_pawn.png");
-    private final Icon redKingIcon = new ImageIcon("2nd_assignment/Checkers2/resources/red_king.png");
-
-    private Move currentMove;
     private Board board;
-
 
     private int x1;
     private int y1;
+    private static int currentRound = 0;
     private boolean pawnActive = false;
-    private JFrame frame;
-    private final JPanel gui = new JPanel();
+    private final JFrame frame;
+    private static User player1;
+    private static User player2;
+    private final GameDisplay gameDisplay = new GameDisplay();
+    private final HistoryDisplay historyDisplay = new HistoryDisplay();
     private final Square[][] playBoardSquares = new Square[8][8];
-    private final String COLS = "ABCDEFGH";
     private static final JLabel message = new JLabel("Your add here!");
 
     private GUI() {
@@ -48,100 +43,29 @@ public class GUI {
                 }
             }
         }
-
+        resetCurrentRound();
+        setPlayers();
         reset();
         frame.pack();
     }
 
+
     private void refresh(){
-        gui.removeAll();
-        message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
-                
-        //creating toolbar
-        JButton rb = new JButton("Reset");
-        rb.addActionListener(new ResetButton());
-        JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-        toolbar.add(rb); 
-        toolbar.addSeparator();
-        toolbar.add(message);
-        toolbar.setOpaque(false);
-        
-        //creating the board
-        JPanel playBoard = new JPanel(new GridLayout(0, 10));
-        playBoard.setBorder(new LineBorder(Color.black));
-
-
-
-        Iterator currentIterator = board.createIterator();
-        while (currentIterator.hasNext()){
-            Field currentField = currentIterator.next();
-            int i =currentField.getX();
-            int j = currentField.getY();
-            if ((i+ j)%2 ==1){
-                if (currentField.isRed() && currentField.isKing()){
-                    playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(redKingIcon);
-                }
-                else if (currentField.isRed() && !currentField.isKing()){
-                    playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(redPawnIcon);
-                }
-                else if (currentField.isWhite() && currentField.isKing()){
-                    playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(whiteKingIcon);
-                }
-                else if (currentField.isWhite() && !currentField.isKing()){
-                    playBoardSquares[i][j].setInactiveAction();
-                        playBoardSquares[i][j].applyIcon(whitePawnIcon);
-                }
-                else {
-                    playBoardSquares[i][j].setEmptyAction();
-                        //removes any icon
-                        playBoardSquares[i][j].applyIcon(null);
-                }
-
-            }
-            else playBoardSquares[i][j].setVoidAction();
-        }
-
-        //fill in top row
-        playBoard.add(new JLabel("+",SwingConstants.CENTER));
-        for (int i = 0; i < 8; i++) {
-            playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
-        }
-        playBoard.add(new JLabel("+",SwingConstants.CENTER));
-        
-        //fill in playboard
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (j == 0 || j==9) {
-                        playBoard.add(new JLabel("" + (8-i), SwingConstants.CENTER));
-                }
-                else {
-                        playBoard.add(playBoardSquares[i][j-1]);
-                }
-            }
-        }
-        //fill in bottom row
-        playBoard.add(new JLabel("+",SwingConstants.CENTER));
-        for (int i = 0; i < 8; i++) {
-            playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
-        } 
-        playBoard.add(new JLabel("+", SwingConstants.CENTER));
-
-
-        //set up GUI
-        gui.setBorder(new EmptyBorder(5, 5, 5, 5));
-        gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
-        gui.add(toolbar);
-        gui.add(playBoard);
-        frame.add(gui);
+        historyDisplay.clear();
+        gameDisplay.update();
+        frame.add(gameDisplay);
         frame.setVisible(true);
     }
 
-    private void reset(){
+    private void setPlayers(){
         RuleEvaluator.resetCurrentPlayer();
+        player1 = new User(askPlayerName());
+        RuleEvaluator.updateTurn();
+        player2 = new User(askPlayerName());
+        RuleEvaluator.resetCurrentPlayer();
+    }
+
+    private void reset(){        
         board = new Board();
         if (pawnActive) {
             playBoardSquares[x1][y1].deactivate();
@@ -149,10 +73,208 @@ public class GUI {
         refresh();
     }
 
-    public static void setMessage(String msg){
-        message.setText(msg);
+    private String askPlayerName(){
+        return JOptionPane.showInputDialog(frame, "Player " + RuleEvaluator.getCurrentPlayer() + ", please enter your name", "Player " + RuleEvaluator.getCurrentPlayer());
+    }
+    public static void resetCurrentRound(){
+        currentRound = 1;
+    }
+    public static void updateCurrentRound(){
+        currentRound += 1;
     }
 
+    private static User currentPlayer(){
+        if (RuleEvaluator.getCurrentPlayer() == 1){
+            return (player1);}
+        return(player2);
+    }
+
+    public static String currentPlayerName(){
+        return(GUI.currentPlayer().getName());
+    }
+
+    public void displayHistory(boolean roundEnd){
+        gameDisplay.clear();
+        historyDisplay.update(roundEnd);
+        frame.add(historyDisplay);
+        frame.setVisible(true);
+    }
+
+
+    class GameDisplay extends JPanel{
+
+        private final JToolBar toolbar = new JToolBar();
+
+        private final Icon whitePawnIcon = new WhitePawn();
+        private final Icon whiteKingIcon = new WhiteKing();
+        private final Icon redPawnIcon = new RedPawn();
+        private final Icon redKingIcon = new RedKing();
+
+        public void clear(){
+            this.removeAll();
+            this.setVisible(false);
+
+        }
+
+        public void update(){
+            this.removeAll();
+            toolbar.removeAll();
+            message.setText(currentPlayerName() + " please enter your move");
+            createToolbar();
+            JPanel playBoard = createBoard();
+            this.setBorder(new EmptyBorder(5, 5, 5, 5));
+            this.setLayout(new BoxLayout(gameDisplay, BoxLayout.Y_AXIS));
+            this.add(toolbar);
+            this.add (playBoard);
+            this.setVisible(true);
+        }
+
+        private void createToolbar() {
+
+            //creating toolbar
+            JButton rb = new JButton("Reset");
+            rb.addActionListener(new ResetButton());
+            JButton hb = new JButton("Game history");
+            hb.addActionListener(new ScoreTableButton());
+            toolbar.setFloatable(false);
+            toolbar.add(rb);
+            toolbar.addSeparator();
+            toolbar.add(hb);
+            toolbar.addSeparator();
+            toolbar.add(message);
+            toolbar.setOpaque(false);
+        }
+
+        private JPanel  createBoard()  {
+
+
+            //creating the board
+            JPanel playBoard = new JPanel(new GridLayout(0, 10));
+            playBoard.setBorder(new LineBorder(Color.black));
+
+            Iterator currentIterator = board.createIterator();
+            while (currentIterator.hasNext()){
+                Field currentField = currentIterator.next();
+                int i =currentField.getX();
+                int j = currentField.getY();
+                if ((i+ j)%2 ==1){
+                    if (currentField.isRed() && currentField.isKing()){
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].setIcon(redKingIcon);
+                    }
+                    else if (currentField.isRed() && !currentField.isKing()){
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].setIcon(redPawnIcon);
+                    }
+                    else if (currentField.isWhite() && currentField.isKing()){
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].setIcon(whiteKingIcon);
+                    }
+                    else if (currentField.isWhite() && !currentField.isKing()){
+                        playBoardSquares[i][j].setInactiveAction();
+                        playBoardSquares[i][j].setIcon(whitePawnIcon);
+                    }
+                    else {
+                        playBoardSquares[i][j].setEmptyAction();
+                        //removes any icon
+                        playBoardSquares[i][j].setIcon(null);
+                    }
+
+                }
+                else playBoardSquares[i][j].setVoidAction();
+            }
+
+            //fill in top row
+            playBoard.add(new JLabel("+",SwingConstants.CENTER));
+            String COLS = "ABCDEFGH";
+            for (int i = 0; i < 8; i++) {
+                playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
+            }
+            playBoard.add(new JLabel("+",SwingConstants.CENTER));
+
+            //fill in playboard
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (j == 0 || j==9) {
+                        playBoard.add(new JLabel("" + (8-i), SwingConstants.CENTER));
+                    }
+                    else {
+                        playBoard.add(playBoardSquares[i][j-1]);
+                    }
+                }
+            }
+            //fill in bottom row
+            playBoard.add(new JLabel("+",SwingConstants.CENTER));
+            for (int i = 0; i < 8; i++) {
+                playBoard.add(new JLabel(COLS.substring(i, i + 1), SwingConstants.CENTER));
+            }
+            playBoard.add(new JLabel("+", SwingConstants.CENTER));
+            return playBoard;
+        }
+
+    }
+
+    class HistoryDisplay extends JPanel{
+        private final JToolBar toolbar = new JToolBar();
+
+        public void clear(){
+            this.removeAll();
+            this.setVisible(false);
+
+        }
+
+        public void update(boolean RoundEnd){
+            this.removeAll();
+            toolbar.removeAll();
+            toolbar.setFloatable(false);
+
+            if (RoundEnd){
+                roundEndToolbar();
+            }
+
+            else{
+                withinRoundToolbar();
+            }
+
+            toolbar.addSeparator();
+            toolbar.add(message);
+            toolbar.setOpaque(false);
+            this.add(toolbar);
+            this.setBorder(BorderFactory.createTitledBorder(
+                    BorderFactory.createEtchedBorder(), "Score table", TitledBorder.CENTER, TitledBorder.TOP));
+            String[][] rec = {
+                    { player1.getName(), String.valueOf(player1.getScore())},
+                    { player2.getName(), String.valueOf(player2.getScore()) },
+
+            };
+            String[] header = { "Player", "Score"};
+            JTable table = new JTable(rec, header);
+            this.add(new JScrollPane(table));
+            this.setVisible(true);
+
+        }
+
+        private void roundEndToolbar(){
+        message.setText("Player " + GUI.currentPlayerName() + " wins this round!! Do you want to play one more?");
+        JButton resb = new JButton("One more round");
+        resb.addActionListener(new NextRoundButton());
+        JButton rb1 = new JButton("New Game");
+        rb1.addActionListener(new ResetButton());
+        toolbar.add(resb);
+        toolbar.addSeparator();
+        toolbar.add(rb1);
+        }
+
+        private void withinRoundToolbar(){
+            message.setText("Round " + currentRound);
+            JButton rb3 = new JButton("back to game");
+            rb3.addActionListener(new BackButton());
+            toolbar.add(rb3);
+
+        }
+
+    }
+    
     class ButtonPressed implements ActionListener{
         private final int x;
         private final int y;
@@ -200,7 +322,7 @@ public class GUI {
         public VoidState() {}
 
         public void actionPerformed(ActionEvent e) {
-            message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+            message.setText(GUI.currentPlayerName() + " please touch your pawns only!");
         }
     }
 
@@ -214,24 +336,23 @@ public class GUI {
 
         public void actionPerformed(ActionEvent e) {
             if (pawnActive) {
-                currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
+                Move currentMove = new Move(x1, y1, buttonPressed.x, buttonPressed.y);
                 if (board.getField(x1, y1).isMoveStored(currentMove)) {
                     currentMove.move(board);
                     playBoardSquares[x1][y1].deactivate();
                     pawnActive = false;
                     refresh();
                     if (RuleEvaluator.checkWinner(board)) {
-                        JOptionPane.showMessageDialog(frame, "Player " +
-                                RuleEvaluator.getCurrentPlayer() + " wins!!");
-                        reset();
+                        currentPlayer().increaseScore();
+                        displayHistory(true);
                     }
                 }
                 else {
-                    message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " this is not a valid move");
+                    message.setText(GUI.currentPlayerName() + " this is not a valid move");
                 }
             }
             else {
-                message.setText("Player" + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+                message.setText(GUI.currentPlayerName() + " please touch your pawns only!");
             }
         }
     }
@@ -256,10 +377,10 @@ public class GUI {
                 x1 = buttonPressed.x;
                 y1 = buttonPressed.y;
                 pawnActive = true;
-                message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please select target field!");
+                message.setText(GUI.currentPlayerName() + " please select target field!");
             }
             else {
-                message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please touch your pawns only!");
+                message.setText(GUI.currentPlayerName() + " please touch your pawns only!");
             }
         }
     }
@@ -275,13 +396,37 @@ public class GUI {
             buttonPressed.setState(buttonPressed.getInactiveState());
             playBoardSquares[buttonPressed.x][buttonPressed.y].deactivate();
             pawnActive = false;
-            message.setText("Player " + RuleEvaluator.getCurrentPlayer() + " please enter your move");
+            message.setText(GUI.currentPlayerName() + " please enter your move");
         }
     }
 
     class ResetButton implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            resetCurrentRound();
+            setPlayers();
+            reset();
+        }
+    }
+
+    class ScoreTableButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            displayHistory(false);
+        }
+    }
+
+    class BackButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            refresh();
+        }
+    }
+
+    class NextRoundButton implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateCurrentRound();
             reset();
         }
     }

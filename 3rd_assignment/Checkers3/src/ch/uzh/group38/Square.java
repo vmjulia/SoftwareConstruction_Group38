@@ -8,17 +8,16 @@ abstract class Square extends JButton {
     public abstract void setEmptyAction();
     public abstract void setInactiveAction();
     public abstract void setActiveAction();
-    public abstract void applyIcon(Icon passedIcon);
     public abstract void activate();
     public abstract void deactivate();
 }
 
 class EmptySquare extends Square {
-    GUI.ButtonPressed buttonPressed;
+    private GUI.ButtonPressed buttonPressed;
 
     public EmptySquare(GUI.ButtonPressed passedAction) {
         this.buttonPressed = passedAction;
-        this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        this.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         this.addActionListener(passedAction);
         this.setBackground(Color.white);
         this.setOpaque(true);
@@ -37,17 +36,16 @@ class EmptySquare extends Square {
         buttonPressed.setState(buttonPressed.getActiveState());
     }
 
-    public void applyIcon(Icon passedIcon) {}
     public void activate() {}
     public void deactivate() {}
 }
 
 class BlackSquare extends Square {
-    GUI.ButtonPressed buttonPressed;
+    private GUI.ButtonPressed buttonPressed;
 
     public BlackSquare(GUI.ButtonPressed passedAction) {
         this.buttonPressed = passedAction;
-        this.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        this.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         this.addActionListener(passedAction);
         this.setBackground(Color.black);
         this.setOpaque(true);
@@ -64,10 +62,6 @@ class BlackSquare extends Square {
     }
     public void setActiveAction() {
         buttonPressed.setState(buttonPressed.getActiveState());
-    }
-
-    public void applyIcon(Icon passedIcon) {
-        this.setIcon(passedIcon);
     }
 
     public void activate() {
