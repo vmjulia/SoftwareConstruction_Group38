@@ -1,7 +1,7 @@
 package ch.uzh.group38;
 
-enum Suit {CLUBS, DIAMONDS, SPADES, HEARTS}
 enum Rank {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING}
+enum Suit {CLUBS, DIAMONDS, SPADES, HEARTS}
 
 public class Card {
     private Rank aRank;
@@ -11,6 +11,17 @@ public class Card {
     public Card (Rank pRank, Suit pSuit){
         aRank = pRank;
         aSuit = pSuit;
-        value = 1;
+        switch(aRank){
+            case ACE: value = 11; break;
+            case TWO: value = 2; break;
+            case THREE: value = 3; break;
+            case FOUR: value = 4; break;
+            case FIVE: value = 5; break;
+            case SIX: value = 6; break;
+            case SEVEN: value = 7; break;
+            case EIGHT: value = 8; break;
+            case NINE: value = 9; break;
+            default: value = 10; break;
+        }
     }
 }
