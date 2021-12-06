@@ -25,8 +25,8 @@ public class Card {
         }
     }
 
-    public void display(){
-        System.out.println("[" + this.aRank + " of " + this.aSuit + "]");
+    public String display(){
+        return "[" + this.aRank + " of " + this.aSuit + "]";
     }
 
     public int getValue() {

@@ -26,6 +26,5 @@ public class Deck {
         else {
             System.out.println("No cards left in the deck!");
             return null;}
-    }
-    
+    }    
 }
