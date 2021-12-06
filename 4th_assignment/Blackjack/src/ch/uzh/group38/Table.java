@@ -1,7 +1,6 @@
 package ch.uzh.group38;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Table {
     private ArrayList<Card> playerCards = new ArrayList<Card>();
@@ -32,22 +31,6 @@ public class Table {
         this.print();
     }
 
-    public void playersTurn(){
-        String input;
-        do {
-            System.out.println("hit or stay? [H/S] ");
-            input = System.console().readLine();
-            if (input.charAt(0) == 's'){
-                return;
-            }
-            else if (input.charAt(0) == 'h'){
-                playerCards.add(deck.draw());
-                this.print();
-            }
-        } while (input.charAt(0) == 'h');
-        return;
-    }
-
     private int score(ArrayList<Card> cards){
         int score = 0;
         int aces = 0;
@@ -62,5 +45,25 @@ public class Table {
             aces--;
         }
         return score;
+    }
+
+    public void flipCard(){
+        dealerCards.add(coveredCard);
+    }
+
+    public int playerScore(){
+        return score(playerCards);
+    }
+
+    public int dealerScore(){
+        return score(dealerCards);
+    }
+
+    public void hitDealerCard(){
+        dealerCards.add(deck.draw());
+    }
+
+    public void hitPlayerCard(){
+        playerCards.add(deck.draw());
     }
 }

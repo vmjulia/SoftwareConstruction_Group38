@@ -3,16 +3,78 @@ package ch.uzh.group38;
 public class Dealer {
 
     private static Player player = new Player();
+    static Table table;
     private static int bet;
 
     private static void playGame(){
         do {
             bet = player.makeBet();
         } while (bet > player.getCashAmount());
-        Table table = new Table();
+        table = new Table();
         table.firstRound();
-        table.playersTurn();
+        playersTurn();
+        dealersTurn();
     }
+
+    private static void dealersTurn(){
+        table.flipCard();
+        while (table.dealerScore() < 17){
+            table.hitDealerCard();
+            table.print();
+        }
+        table.print();
+        endOfGame();
+    }
+
+    private static void playersTurn(){
+        String input;
+        do {
+            System.out.println("hit or stay? [H/S] ");
+            input = System.console().readLine();
+            if (input.charAt(0) == 's'){
+                return;
+            }
+            else if (input.charAt(0) == 'h'){
+                table.hitPlayerCard();
+                table.print();
+                if (table.playerScore() > 21){
+                    endOfGame();
+                    return;
+                }
+            }
+        } while (input.charAt(0) == 'h');
+        return;
+    }
+
+    private static void endOfGame(){
+        if (table.playerScore() > 21){
+            System.out.println("you bust!");
+            player.pay(bet);
+        }
+        else if (table.dealerScore() > 21){
+            System.out.println("Dealer busts!");
+            player.increaseCash(bet);
+        }
+        else if (table.dealerScore() < table.playerScore()){
+            System.out.println("you win!");
+            player.increaseCash(bet);
+        }
+        else if (table.dealerScore() > table.playerScore()){
+            System.out.println("Dealer wins!");
+            player.pay(bet);
+        }
+        else if (table.dealerScore() == table.playerScore()){
+            System.out.println("nobody wins");
+        }
+        if (player.getCashAmount() <= 0){
+            System.out.println("Your are broke and you get kicked out of the casion!");
+        }
+        else{
+            System.out.println("lets play again");
+            playGame();
+        }
+    }
+
     public static void main(String[] args){
         playGame();
     }

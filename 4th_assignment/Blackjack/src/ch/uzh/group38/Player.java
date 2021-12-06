@@ -8,8 +8,7 @@ public class Player {
         return this.readInput();
     }
 
-    public int readInput(){
-        
+    public int readInput(){        
         do{
             String input = System.console().readLine();
             try {
@@ -25,5 +24,12 @@ public class Player {
         return cash;
     }
 
+    public void increaseCash(int c){
+        this.cash += c;
+    }
+
+    public void pay(int c){
+        this.cash -= c;
+    }
     
 }
