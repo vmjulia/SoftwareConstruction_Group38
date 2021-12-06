@@ -1,7 +1,5 @@
 package ch.uzh.group38;
 
-import java.util.Scanner;
-
 public class Player {
     private int cash = 100;
 
@@ -11,14 +9,16 @@ public class Player {
     }
 
     public int readInput(){
-        while(true){
-            try (Scanner s = new Scanner(System.in)) {
-                return s.nextInt();
-            }
-            catch (Exception InputMismatchException) {
+        
+        do{
+            String input = System.console().readLine();
+            try {
+                int i = Integer.parseInt(input);
+                return i;
+            } catch (Exception NumberFormatException) {
                 System.out.println("Invalid input! Please give an input of type integer");
             }
-        }
+        }while (true);
     }
 
     public int getCashAmount(){

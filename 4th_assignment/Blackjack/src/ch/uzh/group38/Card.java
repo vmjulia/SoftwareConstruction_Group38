@@ -32,4 +32,8 @@ public class Card {
     public int getValue() {
         return this.value;
     }
+
+    public Rank getRank(){
+        return this.aRank;
+    }
 }
