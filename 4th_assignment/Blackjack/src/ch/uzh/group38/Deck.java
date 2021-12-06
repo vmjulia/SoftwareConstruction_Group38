@@ -1,22 +1,31 @@
 package ch.uzh.group38;
 
+import java.util.Collections;
 import java.util.Stack;
 
 public class Deck {
     
-    Stack<Card> cards = new Stack<Card>();
+    private static Stack<Card> cards = new Stack<Card>();
 
     public Deck(){
-        //To be changed
-        cards.push(new Card(Rank.ACE, Suit.CLUBS)); 
+        for (Suit s : Suit.values()){
+            for (Rank r : Rank.values()){
+                cards.push(new Card(r, s));
+            }
+        }         
     }
 
-    public static void shuffle(){
-
+    public void shuffle(){
+        Collections.shuffle(cards);
     }
 
     public Card draw(){
-        return null;
+        if (!cards.empty()){
+            return cards.pop();
+        }
+        else {
+            System.out.println("No cards left in the deck!");
+            return null;}
     }
     
 }

@@ -24,4 +24,12 @@ public class Card {
             default: value = 10; break;
         }
     }
+
+    public void display(){
+        System.out.println("[" + this.aRank + " of " + this.aSuit + "]");
+    }
+
+    public int getValue() {
+        return this.value;
+    }
 }
