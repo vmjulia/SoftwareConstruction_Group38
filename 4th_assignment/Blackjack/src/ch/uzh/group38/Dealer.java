@@ -23,9 +23,11 @@ public class Dealer {
     private static void dealersTurn(){
         table.flipCard();
         while (table.dealerScore() < 17){
+            System.out.println("Dealer draws a card");
             table.hitDealerCard();
             table.print();
         }
+        System.out.println("Dealer stays");
         table.print();
         endOfGame();
     }
