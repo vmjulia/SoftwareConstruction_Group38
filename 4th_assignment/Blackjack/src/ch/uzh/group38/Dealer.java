@@ -1,5 +1,7 @@
 package ch.uzh.group38;
 
+import java.util.Scanner;
+
 public class Dealer {
 
     private static Player player = new Player();
@@ -30,7 +32,7 @@ public class Dealer {
         String input;
         do {
             System.out.println("hit or stay? [H/S] ");
-            input = System.console().readLine();
+            input = new Scanner(System.in).nextLine();
             if (input == "s"){
                 return;
             }

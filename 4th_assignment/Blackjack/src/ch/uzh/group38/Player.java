@@ -1,5 +1,7 @@
 package ch.uzh.group38;
 
+import java.util.Scanner;
+
 public class Player {
     private int cash = 100;
 
@@ -10,7 +12,7 @@ public class Player {
 
     public int readInput(){        
         do{
-            String input = System.console().readLine();
+            String input = new Scanner(System.in).nextLine();
             try {
                 int i = Integer.parseInt(input);
                 return i;
