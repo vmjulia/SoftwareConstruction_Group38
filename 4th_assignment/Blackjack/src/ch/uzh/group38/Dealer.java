@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Dealer {
 
+    private static Scanner scanner = CustomScanner.getInstance();
+
     private static Player player = new Player();
     static Table table;
     private static int bet;
@@ -32,7 +34,7 @@ public class Dealer {
         String input;
         do {
             System.out.println("hit or stay? [H/S] ");
-            input = new Scanner(System.in).nextLine();
+            input = scanner.nextLine();
             if (input == "s"){
                 return;
             }

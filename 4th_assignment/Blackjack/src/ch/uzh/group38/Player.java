@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Player {
     private int cash = 100;
+    private Scanner scanner = CustomScanner.getInstance();
 
     public int makeBet(){
         System.out.println("current chash: " + this.cash + "\nHow much would you like to bet? ");
@@ -12,7 +13,7 @@ public class Player {
 
     public int readInput(){        
         do{
-            String input = new Scanner(System.in).nextLine();
+            String input = scanner.nextLine();
             try {
                 int i = Integer.parseInt(input);
                 return i;
