@@ -37,10 +37,10 @@ public class Dealer {
         do {
             System.out.println("hit or stay? [H/S] ");
             input = scanner.nextLine();
-            if (input == "s"){
+            if (input.equals("s")){
                 return;
             }
-            else if (input == "h"){
+            else if (input.equals("h")){
                 table.hitPlayerCard();
                 table.print();
                 if (table.playerScore() > 21){
