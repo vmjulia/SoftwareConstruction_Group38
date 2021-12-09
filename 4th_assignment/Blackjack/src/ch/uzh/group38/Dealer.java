@@ -48,7 +48,7 @@ public class Dealer {
                     return;
                 }
             }
-        } while (input == "h");
+        } while (input.equals("h"));
         return;
     }
 
