@@ -8,7 +8,7 @@ public class Table {
     private ArrayList<Card> playerCards = new ArrayList<Card>();
     private ArrayList<Card> dealerCards = new ArrayList<Card>();
     private Card coveredCard;
-    Deck deck;
+    private Deck deck;
 
     private Table() {}
 
