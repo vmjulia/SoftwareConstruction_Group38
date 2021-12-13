@@ -39,23 +39,23 @@ public class Dealer {
         if (table.dealerScore() > 21){
             currentState = dealerBustState;
         }
-        else{
+        else {
+            System.out.println("Dealer stays");
             currentState = dealerNotBustState;
         }
-        System.out.println("Dealer stays");
         currentState.nextAction();
     }
 
     private static void playersTurn(){
         String input;
-        while(true){
+        while (true){
             System.out.println("hit or stay? [H/S] ");
             input = scanner.nextLine().toLowerCase();
             if (input.equals("s")){
                 currentState = playerNotBustState;
                 break;
             }
-            else if (input.equals("h")) {
+            else if (input.equals("h")){
                 table.hitPlayerCard();
                 table.print();
                 if (table.playerScore() > 21) {
@@ -66,8 +66,6 @@ public class Dealer {
         }
         currentState.nextAction();
     }
-
-
 
     private interface State {
         void nextAction();
@@ -124,11 +122,11 @@ public class Dealer {
 
     private static boolean thereIsANextRound(){
         if (player.getCashAmount() <= 0){
-            System.out.println("Your are broke and you get kicked out of the casino!");
+            System.out.println("\nYour are broke and you get kicked out of the casino!");
             return false;
         }
         else{
-            System.out.println("lets play again");
+            System.out.println("\nLet's play a round of Blackjack!");
             return true;
         }
     }
