@@ -72,7 +72,7 @@ public class Dealer {
             System.out.println("nobody wins");
         }
         if (player.getCashAmount() <= 0){
-            System.out.println("Your are broke and you get kicked out of the casion!");
+            System.out.println("Your are broke and you get kicked out of the casino!");
         }
         else{
             System.out.println("lets play again");
