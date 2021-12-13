@@ -7,14 +7,14 @@ public class Dealer {
     private static Scanner scanner = CustomScanner.getInstance();
 
     private static Player player = new Player();
-    static Table table;
+    static Table table = Table.getInstance();
     private static int bet;
 
     private static void playRound(){
         do {
             bet = player.makeBet();
         } while (bet > player.getCashAmount() || bet <= 0);
-        table = Table.getInstance();
+        table.reset();
         table.firstRound();
         playersTurn();
         dealersTurn();

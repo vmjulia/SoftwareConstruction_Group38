@@ -18,6 +18,11 @@ public class Table {
         }
         return instance;
     }
+
+    public void reset(){
+        this.playerCards.clear();
+        this.dealerCards.clear();
+    }
     
     public void print(){
         System.out.println("Dealers cards:   (score: " + score(dealerCards) + ")");
