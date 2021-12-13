@@ -23,7 +23,7 @@ public class Dealer {
         do {
             bet = player.makeBet();
         } while (bet > player.getCashAmount() || bet <= 0);
-        table.reset();
+        table.resetTable();
         table.firstRound();
         playersTurn();
     }
@@ -116,13 +116,13 @@ public class Dealer {
             player.loseMoney(bet);
         }
         else if (table.dealerScore() == table.playerScore()){
-            System.out.println("nobody wins");
+            System.out.println("Nobody wins");
         }
     }
 
     private static boolean thereIsANextRound(){
         if (player.getCashAmount() <= 0){
-            System.out.println("\nYour are broke and you get kicked out of the casino!");
+            System.out.println("\nYou are broke and you get kicked out of the casino!");
             return false;
         }
         else{

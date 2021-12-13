@@ -32,7 +32,9 @@ public class Deck {
             return cards.pop();
         }
         else {
-            System.out.println("No cards left in the deck!");
-            return null;}
+            System.out.println("There are no cards left in the deck!");
+            System.exit(0); // for the moment until we think of a good idea
+            return null;
+        }
     }    
 }

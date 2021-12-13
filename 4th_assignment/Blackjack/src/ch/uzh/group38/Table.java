@@ -19,7 +19,7 @@ public class Table {
         return instance;
     }
 
-    public void reset(){
+    public void resetTable(){
         this.playerCards.clear();
         this.dealerCards.clear();
     }

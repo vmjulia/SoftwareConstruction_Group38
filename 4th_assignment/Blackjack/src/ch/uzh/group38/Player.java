@@ -11,8 +11,8 @@ public class Player {
         return this.readInput();
     }
 
-    public int readInput(){        
-        do{
+    public int readInput(){
+        while (true) {
             String input = scanner.nextLine();
             try {
                 int i = Integer.parseInt(input);
@@ -20,7 +20,7 @@ public class Player {
             } catch (Exception NumberFormatException) {
                 System.out.println("Invalid input! Please give an input of type integer");
             }
-        }while (true);
+        }
     }
 
     public int getCashAmount(){
@@ -34,5 +34,4 @@ public class Player {
     public void loseMoney(int c){
         this.cash -= c;
     }
-    
 }
