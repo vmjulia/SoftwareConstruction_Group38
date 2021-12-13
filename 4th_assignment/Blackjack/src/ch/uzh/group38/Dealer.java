@@ -4,11 +4,20 @@ import java.util.Scanner;
 
 public class Dealer {
 
+    private static final NewRoundState newRoundState = new NewRoundState();
+    private static final PlayerBustState playerBustState = new PlayerBustState();
+    private static final PlayerNotBustState playerNotBustState = new PlayerNotBustState();
+    private static final DealerBustState dealerBustState = new DealerBustState();
+    private static final DealerNotBustState dealerNotBustState = new DealerNotBustState();
+
+    private static State currentState = newRoundState;
+
     private static Scanner scanner = CustomScanner.getInstance();
 
     private static Player player = new Player();
-    static Table table = Table.getInstance();
+    private static Table table = Table.getInstance();
     private static int bet;
+
 
     private static void playRound(){
         do {
@@ -17,19 +26,24 @@ public class Dealer {
         table.reset();
         table.firstRound();
         playersTurn();
-        dealersTurn();
     }
 
     private static void dealersTurn(){
         table.flipCard();
+        table.print();
         while (table.dealerScore() < 17){
             System.out.println("Dealer draws a card");
             table.hitDealerCard();
             table.print();
         }
+        if (table.dealerScore() > 21){
+            currentState = dealerBustState;
+        }
+        else{
+            currentState = dealerNotBustState;
+        }
         System.out.println("Dealer stays");
-        table.print();
-        endOfRound();
+        currentState.nextAction();
     }
 
     private static void playersTurn(){
@@ -38,30 +52,65 @@ public class Dealer {
             System.out.println("hit or stay? [H/S] ");
             input = scanner.nextLine().toLowerCase();
             if (input.equals("s")){
-                return;
+                currentState = playerNotBustState;
+                break;
             }
-            else if (input.equals("h")){
+            else if (input.equals("h")) {
                 table.hitPlayerCard();
                 table.print();
-                if (table.playerScore() > 21){
-                    endOfRound();
-                    return;
+                if (table.playerScore() > 21) {
+                    currentState = playerBustState;
+                    break;
                 }
             }
         }
+        currentState.nextAction();
     }
 
-    private static void endOfRound(){
-        if (table.playerScore() > 21){
-            System.out.println("you bust!");
+
+
+    private interface State {
+        void nextAction();
+    }
+
+    private static class NewRoundState implements State {
+        public void nextAction(){
+            playRound();
+        }
+    }
+
+    private static class PlayerBustState implements State {
+        public void nextAction(){
+            System.out.println("You bust! Dealer wins");
             player.loseMoney(bet);
+            currentState = newRoundState;
         }
-        else if (table.dealerScore() > 21){
-            System.out.println("Dealer busts!");
+    }
+
+    private static class PlayerNotBustState implements State {
+        public void nextAction(){
+            dealersTurn();
+        }
+    }
+
+    private static class DealerBustState implements State {
+        public void nextAction(){
+            System.out.println("Dealer busts! You win!");
             player.winMoney(bet);
+            currentState = newRoundState;
         }
-        else if (table.dealerScore() < table.playerScore()){
-            System.out.println("you win!");
+    }
+
+    private static class DealerNotBustState implements State {
+        public void nextAction(){
+            checkWinner();
+            currentState = newRoundState;
+        }
+    }
+
+    private static void checkWinner(){
+        if (table.dealerScore() < table.playerScore()){
+            System.out.println("You win!");
             player.winMoney(bet);
         }
         else if (table.dealerScore() > table.playerScore()){
@@ -71,16 +120,22 @@ public class Dealer {
         else if (table.dealerScore() == table.playerScore()){
             System.out.println("nobody wins");
         }
+    }
+
+    private static boolean thereIsANextRound(){
         if (player.getCashAmount() <= 0){
             System.out.println("Your are broke and you get kicked out of the casino!");
+            return false;
         }
         else{
             System.out.println("lets play again");
-            playRound();
+            return true;
         }
     }
 
     public static void main(String[] args){
-        playRound();
+        while(thereIsANextRound()){
+            currentState.nextAction();
+        }
     }
 }
