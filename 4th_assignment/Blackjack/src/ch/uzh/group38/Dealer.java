@@ -54,19 +54,19 @@ public class Dealer {
     private static void endOfGame(){
         if (table.playerScore() > 21){
             System.out.println("you bust!");
-            player.pay(bet);
+            player.loseMoney(bet);
         }
         else if (table.dealerScore() > 21){
             System.out.println("Dealer busts!");
-            player.increaseCash(bet);
+            player.winMoney(bet);
         }
         else if (table.dealerScore() < table.playerScore()){
             System.out.println("you win!");
-            player.increaseCash(bet);
+            player.winMoney(bet);
         }
         else if (table.dealerScore() > table.playerScore()){
             System.out.println("Dealer wins!");
-            player.pay(bet);
+            player.loseMoney(bet);
         }
         else if (table.dealerScore() == table.playerScore()){
             System.out.println("nobody wins");

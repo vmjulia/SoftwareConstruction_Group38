@@ -27,11 +27,11 @@ public class Player {
         return cash;
     }
 
-    public void increaseCash(int c){
+    public void winMoney(int c){
         this.cash += c;
     }
 
-    public void pay(int c){
+    public void loseMoney(int c){
         this.cash -= c;
     }
     
