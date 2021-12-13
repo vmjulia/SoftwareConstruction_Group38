@@ -7,7 +7,7 @@ public class Player {
     private Scanner scanner = CustomScanner.getInstance();
 
     public int makeBet(){
-        System.out.println("current chash: " + this.cash + "\nHow much would you like to bet? ");
+        System.out.println("current cash: " + this.cash + "\nHow much would you like to bet? ");
         return this.readInput();
     }
 
