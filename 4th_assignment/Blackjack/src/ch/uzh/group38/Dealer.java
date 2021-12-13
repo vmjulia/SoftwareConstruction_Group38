@@ -14,7 +14,7 @@ public class Dealer {
         do {
             bet = player.makeBet();
         } while (bet > player.getCashAmount() || bet <= 0);
-        table = new Table();
+        table = Table.getInstance();
         table.firstRound();
         playersTurn();
         dealersTurn();

@@ -3,10 +3,21 @@ package ch.uzh.group38;
 import java.util.ArrayList;
 
 public class Table {
+
+    private static Table instance;
     private ArrayList<Card> playerCards = new ArrayList<Card>();
     private ArrayList<Card> dealerCards = new ArrayList<Card>();
     private Card coveredCard;
     Deck deck;
+
+    private Table() {}
+
+    public static Table getInstance(){
+        if (instance == null){
+            instance = new Table();
+        }
+        return instance;
+    }
     
     public void print(){
         System.out.println("Dealers cards:   (score: " + score(dealerCards) + ")");
@@ -22,7 +33,7 @@ public class Table {
     }
 
     public void firstRound(){
-        deck = new Deck();
+        deck = Deck.getInstance();
         deck.shuffle();
         playerCards.add(deck.draw());
         playerCards.add(deck.draw());
