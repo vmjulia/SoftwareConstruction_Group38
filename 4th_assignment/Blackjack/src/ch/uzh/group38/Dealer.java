@@ -13,7 +13,7 @@ public class Dealer {
     private static void playGame(){
         do {
             bet = player.makeBet();
-        } while (bet > player.getCashAmount());
+        } while (bet > player.getCashAmount() || bet <= 0);
         table = new Table();
         table.firstRound();
         playersTurn();
