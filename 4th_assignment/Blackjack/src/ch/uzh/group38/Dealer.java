@@ -29,7 +29,7 @@ public class Dealer {
         }
         System.out.println("Dealer stays");
         table.print();
-        endOfGame();
+        endOfRound();
     }
 
     private static void playersTurn(){
@@ -44,14 +44,14 @@ public class Dealer {
                 table.hitPlayerCard();
                 table.print();
                 if (table.playerScore() > 21){
-                    endOfGame();
+                    endOfRound();
                     return;
                 }
             }
         }
     }
 
-    private static void endOfGame(){
+    private static void endOfRound(){
         if (table.playerScore() > 21){
             System.out.println("you bust!");
             player.loseMoney(bet);
