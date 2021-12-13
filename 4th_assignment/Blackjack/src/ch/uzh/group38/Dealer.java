@@ -10,7 +10,7 @@ public class Dealer {
     static Table table;
     private static int bet;
 
-    private static void playGame(){
+    private static void playRound(){
         do {
             bet = player.makeBet();
         } while (bet > player.getCashAmount() || bet <= 0);
@@ -77,11 +77,11 @@ public class Dealer {
         }
         else{
             System.out.println("lets play again");
-            playGame();
+            playRound();
         }
     }
 
     public static void main(String[] args){
-        playGame();
+        playRound();
     }
 }
