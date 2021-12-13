@@ -34,9 +34,9 @@ public class Dealer {
 
     private static void playersTurn(){
         String input;
-        do {
+        while(true){
             System.out.println("hit or stay? [H/S] ");
-            input = scanner.nextLine();
+            input = scanner.nextLine().toLowerCase();
             if (input.equals("s")){
                 return;
             }
@@ -48,8 +48,7 @@ public class Dealer {
                     return;
                 }
             }
-        } while (input.equals("h"));
-        return;
+        }
     }
 
     private static void endOfGame(){
