@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Player {
     private int cash = 100;
     private Scanner scanner = CustomScanner.getInstance();
-    private  int bet;
+    private int bet;
 
     public void makeBet(){
         System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");

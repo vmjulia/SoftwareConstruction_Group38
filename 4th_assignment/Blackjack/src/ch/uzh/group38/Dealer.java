@@ -130,8 +130,9 @@ public class Dealer {
     }
 
     public static void main(String[] args){
-        while(thereIsANextRound()){
-            currentState.nextAction();
+        Dealer dealer = new Dealer();
+        while(dealer.thereIsANextRound()){
+            dealer.currentState.nextAction();
         }
     }
 }
