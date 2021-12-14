@@ -20,9 +20,7 @@ public class Dealer {
 
 
     private static void playRound(){
-        do {
-            bet = player.makeBet();
-        } while (bet > player.getCashAmount() || bet <= 0);
+        bet = player.makeBet();
         table.resetTable();
         table.firstRound();
         playersTurn();
@@ -121,7 +119,7 @@ public class Dealer {
     }
 
     private static boolean thereIsANextRound(){
-        if (player.getCashAmount() <= 0){
+        if (!player.isCashLeft()){
             System.out.println("\nYou are broke and you get kicked out of the casino!");
             return false;
         }

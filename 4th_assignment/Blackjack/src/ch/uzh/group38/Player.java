@@ -8,7 +8,11 @@ public class Player {
 
     public int makeBet(){
         System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
-        return this.readInput();
+        int bet =  this.readInput();
+        if (bet > this.cash || bet <= 0){
+            return makeBet();
+        }
+        return bet;
     }
 
     public int readInput(){
@@ -23,15 +27,15 @@ public class Player {
         }
     }
 
-    public int getCashAmount(){
-        return cash;
-    }
-
     public void winMoney(int c){
         this.cash += c;
     }
 
     public void loseMoney(int c){
         this.cash -= c;
+    }
+
+    public boolean isCashLeft(){
+        return (this.cash > 0);
     }
 }
