@@ -5,14 +5,15 @@ import java.util.Scanner;
 public class Player {
     private int cash = 100;
     private Scanner scanner = CustomScanner.getInstance();
+    private  int bet;
 
-    public int makeBet(){
+    public void makeBet(){
         System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
         int bet =  this.readInput();
         if (bet > this.cash || bet <= 0){
-            return makeBet();
+            makeBet();
         }
-        return bet;
+        this.bet = bet;
     }
 
     public int readInput(){
@@ -27,12 +28,12 @@ public class Player {
         }
     }
 
-    public void winMoney(int c){
-        this.cash += c;
+    public void winMoney(){
+        this.cash += this.bet;
     }
 
-    public void loseMoney(int c){
-        this.cash -= c;
+    public void loseMoney(){
+        this.cash -= this.bet;
     }
 
     public boolean isCashLeft(){

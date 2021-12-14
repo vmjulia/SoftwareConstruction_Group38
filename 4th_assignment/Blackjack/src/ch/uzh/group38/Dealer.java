@@ -16,11 +16,11 @@ public class Dealer {
 
     private static Player player = new Player();
     private static Table table = Table.getInstance();
-    private static int bet;
+
 
 
     private static void playRound(){
-        bet = player.makeBet();
+        player.makeBet();
         table.resetTable();
         table.firstRound();
         playersTurn();
@@ -78,7 +78,7 @@ public class Dealer {
     private static class PlayerBustState implements State {
         public void nextAction(){
             System.out.println("You bust! Dealer wins");
-            player.loseMoney(bet);
+            player.loseMoney();
             currentState = newRoundState;
         }
     }
@@ -92,7 +92,7 @@ public class Dealer {
     private static class DealerBustState implements State {
         public void nextAction(){
             System.out.println("Dealer busts! You win!");
-            player.winMoney(bet);
+            player.winMoney();
             currentState = newRoundState;
         }
     }
@@ -107,11 +107,11 @@ public class Dealer {
     private static void checkWinner(){
         if (table.dealerScore() < table.playerScore()){
             System.out.println("You win!");
-            player.winMoney(bet);
+            player.winMoney();
         }
         else if (table.dealerScore() > table.playerScore()){
             System.out.println("Dealer wins!");
-            player.loseMoney(bet);
+            player.loseMoney();
         }
         else if (table.dealerScore() == table.playerScore()){
             System.out.println("Nobody wins");
