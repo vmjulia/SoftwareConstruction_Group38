@@ -1,5 +1,47 @@
 package ch.uzh.group38;
 
+
+interface Observer {
+    void update();
+}
+
+interface Aggregate {
+    Iterator createIterator();
+}
+
+public class Player implements Observer, Aggregate{
+
+    private int bet;
+    private int score;
+    private Card[] cards;
+
+    public Player() {
+
+    }
+
+    public int makeBet() {
+        return this.bet;
+    }
+
+    public void takeTurn() {
+
+    }
+
+    public int countScore() {
+        return this.score;
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public Iterator createIterator() {
+        return null;
+    }
+}
+/*
 import java.util.Scanner;
 
 public class Player {
@@ -40,3 +82,4 @@ public class Player {
         return (this.cash > 0);
     }
 }
+*/

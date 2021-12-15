@@ -1,5 +1,39 @@
 package ch.uzh.group38;
 
+public class Dealer {
+
+    private final Deck deck;
+    private int score;
+    private Card[] cards;
+
+    public Dealer() {
+        this.deck = Deck.getInstance();
+    }
+
+    public void giveCards(Player player) {
+
+    }
+
+    // probably shuffles the deck
+    public void reset() {
+
+    }
+
+    // called from game to tell dealer to take his cards
+    public void takeCards() {
+
+    }
+
+    public void takeTurn() {
+
+    }
+
+    public int countScore() {
+        return this.score;
+    }
+}
+
+/*
 import java.util.Scanner;
 
 public class Dealer {
@@ -136,3 +170,4 @@ public class Dealer {
         }
     }
 }
+*/
