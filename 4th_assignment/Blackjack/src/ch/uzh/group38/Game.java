@@ -11,7 +11,7 @@ interface Subject {
 
 public class Game implements Subject{
 
-    private Player[] players;
+    private Player player;
     private Dealer dealer;
 
     private Game() {
