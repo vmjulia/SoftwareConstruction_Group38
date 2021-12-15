@@ -11,14 +11,31 @@ interface Subject {
 
 public class Game implements Subject{
 
-    private Player player;
-    private Dealer dealer;
+    private final Player player;
+    private final Dealer dealer;
 
     private Game() {
-
+        this.player = new Player();
+        this.dealer = new Dealer();
+        playRound();
     }
 
     private void playRound() {
+        player.makeBet();
+        dealer.giveCards(player);
+        dealer.takeCards();
+        //show dealer's cards to player
+        print();
+
+        // Game.print() or its equivalent should be called inside takeTurn
+        player.takeTurn();
+        dealer.takeTurn();
+
+        // pass give player dealer's score for player to compare
+        notifyObserver();
+    }
+
+    private void print() {
 
     }
 
@@ -38,6 +55,6 @@ public class Game implements Subject{
 
     @Override
     public void notifyObserver() {
-
+        player.update();
     }
 }
