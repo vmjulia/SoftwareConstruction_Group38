@@ -1,3 +1,4 @@
+/*
 package ch.uzh.group38;
 
 import java.util.ArrayList;
@@ -83,3 +84,4 @@ public class Table {
         playerCards.add(deck.draw());
     }
 }
+*/
