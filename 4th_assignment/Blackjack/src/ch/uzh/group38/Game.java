@@ -17,6 +17,9 @@ public class Game {
     }
 
     private void playRound() {
+        dealer.reset();
+        player.reset();
+
         player.makeBet();
         dealer.giveCards(player, 2);
         dealer.takeCards();
@@ -50,7 +53,7 @@ public class Game {
             System.exit(0);
         }
 
-        // call some reset here to clear cards, shuffle the deck
+        playRound();
     }
 
     public static void main(String[] args) {

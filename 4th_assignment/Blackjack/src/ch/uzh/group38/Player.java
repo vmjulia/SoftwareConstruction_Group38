@@ -65,6 +65,11 @@ public class Player implements Observer {
         }
     }
 
+    public void reset() {
+        this.dealersCards.clear();
+        this.cards.clear();
+    }
+
     private int countScore(ArrayList<Card> cards) {
         int score = 0;
         for (Card card : cards) {

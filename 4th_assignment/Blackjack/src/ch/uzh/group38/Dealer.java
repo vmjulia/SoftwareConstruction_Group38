@@ -25,7 +25,7 @@ public class Dealer implements Subject, Aggregate{
 
     public Dealer() {
         this.deck = Deck.getInstance();
-        // deck must be shuffled
+        this.deck.shuffle();
     }
 
     public void giveCards(Player player, int numberOfCards) {
@@ -36,9 +36,10 @@ public class Dealer implements Subject, Aggregate{
         player.takeCards(new CardIterator(playersCards));
     }
 
-    // probably shuffles the deck
     public void reset() {
-
+        this.deck.putDiscardBack();
+        this.deck.shuffle();
+        this.cards.clear();
     }
 
     // called from game to tell dealer to take his cards

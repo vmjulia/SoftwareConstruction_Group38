@@ -9,11 +9,12 @@ public class Deck {
     private static Stack<Card> cards = new Stack<Card>();
 
     private Deck(){
+        cards.clear();
         for (Suit s : Suit.values()){
             for (Rank r : Rank.values()){
                 cards.push(new Card(r, s));
             }
-        }         
+        }
     }
 
     public static Deck getInstance(){
@@ -27,6 +28,11 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    // should definitely be tested to make sure deck elsewhere is updated
+    public void putDiscardBack() {
+        instance = new Deck();
+    }
+
     public Card draw(){
         if (!cards.empty()){
             return cards.pop();
@@ -36,5 +42,10 @@ public class Deck {
             System.exit(0); // for the moment until we think of a good idea
             return null;
         }
-    }    
+    }
+
+    // should be removed in the end, probably
+    public int size() {
+        return cards.size();
+    }
 }
