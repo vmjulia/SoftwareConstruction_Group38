@@ -52,13 +52,13 @@ public class Dealer implements Subject, Aggregate{
     }
 
     public void takeTurn() {
+        // flip so that getValue works
+        cards.get(1).flip();
         int score = countScore(cards);
         while (score < 17) {
             this.cards.add(deck.draw());
             score = countScore(cards);
         }
-        // show the player the second card
-        cards.get(1).flip();
         notifyObservers();
     }
 

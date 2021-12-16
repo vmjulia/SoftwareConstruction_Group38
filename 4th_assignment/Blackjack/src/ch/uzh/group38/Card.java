@@ -35,6 +35,10 @@ public class Card {
     }
 
     public int getValue() {
+        if (!this.facingUp) {
+            // so that player does not see value of hidden cards
+            return 0;
+        }
         return this.value;
     }
 
