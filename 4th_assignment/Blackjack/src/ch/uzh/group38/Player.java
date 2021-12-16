@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -12,7 +13,7 @@ public class Player implements Observer {
     private int cash = 100;
     private int bet;
     private int score;
-    private Card[] cards;
+    private ArrayList<Card> cards = new ArrayList<Card>();
 
     public Player() {
 
@@ -41,6 +42,12 @@ public class Player implements Observer {
             } catch (Exception NumberFormatException) {
                 System.out.println("Invalid input! Please give an input of type integer");
             }
+        }
+    }
+
+    public void takeCards(Iterator iterator) {
+        while (iterator.hasNext()) {
+            cards.add(iterator.next());
         }
     }
 

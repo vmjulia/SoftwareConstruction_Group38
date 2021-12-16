@@ -15,7 +15,7 @@ public class Game {
 
     private void playRound() {
         player.makeBet();
-        dealer.giveCards(player);
+        dealer.giveCards(player, 2);
         dealer.takeCards();
         //show dealer's cards to player
 

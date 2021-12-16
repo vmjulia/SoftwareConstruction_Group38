@@ -7,8 +7,8 @@ interface Subject {
     void registerObserver(Observer observer);
     void removeObserver(Observer observer);
 
-    // can be split into different notifyObserver methods
-    void notifyObserver();
+    // can be split into showing players cards and giving players cards
+    void notifyObservers();
 }
 
 interface Aggregate {
@@ -27,8 +27,12 @@ public class Dealer implements Subject, Aggregate{
         this.deck = Deck.getInstance();
     }
 
-    public void giveCards(Player player) {
-
+    public void giveCards(Player player, int numberOfCards) {
+        ArrayList<Card> playersCards = new ArrayList<Card>();
+        for (int i = 0; i < numberOfCards; i++){
+            playersCards.add(deck.draw());
+        }
+        player.takeCards(new CardIterator(playersCards));
     }
 
     // probably shuffles the deck
@@ -48,7 +52,7 @@ public class Dealer implements Subject, Aggregate{
     public void takeTurn() {
 
 
-        notifyObserver();
+        notifyObservers();
     }
 
     public int countScore() {
@@ -62,12 +66,12 @@ public class Dealer implements Subject, Aggregate{
 
     @Override
     public void removeObserver(Observer observer) {
-
+        this.observer = null;
     }
 
     // get cardIterator from dealer and pass it to all observers
     @Override
-    public void notifyObserver() {
+    public void notifyObservers() {
         observer.update(createIterator());
     }
 
