@@ -38,7 +38,11 @@ public class Dealer implements Subject, Aggregate{
 
     // called from game to tell dealer to take his cards
     public void takeCards() {
+        // cards must be empty at this point
         this.cards.add(deck.draw());
+        this.cards.add(deck.draw());
+        // the second card is hidden from the player
+        this.cards.get(this.cards.size() -1).flip();
     }
 
     public void takeTurn() {

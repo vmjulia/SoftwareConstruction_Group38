@@ -6,11 +6,13 @@ enum Suit {CLUBS, DIAMONDS, SPADES, HEARTS}
 public class Card {
     private Rank aRank;
     private Suit aSuit;
+    private boolean facingUp;
     private int value;
 
     public Card (Rank pRank, Suit pSuit){
         aRank = pRank;
         aSuit = pSuit;
+        facingUp = true;
         switch(aRank){
             case ACE: value = 11; break;
             case TWO: value = 2; break;
@@ -35,5 +37,9 @@ public class Card {
 
     public Rank getRank(){
         return this.aRank;
+    }
+
+    public void flip() {
+        this.facingUp = !this.facingUp;
     }
 }
