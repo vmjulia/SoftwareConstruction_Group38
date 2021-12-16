@@ -17,6 +17,7 @@ public class Player implements Observer, Aggregate{
 
     // will be updated from game
     private Card[] dealersCards;
+    private int dealersScore;
 
     public Player() {
 

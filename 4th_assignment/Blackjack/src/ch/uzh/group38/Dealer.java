@@ -1,10 +1,21 @@
 package ch.uzh.group38;
 
-public class Dealer {
+
+interface Subject {
+    void registerObserver(Observer observer);
+    void removeObserver(Observer observer);
+
+    // can be split into different notifyObserver methods
+    void notifyObserver();
+}
+
+public class Dealer implements Subject{
 
     private final Deck deck;
     private int score;
     private Card[] cards;
+
+    private Observer observer;
 
     public Dealer() {
         this.deck = Deck.getInstance();
@@ -24,16 +35,34 @@ public class Dealer {
 
     }
 
-    public Iterator getCards() {
-        return new CardIterator(this.cards);
-    }
-
     public void takeTurn() {
 
+
+        notifyObserver();
     }
 
     public int countScore() {
         return this.score;
+    }
+
+    private Iterator getCards() {
+        return new CardIterator(this.cards);
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+
+    }
+
+    // get cardIterator from dealer and pass it to all observers
+    @Override
+    public void notifyObserver() {
+        observer.update(getCards());
     }
 }
 
