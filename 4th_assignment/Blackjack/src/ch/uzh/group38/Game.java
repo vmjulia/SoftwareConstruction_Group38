@@ -23,7 +23,6 @@ public class Game {
         // showing player dealer's cards
         dealer.notifyObservers();
 
-        // Game.print() or its equivalent should be called inside takeTurn
         while (true) {
             try {
                 player.takeTurn();

@@ -56,9 +56,9 @@ public class Player implements Observer {
     public void checkScoreAndCash() throws PlayerOutOfMoneyException {
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
-        if (score > dealersScore) {
+        if (score > dealersScore && score <= 21) {
             this.cash += 2*bet;
-        } else if (score == dealersScore) {
+        } else if (score == dealersScore && score <= 21) {
             this.cash += bet;
         } else if (this.cash == 0){
             throw (new PlayerOutOfMoneyException());

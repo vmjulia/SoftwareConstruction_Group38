@@ -25,6 +25,7 @@ public class Dealer implements Subject, Aggregate{
 
     public Dealer() {
         this.deck = Deck.getInstance();
+        // deck must be shuffled
     }
 
     public void giveCards(Player player, int numberOfCards) {
