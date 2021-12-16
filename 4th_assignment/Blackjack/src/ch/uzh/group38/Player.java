@@ -7,11 +7,7 @@ interface Observer {
     void update(Iterator iterator);
 }
 
-interface Aggregate {
-    Iterator createIterator();
-}
-
-public class Player implements Observer, Aggregate{
+public class Player implements Observer {
 
     private int cash = 100;
     private int bet;
@@ -62,11 +58,6 @@ public class Player implements Observer, Aggregate{
         // exceptions can be sent to dealer and then to game in case player runs out of money
         this.score = score;
         this.cash = cash;
-    }
-
-    @Override
-    public Iterator createIterator() {
-        return null;
     }
 }
 /*

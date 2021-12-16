@@ -1,6 +1,8 @@
 package ch.uzh.group38;
 
 
+import java.util.ArrayList;
+
 interface Subject {
     void registerObserver(Observer observer);
     void removeObserver(Observer observer);
@@ -9,11 +11,15 @@ interface Subject {
     void notifyObserver();
 }
 
-public class Dealer implements Subject{
+interface Aggregate {
+    Iterator createIterator();
+}
+
+public class Dealer implements Subject, Aggregate{
 
     private final Deck deck;
     private int score;
-    private Card[] cards;
+    private ArrayList<Card> cards = new ArrayList<Card>();
 
     private Observer observer;
 
@@ -32,7 +38,7 @@ public class Dealer implements Subject{
 
     // called from game to tell dealer to take his cards
     public void takeCards() {
-
+        this.cards.add(deck.draw());
     }
 
     public void takeTurn() {
@@ -43,10 +49,6 @@ public class Dealer implements Subject{
 
     public int countScore() {
         return this.score;
-    }
-
-    private Iterator getCards() {
-        return new CardIterator(this.cards);
     }
 
     @Override
@@ -62,7 +64,12 @@ public class Dealer implements Subject{
     // get cardIterator from dealer and pass it to all observers
     @Override
     public void notifyObserver() {
-        observer.update(getCards());
+        observer.update(createIterator());
+    }
+
+    @Override
+    public Iterator createIterator() {
+        return new CardIterator(this.cards);
     }
 }
 

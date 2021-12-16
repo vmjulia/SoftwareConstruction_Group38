@@ -1,32 +1,28 @@
 package ch.uzh.group38;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 interface Iterator {
     boolean hasNext();
     Card next();
-
-    // no idea what this should actually be
-    void remove();
-
 }
 public class CardIterator implements Iterator{
 
-    public CardIterator(Card[] cards) {
+    Queue<Card> myQueue = new LinkedList<>();
 
+    public CardIterator(ArrayList<Card> cards) {
+        for (Card card : cards) myQueue.add(card);
     }
 
-    @Override
     public boolean hasNext() {
-        return false;
+        return !myQueue.isEmpty();
     }
 
-    @Override
     public Card next() {
-        return null;
-    }
-
-    @Override
-    public void remove() {
-
+        return myQueue.remove();
     }
 }
