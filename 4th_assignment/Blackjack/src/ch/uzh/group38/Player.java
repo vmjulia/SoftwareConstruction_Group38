@@ -12,8 +12,10 @@ public class Player implements Observer {
 
     private int cash = 100;
     private int bet;
-    private int score;
     private ArrayList<Card> cards = new ArrayList<Card>();
+
+    private int dealersScore = 0;
+    private ArrayList<Card> dealersCards = new ArrayList<Card>();
 
     public Player() {
 
@@ -21,19 +23,48 @@ public class Player implements Observer {
 
     public int makeBet() {
         System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
-        int bet =  this.readInput();
+        int bet =  this.readIntInput();
         if (bet > this.cash || bet <= 0){
             makeBet();
         }
         this.bet = bet;
+        this.cash -= bet;
         return this.bet;
     }
 
     public void takeTurn() {
+        // print cards here
+        System.out.println("hit or stay? [H/S] ");
+        String input = readHitOrStayInput();
 
     }
 
-    private int readInput(){
+    public void takeCards(Iterator iterator) {
+        while (iterator.hasNext()) {
+            cards.add(iterator.next());
+        }
+    }
+
+    public void checkScore() throws PlayerBustException {
+        int score = countScore();
+        if (score > dealersScore) {
+            this.cash += 2*bet;
+        } else if (score == dealersScore) {
+            this.cash += bet;
+        } else if (this.cash == 0){
+            throw (new PlayerBustException());
+        }
+    }
+
+    private int countScore() {
+        int score = 0;
+        for (Card card : cards) {
+            score += card.getValue();
+        }
+        return score;
+    }
+
+    private int readIntInput(){
         while (true) {
             String input = new Scanner(System.in).nextLine();
             try {
@@ -45,26 +76,24 @@ public class Player implements Observer {
         }
     }
 
-    public void takeCards(Iterator iterator) {
-        while (iterator.hasNext()) {
-            cards.add(iterator.next());
+    private String readHitOrStayInput() {
+        while (true) {
+            String input = new Scanner(System.in).nextLine().toLowerCase();
+            if (input.equals("h") || input.equals("s")){
+                return input;
+            }
+            System.out.println("Invalid input! Please choose [H] or [S]");
         }
-    }
-
-    public int countScore() {
-        return this.score;
     }
 
     @Override
     public void update(Iterator iterator) {
-        // will be updated from Dealer
-        Card[] dealersCards;
-        int dealersScore;
-
-        // cash and score are updated,
-        // exceptions can be sent to dealer and then to game in case player runs out of money
-        this.score = score;
-        this.cash = cash;
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
+            dealersScore += card.getValue();
+            // should be empty at this point!
+            this.dealersCards.add(card);
+        }
     }
 }
 /*

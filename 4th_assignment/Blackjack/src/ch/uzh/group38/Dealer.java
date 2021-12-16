@@ -55,10 +55,6 @@ public class Dealer implements Subject, Aggregate{
         notifyObservers();
     }
 
-    public int countScore() {
-        return this.score;
-    }
-
     @Override
     public void registerObserver(Observer observer) {
         this.observer = observer;
