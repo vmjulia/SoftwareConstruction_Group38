@@ -17,7 +17,8 @@ public class Game {
         player.makeBet();
         dealer.giveCards(player, 2);
         dealer.takeCards();
-        //show dealer's cards to player
+        // showing player dealer's cards
+        dealer.notifyObservers();
 
         // Game.print() or its equivalent should be called inside takeTurn
         player.takeTurn();

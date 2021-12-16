@@ -14,7 +14,6 @@ public class Player implements Observer {
     private int bet;
     private ArrayList<Card> cards = new ArrayList<Card>();
 
-    private int dealersScore = 0;
     private ArrayList<Card> dealersCards = new ArrayList<Card>();
 
     public Player() {
@@ -33,7 +32,7 @@ public class Player implements Observer {
     }
 
     public void takeTurn() {
-        // print cards here
+        print();
         System.out.println("hit or stay? [H/S] ");
         String input = readHitOrStayInput();
 
@@ -46,7 +45,8 @@ public class Player implements Observer {
     }
 
     public void checkScore() throws PlayerBustException {
-        int score = countScore();
+        int score = countScore(cards);
+        int dealersScore = countScore(dealersCards);
         if (score > dealersScore) {
             this.cash += 2*bet;
         } else if (score == dealersScore) {
@@ -56,7 +56,7 @@ public class Player implements Observer {
         }
     }
 
-    private int countScore() {
+    private int countScore(ArrayList<Card> cards) {
         int score = 0;
         for (Card card : cards) {
             score += card.getValue();
@@ -86,13 +86,23 @@ public class Player implements Observer {
         }
     }
 
+    private void print(){
+        System.out.println("Dealers cards:   (score: " + countScore(dealersCards) + ")");
+        for (Card c : dealersCards) {
+            System.out.print(c.display() + " ");
+        }
+        System.out.println("\n");
+        System.out.println("Players cards:   (score: " + countScore(cards) + ")");
+        for (Card c : cards) {
+            System.out.print(c.display() + " ");
+        }
+        System.out.println("\n");
+    }
+
     @Override
     public void update(Iterator iterator) {
         while (iterator.hasNext()) {
-            Card card = iterator.next();
-            dealersScore += card.getValue();
-            // should be empty at this point!
-            this.dealersCards.add(card);
+            dealersCards.add(iterator.next());
         }
     }
 }
