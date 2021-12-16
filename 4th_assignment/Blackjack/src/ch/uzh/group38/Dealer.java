@@ -48,13 +48,27 @@ public class Dealer implements Subject, Aggregate{
         this.cards.add(deck.draw());
         this.cards.add(deck.draw());
         // the second card is hidden from the player
-        this.cards.get(this.cards.size() -1).flip();
+        this.cards.get(1).flip();
     }
 
     public void takeTurn() {
-
-
+        int score = countScore(cards);
+        while (score < 17) {
+            this.cards.add(deck.draw());
+            score = countScore(cards);
+        }
+        // show the player the second card
+        cards.get(1).flip();
         notifyObservers();
+    }
+
+    // countScore is private, so passing array is fine
+    private int countScore(ArrayList<Card> cards) {
+        int score = 0;
+        for (Card card : cards) {
+            score += card.getValue();
+        }
+        return score;
     }
 
     @Override
@@ -75,7 +89,7 @@ public class Dealer implements Subject, Aggregate{
 
     @Override
     public Iterator createIterator() {
-        return new CardIterator(this.cards);
+        return new CardIterator(cards);
     }
 }
 

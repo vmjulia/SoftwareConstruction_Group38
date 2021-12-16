@@ -43,7 +43,7 @@ public class Game {
                 }
             }
         }
-
+        System.out.println("\n start of dealer.takeTurn \n");
         dealer.takeTurn();
         try {
             player.checkScoreAndCash();

@@ -16,9 +16,9 @@ public class Player implements Observer {
 
     private int cash = 100;
     private int bet;
-    private ArrayList<Card> cards = new ArrayList<Card>();
+    private final ArrayList<Card> cards = new ArrayList<Card>();
 
-    private ArrayList<Card> dealersCards = new ArrayList<Card>();
+    private final ArrayList<Card> dealersCards = new ArrayList<Card>();
 
     public Player() {
 
@@ -54,6 +54,7 @@ public class Player implements Observer {
     }
 
     public void checkScoreAndCash() throws PlayerOutOfMoneyException {
+        print();
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
         if (score > dealersScore && score <= 21) {
@@ -115,8 +116,9 @@ public class Player implements Observer {
 
     @Override
     public void update(Iterator iterator) {
+        this.dealersCards.clear();
         while (iterator.hasNext()) {
-            dealersCards.add(iterator.next());
+            this.dealersCards.add(iterator.next());
         }
     }
 }

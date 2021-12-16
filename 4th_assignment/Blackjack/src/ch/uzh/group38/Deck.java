@@ -36,6 +36,7 @@ public class Deck {
     public Card draw(){
         if (!cards.empty()){
             return cards.pop();
+
         }
         else {
             System.out.println("There are no cards left in the deck!");
