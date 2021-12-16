@@ -35,6 +35,7 @@ public class Player implements Observer {
         return this.bet;
     }
 
+    // player bust exception could be replaced with a simple check here
     public void takeTurn() throws NeedCardException, PlayerBustException {
         if (countScore(cards) > 21) {throw (new PlayerBustException());}
 
@@ -53,15 +54,26 @@ public class Player implements Observer {
         }
     }
 
+    // State dp could be used to dissolve the massive if statement
     public void checkScoreAndCash() throws PlayerOutOfMoneyException {
         print();
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
-        if (score > dealersScore && score <= 21) {
-            this.cash += 2*bet;
-        } else if (score == dealersScore && score <= 21) {
-            this.cash += bet;
-        } else if (this.cash == 0){
+        // if player busts first, player looses regardless of dealerScore
+        if (score <= 21) {
+            if (dealersScore <= 21) {
+                if (score > dealersScore) {
+                    this.cash += 2*bet;
+                } else if (score == dealersScore) {
+                    this.cash += bet;
+                }
+                //bet has already been withdrawn from cash
+            } else {
+                // dealer busts
+                this.cash += 2*bet;
+            }
+        }
+        if (this.cash == 0) {
             throw (new PlayerOutOfMoneyException());
         }
     }

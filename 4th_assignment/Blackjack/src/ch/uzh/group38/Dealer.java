@@ -17,7 +17,7 @@ interface Aggregate {
 
 public class Dealer implements Subject, Aggregate{
 
-    private final Deck deck;
+    private Deck deck;
     private int score;
     private ArrayList<Card> cards = new ArrayList<Card>();
 
