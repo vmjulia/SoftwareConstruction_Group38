@@ -1,5 +1,8 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.NeedCardException;
+import ch.uzh.group38.exceptions.PlayerBustException;
+import ch.uzh.group38.exceptions.PlayerOutOfMoneyException;
 
 public class Game {
 
@@ -21,12 +24,28 @@ public class Game {
         dealer.notifyObservers();
 
         // Game.print() or its equivalent should be called inside takeTurn
-        player.takeTurn();
-        dealer.takeTurn();
+        while (true) {
+            try {
+                player.takeTurn();
+                break;
+            }  catch (NeedCardException e) {
+                dealer.giveCards(player, 1);
+            } catch (PlayerBustException e) {
+                try {
+                    player.checkScoreAndCash();
+                    playRound();
+                } catch (PlayerOutOfMoneyException ex) {
+                    dealer.removeObserver(player);
+                    System.out.println("\nYou are broke and you get kicked out of the casino!");
+                    System.exit(0);
+                }
+            }
+        }
 
+        dealer.takeTurn();
         try {
-            player.checkScore();
-        } catch (PlayerBustException e) {
+            player.checkScoreAndCash();
+        } catch (PlayerOutOfMoneyException e) {
             dealer.removeObserver(player);
             System.out.println("\nYou are broke and you get kicked out of the casino!");
             System.exit(0);

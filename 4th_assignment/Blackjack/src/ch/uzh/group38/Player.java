@@ -1,5 +1,9 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.NeedCardException;
+import ch.uzh.group38.exceptions.PlayerBustException;
+import ch.uzh.group38.exceptions.PlayerOutOfMoneyException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,11 +35,16 @@ public class Player implements Observer {
         return this.bet;
     }
 
-    public void takeTurn() {
+    public void takeTurn() throws NeedCardException, PlayerBustException {
+        if (countScore(cards) > 21) {throw (new PlayerBustException());}
+
         print();
         System.out.println("hit or stay? [H/S] ");
         String input = readHitOrStayInput();
-
+        switch (input) {
+            case "s": break;
+            case "h": throw (new NeedCardException());
+        }
     }
 
     public void takeCards(Iterator iterator) {
@@ -44,7 +53,7 @@ public class Player implements Observer {
         }
     }
 
-    public void checkScore() throws PlayerBustException {
+    public void checkScoreAndCash() throws PlayerOutOfMoneyException {
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
         if (score > dealersScore) {
@@ -52,7 +61,7 @@ public class Player implements Observer {
         } else if (score == dealersScore) {
             this.cash += bet;
         } else if (this.cash == 0){
-            throw (new PlayerBustException());
+            throw (new PlayerOutOfMoneyException());
         }
     }
 

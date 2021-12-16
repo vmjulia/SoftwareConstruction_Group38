@@ -28,7 +28,7 @@ public class Card {
     }
 
     public String display(){
-        if (this.facingUp == false) {
+        if (!this.facingUp) {
             return "[XXXXX]";
         }
         return "[" + this.aRank + " of " + this.aSuit + "]";
