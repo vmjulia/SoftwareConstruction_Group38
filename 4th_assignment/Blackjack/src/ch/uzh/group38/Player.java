@@ -2,7 +2,7 @@ package ch.uzh.group38;
 
 
 interface Observer {
-    void update();
+    void update(Iterator iterator);
 }
 
 interface Aggregate {
@@ -14,6 +14,9 @@ public class Player implements Observer, Aggregate{
     private int bet;
     private int score;
     private Card[] cards;
+
+    // will be updated from game
+    private Card[] dealersCards;
 
     public Player() {
 
@@ -32,7 +35,7 @@ public class Player implements Observer, Aggregate{
     }
 
     @Override
-    public void update() {
+    public void update(Iterator iterator) {
 
     }
 

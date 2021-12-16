@@ -24,6 +24,10 @@ public class Dealer {
 
     }
 
+    public Iterator getCards() {
+        return new CardIterator(this.cards);
+    }
+
     public void takeTurn() {
 
     }

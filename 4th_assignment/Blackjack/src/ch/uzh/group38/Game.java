@@ -25,7 +25,6 @@ public class Game implements Subject{
         dealer.giveCards(player);
         dealer.takeCards();
         //show dealer's cards to player
-        print();
 
         // Game.print() or its equivalent should be called inside takeTurn
         player.takeTurn();
@@ -33,10 +32,6 @@ public class Game implements Subject{
 
         // pass give player dealer's score for player to compare
         notifyObserver();
-    }
-
-    private void print() {
-
     }
 
     public static void main(String[] args) {
@@ -53,8 +48,9 @@ public class Game implements Subject{
 
     }
 
+    // get cardIterator from dealer and pass it to all observers
     @Override
     public void notifyObserver() {
-        player.update();
+        player.update(dealer.getCards());
     }
 }

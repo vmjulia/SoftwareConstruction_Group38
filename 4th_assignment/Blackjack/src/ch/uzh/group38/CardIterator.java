@@ -9,7 +9,11 @@ interface Iterator {
     void remove();
 
 }
-public class PlayerIterator implements Iterator{
+public class CardIterator implements Iterator{
+
+    public CardIterator(Card[] cards) {
+
+    }
 
     @Override
     public boolean hasNext() {
