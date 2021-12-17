@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.BlackjackException;
 import ch.uzh.group38.exceptions.NeedCardException;
 import ch.uzh.group38.exceptions.BustException;
 
@@ -34,7 +35,8 @@ public class Player implements Observer {
     }
 
     // player bust exception could be replaced with a simple check here
-    public void takeTurn() throws NeedCardException, BustException {
+    public void takeTurn() throws NeedCardException, BustException, BlackjackException {
+        if (countScore(cards) == 21) {throw (new BlackjackException());}
         if (countScore(cards) > 21) {throw (new BustException());}
 
         print();

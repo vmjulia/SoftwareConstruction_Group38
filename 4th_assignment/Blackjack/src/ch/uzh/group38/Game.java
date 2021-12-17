@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.BlackjackException;
 import ch.uzh.group38.exceptions.NeedCardException;
 import ch.uzh.group38.exceptions.BustException;
 
@@ -21,16 +22,38 @@ public class Game {
 
         player.makeBet();
         dealer.giveCards(player, 2);
-        dealer.takeCards();
+        try {
+            dealer.takeCards();
+        } catch (BlackjackException e) {
+            dealer.notifyObservers();
+            player.checkScoreAndCash();
+            handleDealerBlackjack();
+        }
         // showing player dealer's cards
         dealer.notifyObservers();
 
+        playerTurn(player);
+        dealerTurn();
+
+        dealer.notifyObservers();
+        player.checkScoreAndCash();
+        if (player.isOutOfMoney()) {
+            handlePlayerOutOfMoney(player);
+        }
+        handleOrdinaryOutcome();
+        playRound();
+    }
+
+    private void playerTurn(Player player) {
         while (true) {
             try {
                 player.takeTurn();
                 break;
-            }  catch (NeedCardException e) {
+            } catch (NeedCardException e) {
                 dealer.giveCards(player, 1);
+            } catch (BlackjackException e) {
+                player.checkScoreAndCash();
+                handlePlayerBlackjack(player);
             } catch (BustException e) {
                 player.checkScoreAndCash();
                 if (player.isOutOfMoney()) {
@@ -40,7 +63,9 @@ public class Game {
                 }
             }
         }
+    }
 
+    private void dealerTurn() {
         try {
             dealer.takeTurn();
         } catch (BustException e) {
@@ -48,14 +73,6 @@ public class Game {
             player.checkScoreAndCash();
             handleDealerBust();
         }
-
-        dealer.notifyObservers();
-        player.checkScoreAndCash();
-        if (player.isOutOfMoney()) {
-            handlePlayerOutOfMoney(player);
-        }
-        handleOrdinaryOutcome();
-        playRound();
     }
 
     private void handlePlayerOutOfMoney(Player player) {
@@ -78,6 +95,7 @@ public class Game {
 
     private void handlePlayerBlackjack(Player player) {
         // it might not be the case in real game, but eeeeeeeeeeeeeeeeeeeeh
+        // the hidden dealer's card is not shown
         System.out.println("\nYou have a blackjack, you win by default\n");
         playRound();
     }

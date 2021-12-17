@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.BlackjackException;
 import ch.uzh.group38.exceptions.BustException;
 
 import java.util.ArrayList;
@@ -42,10 +43,11 @@ public class Dealer implements Subject, Aggregate{
     }
 
     // called from game to tell dealer to take his cards
-    public void takeCards() {
+    public void takeCards() throws BlackjackException {
         // cards must be empty at this point
         this.cards.add(deck.draw());
         this.cards.add(deck.draw());
+        if (countScore(cards) == 21) {throw (new BlackjackException());}
         // the second card is hidden from the player
         this.cards.get(1).flip();
     }
@@ -58,9 +60,7 @@ public class Dealer implements Subject, Aggregate{
             this.cards.add(deck.draw());
             score = countScore(cards);
         }
-        if (score > 21) {
-            throw (new BustException());
-        }
+        if (score > 21) {throw (new BustException());}
     }
 
     // countScore is private, so passing array is fine
