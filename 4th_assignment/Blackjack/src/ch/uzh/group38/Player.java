@@ -99,8 +99,16 @@ public class Player implements Observer {
 
     private int countScore(ArrayList<Card> cards) {
         int score = 0;
+        int aces = 0;
         for (Card card : cards) {
             score += card.getValue();
+            if (card.getRank() == Rank.ACE){
+                aces ++;
+            }
+        }
+        while (aces > 0 && score > 21){
+            score -= 10;
+            aces--;
         }
         return score;
     }
