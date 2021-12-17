@@ -1,8 +1,7 @@
 package ch.uzh.group38;
 
 import ch.uzh.group38.exceptions.NeedCardException;
-import ch.uzh.group38.exceptions.PlayerBustException;
-import ch.uzh.group38.exceptions.PlayerOutOfMoneyException;
+import ch.uzh.group38.exceptions.BustException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,7 +16,6 @@ public class Player implements Observer {
     private int cash = 100;
     private int bet;
     private final ArrayList<Card> cards = new ArrayList<Card>();
-
     private final ArrayList<Card> dealersCards = new ArrayList<Card>();
 
     public Player() {
@@ -36,8 +34,8 @@ public class Player implements Observer {
     }
 
     // player bust exception could be replaced with a simple check here
-    public void takeTurn() throws NeedCardException, PlayerBustException {
-        if (countScore(cards) > 21) {throw (new PlayerBustException());}
+    public void takeTurn() throws NeedCardException, BustException {
+        if (countScore(cards) > 21) {throw (new BustException());}
 
         print();
         System.out.println("hit or stay? [H/S] ");
@@ -54,8 +52,7 @@ public class Player implements Observer {
         }
     }
 
-    // State dp could be used to dissolve the massive if statement
-    public void checkScoreAndCash() throws PlayerOutOfMoneyException {
+    public void checkScoreAndCash() {
         print();
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
@@ -72,10 +69,25 @@ public class Player implements Observer {
                 // dealer busts
                 this.cash += 2*bet;
             }
+            // so that cash is not updated if checkScoreAndCash is called more than once
+            bet = 0;
         }
-        if (this.cash == 0) {
-            throw (new PlayerOutOfMoneyException());
+    }
+
+    // haven't found a better way, except two booleans maybe
+    public int checkWinner() {
+        int score = countScore(cards);
+        int dealersScore = countScore(dealersCards);
+        if (score > dealersScore) {
+            return 1;
+        } else if (score < dealersScore) {
+            return 0;
         }
+        return 2;
+    }
+
+    public boolean isOutOfMoney() {
+        return this.cash <= 0;
     }
 
     public void reset() {

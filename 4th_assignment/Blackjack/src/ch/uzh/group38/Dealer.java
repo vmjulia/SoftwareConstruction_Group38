@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import ch.uzh.group38.exceptions.BustException;
 
 import java.util.ArrayList;
 
@@ -18,9 +19,7 @@ interface Aggregate {
 public class Dealer implements Subject, Aggregate{
 
     private Deck deck;
-    private int score;
     private ArrayList<Card> cards = new ArrayList<Card>();
-
     private Observer observer;
 
     public Dealer() {
@@ -51,7 +50,7 @@ public class Dealer implements Subject, Aggregate{
         this.cards.get(1).flip();
     }
 
-    public void takeTurn() {
+    public void takeTurn() throws BustException {
         // flip so that getValue works
         cards.get(1).flip();
         int score = countScore(cards);
@@ -59,7 +58,9 @@ public class Dealer implements Subject, Aggregate{
             this.cards.add(deck.draw());
             score = countScore(cards);
         }
-        notifyObservers();
+        if (score > 21) {
+            throw (new BustException());
+        }
     }
 
     // countScore is private, so passing array is fine
