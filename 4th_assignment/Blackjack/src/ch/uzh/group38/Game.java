@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private Strategy strategy;
     private final Player player;
     private final Dealer dealer;
     private User currentPlayer;
@@ -23,14 +22,14 @@ public class Game {
         this.firstRound();
 
         //Players turn
+        player.strategy = new PlayerStrategy();
         currentPlayer = player;
-        strategy = new PlayerStrategy();
         turn();
         
         //Dealers turn
-        currentPlayer = dealer;
         dealer.cards.get(1).flip();
-        strategy = new DealerStrategy();
+        dealer.strategy = new DealerStrategy();
+        currentPlayer = dealer;
         turn();
 
         endOfGame();
@@ -47,7 +46,7 @@ public class Game {
 
     private void turn(){
         printTable();
-        while (strategy.hit(currentPlayer.countScore())){
+        while (currentPlayer.strategy.hit(currentPlayer.countScore())){
             giveCards(currentPlayer, 1);
             if (currentPlayer.bust()){
                 printTable();

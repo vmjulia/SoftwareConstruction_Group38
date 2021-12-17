@@ -3,6 +3,8 @@ package ch.uzh.group38;
 import java.util.ArrayList;
 
 public abstract class User {
+    public Strategy strategy;
+
     protected final ArrayList<Card> cards = new ArrayList<Card>();
 
     public void reset() {
