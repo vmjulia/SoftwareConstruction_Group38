@@ -44,9 +44,4 @@ public class Deck {
             return null;
         }
     }
-
-    // should be removed in the end, probably
-    public int size() {
-        return cards.size();
-    }
 }
