@@ -2,7 +2,7 @@ package ch.uzh.group38;
 
 import java.util.ArrayList;
 
-public abstract class BasicBehaviour {
+public class BasicBehaviour {
     ArrayList<Card> cards = new ArrayList<Card>();
     int score;
 

@@ -1,130 +1,155 @@
 package ch.uzh.group38;
 
-import ch.uzh.group38.exceptions.BlackjackException;
-import ch.uzh.group38.exceptions.NeedCardException;
-import ch.uzh.group38.exceptions.BustException;
+import java.util.ArrayList;
+
 
 public class Game {
 
+    private Strategy strategy;
     private final Player player;
     private final Dealer dealer;
+    private User currentPlayer;
+    private Deck deck;
 
     private Game() {
         this.player = new Player();
         this.dealer = new Dealer();
-        dealer.registerObserver(player);
+        this.deck = Deck.getInstance();
         playRound();
     }
 
-    private void playRound() {
-        dealer.reset();
-        player.reset();
+    public void playRound() {
+        this.reset();
+        this.firstRound();
 
-        player.makeBet();
-        dealer.giveCards(player, 2);
-        try {
-            dealer.takeCards();
-        } catch (BlackjackException e) {
-            dealer.notifyObservers();
-            player.checkScoreAndCash();
-            handleDealerBlackjack();
-        }
-        // showing player dealer's cards
-        dealer.notifyObservers();
+        //Players turn
+        currentPlayer = player;
+        strategy = new PlayerStrategy();
+        turn();
+        
+        //Dealers turn
+        currentPlayer = dealer;
+        dealer.cards.get(1).flip();
+        strategy = new DealerStrategy();
+        turn();
 
-        playerTurn(player);
-        dealerTurn();
-
-        dealer.notifyObservers();
-        player.checkScoreAndCash();
-        if (player.isOutOfMoney()) {
-            handlePlayerOutOfMoney(player);
-        }
-        handleOrdinaryOutcome();
-        playRound();
+        endOfGame();
     }
 
-    private void playerTurn(Player player) {
-        while (true) {
-            try {
+    public void giveCards(User player, int numberOfCards) {
+        ArrayList<Card> playersCards = new ArrayList<Card>();
+        for (int i = 0; i < numberOfCards; i++){
+            playersCards.add(deck.draw());
+        }
+        player.takeCards(new CardIterator(playersCards));
+    }
+
+
+    private void turn(){
+        printTable();
+        while (strategy.hit(currentPlayer.countScore())){
+            giveCards(currentPlayer, 1);
+            if (currentPlayer.bust()){
                 printTable();
-                player.takeTurn();
-                break;
-            } catch (NeedCardException e) {
-                dealer.giveCards(player, 1);
-            } catch (BlackjackException e) {
-                player.checkScoreAndCash();
-                handlePlayerBlackjack(player);
-            } catch (BustException e) {
-                player.checkScoreAndCash();
-                if (player.isOutOfMoney()) {
-                    handlePlayerOutOfMoney(player);
-                } else {
-                    handlePlayerBust(player);
-                }
+                endOfGame();
             }
-        }
-    }
-
-    private void dealerTurn() {
-        try {
-            dealer.takeTurn();
-        } catch (BustException e) {
-            dealer.notifyObservers();
-            player.checkScoreAndCash();
             printTable();
-            handleDealerBust();
         }
     }
 
     private void printTable(){
+        System.out.println("\n-----------------------------------------");
         dealer.showCards();
         player.showCards();
     }
 
-    private void handlePlayerOutOfMoney(Player player) {
-        dealer.removeObserver(player);
+    private void reset(){
+        dealer.reset();
+        player.reset();
+        this.deck.putDiscardBack();
+        this.deck.shuffle();
+    }
+
+    private void firstRound(){
+        player.makeBet();
+        giveCards(player, 2);
+        giveCards(dealer, 2);
+        dealer.cards.get(1).flip();
+    }
+
+    private void handlePlayerOutOfMoney() {
         System.out.println("\nYou are broke and you get kicked out of the casino\n");
         System.exit(0);
     }
 
-    private void handlePlayerBust(Player player) {
+    private void handlePlayerBust() {
         // cash has been withdrawn upon making bet, no need to do anything to player yet
         System.out.println("\nYou bust, dealer wins by default\n");
-        playRound();
+        player.looseBet();
+        if (player.isOutOfMoney()) {
+            handlePlayerOutOfMoney();
+        }
     }
 
     private void handleDealerBust() {
         // player isn't passed, as all players win, so no need to distinguish
         System.out.println("\nDealerBusts, you win by default\n");
-        playRound();
+        player.winBet();
     }
 
-    private void handlePlayerBlackjack(Player player) {
+    private void handlePlayerBlackjack() {
         // it might not be the case in real game, but eeeeeeeeeeeeeeeeeeeeh
         // the hidden dealer's card is not shown
         System.out.println("\nYou have a blackjack, you win by default\n");
-        playRound();
+        player.winBet();
     }
 
     private void handleDealerBlackjack() {
-        player.checkScoreAndCash();
+        System.out.println("\nDealer has a blackjack, you loose by default\n");
+        player.looseBet();
         if (player.isOutOfMoney()) {
-            handlePlayerOutOfMoney(player);
-        } else {
-            System.out.println("\nDealer has a blackjack, you loose by default\n");
-            playRound();
+            handlePlayerOutOfMoney();
         }
     }
 
-    private void handleOrdinaryOutcome() {
-        int playerIsWinner = player.checkWinner();
-        if (playerIsWinner == 1) {
-            System.out.println("\nYou win\n");
-        } else if (playerIsWinner == 0) {
-            System.out.println("\nDealer wins\n");
-        } else if (playerIsWinner == 2){
-            System.out.println("\nDraw\n");
+    private void handlePlayerWin(){
+        System.out.println("\nYou win\n");
+        player.winBet();
+    }
+
+    private void handleDealerWin(){
+        System.out.println("\nDealer wins\n");
+        player.looseBet();
+        if (player.isOutOfMoney()) {
+            handlePlayerOutOfMoney();
+        }
+    }
+
+    private void handleDraw(){
+        System.out.println("\nDraw\n");
+    }
+
+    private void endOfGame() {
+        if (player.bust()){
+            handlePlayerBust();
+        }
+        else if (dealer.bust()){
+            handleDealerBust();
+        }
+        else if (player.countScore() == 21){
+            handlePlayerBlackjack();
+        }
+        else if (dealer.countScore() == 21){
+            handleDealerBlackjack();
+        }
+        else if (player.countScore() > dealer.countScore()){
+            handlePlayerWin();
+        }
+        else if (player.countScore() < dealer.countScore()){
+            handleDealerWin();
+        }
+        else if (player.countScore() == dealer.countScore()){
+            handleDraw();
         }
         playRound();
     }
