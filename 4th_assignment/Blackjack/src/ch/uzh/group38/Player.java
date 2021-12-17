@@ -24,13 +24,13 @@ public class Player implements Observer {
     }
 
     public int makeBet() {
-        System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
-        int bet =  this.readIntInput();
-        if (bet > this.cash || bet <= 0){
-            makeBet();
-        }
-        this.bet = bet;
-        this.cash -= bet;
+        int b;
+        do {
+            System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
+            b =  this.readIntInput();
+        } while(b > this.cash || b <= 0);
+        this.bet = b;
+        this.cash -= b;
         return this.bet;
     }
 
