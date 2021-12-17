@@ -47,6 +47,7 @@ public class Game {
     private void playerTurn(Player player) {
         while (true) {
             try {
+                printTable();
                 player.takeTurn();
                 break;
             } catch (NeedCardException e) {
@@ -71,8 +72,14 @@ public class Game {
         } catch (BustException e) {
             dealer.notifyObservers();
             player.checkScoreAndCash();
+            printTable();
             handleDealerBust();
         }
+    }
+
+    private void printTable(){
+        dealer.showCards();
+        player.showCards();
     }
 
     private void handlePlayerOutOfMoney(Player player) {

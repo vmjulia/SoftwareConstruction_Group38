@@ -92,6 +92,14 @@ public class Dealer implements Subject, Aggregate{
     public Iterator createIterator() {
         return new CardIterator(cards);
     }
+
+    public void showCards(){
+        System.out.println("Dealers cards:   (score: " + countScore(cards) + ")");
+        for (Card c : cards) {
+            System.out.print(c.display() + " ");
+        }
+        System.out.println("\n");
+    }
 }
 
 /*

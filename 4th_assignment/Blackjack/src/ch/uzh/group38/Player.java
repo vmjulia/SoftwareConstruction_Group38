@@ -39,7 +39,7 @@ public class Player implements Observer {
         if (countScore(cards) == 21) {throw (new BlackjackException());}
         if (countScore(cards) > 21) {throw (new BustException());}
 
-        print();
+        //print();
         System.out.println("hit or stay? [H/S] ");
         String input = readHitOrStayInput();
         switch (input) {
@@ -55,7 +55,7 @@ public class Player implements Observer {
     }
 
     public void checkScoreAndCash() {
-        print();
+        //print();
         int score = countScore(cards);
         int dealersScore = countScore(dealersCards);
         // if player busts first, player looses regardless of dealerScore
@@ -135,7 +135,15 @@ public class Player implements Observer {
         }
     }
 
-    private void print(){
+    public void showCards(){
+        System.out.println("Players cards:   (score: " + countScore(cards) + ")");
+        for (Card c : cards) {
+            System.out.print(c.display() + " ");
+        }
+        System.out.println("\n");
+    }
+
+  /*   private void print(){
         System.out.println("Dealers cards:   (score: " + countScore(dealersCards) + ")");
         for (Card c : dealersCards) {
             System.out.print(c.display() + " ");
@@ -146,7 +154,7 @@ public class Player implements Observer {
             System.out.print(c.display() + " ");
         }
         System.out.println("\n");
-    }
+    } */
 
     @Override
     public void update(Iterator iterator) {
