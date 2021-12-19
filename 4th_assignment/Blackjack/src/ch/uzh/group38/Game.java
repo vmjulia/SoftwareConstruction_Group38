@@ -35,7 +35,7 @@ public class Game {
         endOfGame();
     }
 
-    public void giveCards(User player, int numberOfCards) {
+    private void giveCards(User player, int numberOfCards) {
         ArrayList<Card> playersCards = new ArrayList<Card>();
         for (int i = 0; i < numberOfCards; i++){
             playersCards.add(deck.draw());
