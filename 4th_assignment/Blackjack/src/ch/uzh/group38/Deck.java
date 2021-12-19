@@ -40,7 +40,6 @@ public class Deck {
         }
         else {
             System.out.println("There are no cards left in the deck!");
-            System.exit(0); // for the moment until we think of a good idea
             return null;
         }
     }
