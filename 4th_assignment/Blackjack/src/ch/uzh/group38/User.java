@@ -24,17 +24,21 @@ public abstract class User {
 
     public void chooseInputBehaviour(String type) {
         if (type.equals("Dealer")) {
-            this.hitBehaviour = new DealerStrategy();
+            this.inputBehaviour = new TerminalInputBehaviour();
         } else if (type.equals("Player")) {
-            this.hitBehaviour = new PlayerStrategy();
+            this.inputBehaviour = new TerminalInputBehaviour();
         } else {
             try {
-                this.hitBehaviour = new PlayerVoiceStrategy();
+                this.inputBehaviour = new VoiceInputBehaviour();
             } catch (IOException e) {
-                this.hitBehaviour = new PlayerStrategy();
+                this.inputBehaviour = new TerminalInputBehaviour();
             }
         }
 
+    }
+
+    public boolean hit(int score) {
+        return this.hitBehaviour.hit(this.inputBehaviour.readHitOrStayInput(), score);
     }
 
     protected int countScore() {

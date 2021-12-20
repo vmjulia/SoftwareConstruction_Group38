@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 public class StrategyTest {
     PlayerStrategy ps;
-    DealerStrategy ds;
+    DealerHitBehaviour ds;
 
     private final InputStream systemIn = System.in;
     private final PrintStream systemOut = System.out;
@@ -51,7 +51,7 @@ public class StrategyTest {
 
     @Test
     public void DealerStrategyTest(){
-        ds = new DealerStrategy();
+        ds = new DealerHitBehaviour();
 
         assertTrue(ds.hit(10));
         assertFalse(ds.hit(17));
