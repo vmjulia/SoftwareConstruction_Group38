@@ -36,6 +36,12 @@ public class GameTest {
         this.deckField.setAccessible(true);
     }
 
+    @After
+    public void resetDeck() throws IllegalAccessException {
+        Deck deck = (Deck) deckField.get(this.game);
+        deck.putDiscardBack();
+    }
+
     @Test
     public void testReset() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Player player = (Player) playerField.get(this.game);
