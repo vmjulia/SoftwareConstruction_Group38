@@ -43,4 +43,8 @@ public class Deck {
             return null;
         }
     }
+
+    public int size() {
+        return this.cards.size();
+    }
 }
