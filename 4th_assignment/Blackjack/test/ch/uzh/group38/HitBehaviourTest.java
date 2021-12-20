@@ -12,8 +12,8 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class StrategyTest {
-    PlayerStrategy ps;
+public class HitBehaviourTest {
+    PlayerHitBehaviour ps;
     DealerHitBehaviour ds;
 
     private final InputStream systemIn = System.in;
@@ -41,19 +41,19 @@ public class StrategyTest {
 
     @Test
     public void PlayerStrategyTest(){
-        ps = new PlayerStrategy();
+        ps = new PlayerHitBehaviour();
 
         final String testString = "h";
         provideInput(testString);
 
-        assertTrue(ps.hit(10));
+        assertTrue(ps.hit("h", 10));
     }
 
     @Test
     public void DealerStrategyTest(){
         ds = new DealerHitBehaviour();
 
-        assertTrue(ds.hit(10));
-        assertFalse(ds.hit(17));
+        assertTrue(ds.hit("h", 10));
+        assertFalse(ds.hit("s", 17));
     }
 }
