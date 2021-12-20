@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.plaf.basic.BasicRadioButtonMenuItemUI;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -53,24 +54,33 @@ public class PlayerTest {
 
         assertTrue(player.isOutOfMoney());
     }
-    /*/
-        @Test
-        public void testBust() {
-            player.cards.add(new Card(Rank.KING, Suit.CLUBS));
-            player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
-            player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
-            assertTrue(player.bust());
-        }
 
-        @Test
-        public void testCountScore() {
-            player.cards.add(new Card(Rank.ACE, Suit.CLUBS));
-            player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
-            assertEquals(player.countScore(), 20);
-            player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
-            assertEquals(player.countScore(), 15);
-        }
-    /*/
+    @Test
+    public void testBust() {
+        assertEquals(0, player.countScore());
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new Card(Rank.ACE, Suit.SPADES));
+        cards.add(new Card(Rank.KING, Suit.HEARTS));
+        cards.add(new Card(Rank.TEN, Suit.DIAMONDS));
+        player.takeCards(new CardIterator(cards));
+
+        assertTrue(player.bust());
+    }
+
+    @Test
+    public void testCountScore() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new Card(Rank.ACE, Suit.CLUBS));
+        cards.add(new Card(Rank.NINE, Suit.CLUBS));
+        player.takeCards(new CardIterator(cards));
+        assertEquals(player.countScore(), 20);
+
+        cards.clear();
+        cards.add(new Card(Rank.FIVE, Suit.CLUBS));
+        player.takeCards(new CardIterator(cards));
+        assertEquals(player.countScore(), 15);
+    }
+
     @Test
     public void testShowCards() {
         ArrayList<Card> cards = new ArrayList<>();
@@ -79,8 +89,8 @@ public class PlayerTest {
         player.takeCards(new CardIterator(cards));
         player.showCards();
 
-        String expected = "Players cards:   (score: 21)" + System.lineSeparator() +
-                          "[ACE of SPADES] [KING of HEARTS]";
+        String expected = "Player cards:   (score: 21)" + System.lineSeparator() +
+                "[ACE of SPADES] [KING of HEARTS]";
         //without trimming assertion fails despite identical contents
         assertEquals(expected, testOut.toString().trim());
     }
