@@ -22,23 +22,9 @@ public abstract class User {
         return new CardIterator(cards);
     }
 
-    public void chooseInputBehaviour(String type) {
-        if (type.equals("Dealer")) {
-            this.inputBehaviour = new TerminalInputBehaviour();
-        } else if (type.equals("Player")) {
-            this.inputBehaviour = new TerminalInputBehaviour();
-        } else {
-            try {
-                this.inputBehaviour = new VoiceInputBehaviour();
-            } catch (IOException e) {
-                this.inputBehaviour = new TerminalInputBehaviour();
-            }
-        }
-
-    }
-
     public boolean hit(int score) {
-        return this.hitBehaviour.hit(this.inputBehaviour.readHitOrStayInput(), score);
+        String input = this.inputBehaviour.readHitOrStayInput();
+        return this.hitBehaviour.hit(input, score);
     }
 
     protected int countScore() {

@@ -14,6 +14,7 @@ public class Game {
 
     private Game() {
         this.player = new Player();
+        this.player.hitBehaviour = new PlayerHitBehaviour();
         if (selectVoiceInput()) {
             try {
                 this.player.inputBehaviour = new VoiceInputBehaviour();
@@ -26,6 +27,7 @@ public class Game {
         }
 
         this.dealer = new Dealer();
+        this.dealer.hitBehaviour = new DealerHitBehaviour();
         this.dealer.inputBehaviour = new DummyInputBehaviour();
         this.deck = Deck.getInstance();
     }

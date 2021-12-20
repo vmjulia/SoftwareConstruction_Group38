@@ -1,16 +1,13 @@
 package ch.uzh.group38;
 
-import java.io.IOException;
-import java.util.Scanner;
 
 public interface HitBehaviour {
     boolean hit(String input, int score);
 }
 
-class PlayerStrategy implements HitBehaviour {
+class PlayerHitBehaviour implements HitBehaviour {
     @Override
     public boolean hit(String input, int score) {
-        System.out.println("hit or stay? [H/S] ");
         switch (input) {
             case "s":
                 break;

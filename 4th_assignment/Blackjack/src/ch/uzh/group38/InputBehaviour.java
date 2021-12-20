@@ -23,6 +23,7 @@ class DummyInputBehaviour implements InputBehaviour {
 class TerminalInputBehaviour implements InputBehaviour {
     @Override
     public String readHitOrStayInput() {
+        System.out.println("hit or stay? [H/S] ");
         while (true) {
             String input = new Scanner(System.in).nextLine().toLowerCase();
             if (input.equals("h") || input.equals("s")) {
