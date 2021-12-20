@@ -8,14 +8,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
-    Player p;
-    Player pl;
     Player player;
 
     private final InputStream systemIn = System.in;
@@ -25,13 +24,14 @@ public class PlayerTest {
     private ByteArrayOutputStream testOut;
 
     @Before
-    public void setUpOutput() {
+    public void setUpEnvironment() {
+        player = new Player();
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
     }
 
-    private void provideInput(String data) {
-        testIn = new ByteArrayInputStream(data.getBytes());
+    private void provideInput(String inputString) {
+        testIn = new ByteArrayInputStream(inputString.getBytes());
         System.setIn(testIn);
     }
 
@@ -42,49 +42,46 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMakeBet() {
+    public void testBet() {
+        provideInput("50");
+        assertEquals(50, player.makeBet());
+        player.winBet();
 
-        p = new Player();
-        final String testString = "100";
-        provideInput(testString);
+        provideInput("200");
+        player.makeBet();
+        player.looseBet();
 
-        p.makeBet();
-        p.looseBet();
-        assertTrue(p.isOutOfMoney());
+        assertTrue(player.isOutOfMoney());
     }
 
     @Test
-    public void testWinBet() {
-        pl = new Player();
-        String testString1 = "50";
-        provideInput(testString1);
-
-        pl.makeBet();
-        pl.winBet();
-        String testString2 = "200";
-        provideInput(testString2);
-        pl.makeBet();
-        pl.looseBet();
-
-        assertTrue(pl.isOutOfMoney());
-    }
-
-    @Test
-    public void testCountScore(){
-        player = new Player();
-        player.cards.add(new Card(Rank.ACE, Suit.CLUBS));
-        player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
-        assertEquals(player.countScore(),20);
-        player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
-        assertEquals(player.countScore(),15);
-    }
-
-    @Test
-    public void testBust(){
-        player = new Player();
+    public void testBust() {
         player.cards.add(new Card(Rank.KING, Suit.CLUBS));
         player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
         player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
         assertTrue(player.bust());
+    }
+
+    @Test
+    public void testCountScore() {
+        player.cards.add(new Card(Rank.ACE, Suit.CLUBS));
+        player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
+        assertEquals(player.countScore(), 20);
+        player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
+        assertEquals(player.countScore(), 15);
+    }
+
+    @Test
+    public void testShowCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new Card(Rank.ACE, Suit.SPADES));
+        cards.add(new Card(Rank.KING, Suit.HEARTS));
+        player.takeCards(new CardIterator(cards));
+        player.showCards();
+
+        String expected = "Players cards:   (score: 21)" + System.lineSeparator() +
+                          "[ACE of SPADES] [KING of HEARTS]";
+        //without trimming assertion fails despite identical contents
+        assertEquals(expected, testOut.toString().trim());
     }
 }
