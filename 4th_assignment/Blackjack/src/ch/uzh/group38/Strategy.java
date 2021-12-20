@@ -38,22 +38,14 @@ class PlayerStrategy implements Strategy{
 }
 
 class PlayerVoiceStrategy implements Strategy{
-    Configuration configuration = new Configuration();
-    LiveSpeechRecognizer recognizer;
+    private final Configuration configuration;
+    // only one LiveSpeechRecognizer to avoid accessing busy microphone
+    private final LiveSpeechRecognizer recognizer;
 
-    public PlayerVoiceStrategy(){
+    public PlayerVoiceStrategy() throws IOException {
+        configuration = new Configuration();
         handleConfiguration();
-        // only one LiveSpeechRecognizer to avoid accessing busy microphone
-        // while loop might be unnecessary
-        // recognizer may be final
-        while (true) {
-            try {
-                recognizer = new LiveSpeechRecognizer(configuration);
-                break;
-            } catch (IOException e) {
-                System.out.print("opa");
-            }
-        }
+        recognizer = new LiveSpeechRecognizer(configuration);
     }
 
     @Override

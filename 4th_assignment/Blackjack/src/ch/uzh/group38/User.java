@@ -1,5 +1,6 @@
 package ch.uzh.group38;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class User {
@@ -28,7 +29,11 @@ public abstract class User {
             this.strategy = new PlayerStrategy();
         }
         else {
-            this.strategy = new PlayerVoiceStrategy();
+            try {
+                this.strategy = new PlayerVoiceStrategy();
+            } catch (IOException e) {
+                this.strategy = new DealerStrategy();
+            }
         }
 
     }
