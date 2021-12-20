@@ -91,11 +91,12 @@ class VoiceInputBehaviour implements InputBehaviour {
         } catch (InterruptedException e) {
             System.out.println("\nJulia help!\n");
         }
+        System.out.println(input);
         switch (input) {
             case "no":
                 break;
             case "yes":
-                return "s";
+                return "h";
         }
         return "s";
     }
