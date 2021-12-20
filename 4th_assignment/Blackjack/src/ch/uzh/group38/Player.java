@@ -42,7 +42,7 @@ public class Player extends User {
     }
 
     public void winBet(){
-        this.cash += 2*this.bet;
+        this.cash += this.bet;
         this.bet = 0;
     }
     

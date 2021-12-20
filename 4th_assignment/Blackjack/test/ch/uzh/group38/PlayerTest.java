@@ -47,7 +47,7 @@ public class PlayerTest {
         assertEquals(50, player.makeBet());
         player.winBet();
 
-        provideInput("200");
+        provideInput("150");
         player.makeBet();
         player.looseBet();
 
