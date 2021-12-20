@@ -14,7 +14,6 @@ public class Game {
         this.player = new Player();
         this.dealer = new Dealer();
         this.deck = Deck.getInstance();
-        playRound();
     }
 
     public void playRound() {
@@ -154,6 +153,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        new Game();
+        Game game = new Game();
+        game.playRound();
     }
 }
