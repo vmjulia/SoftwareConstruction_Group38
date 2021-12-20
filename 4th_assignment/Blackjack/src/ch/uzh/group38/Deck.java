@@ -30,7 +30,12 @@ public class Deck {
 
     // should definitely be tested to make sure deck elsewhere is updated
     public void putDiscardBack() {
-        instance = new Deck();
+        this.cards.clear();
+        for (Suit s : Suit.values()){
+            for (Rank r : Rank.values()){
+                cards.push(new Card(r, s));
+            }
+        }
     }
 
     public Card draw(){
