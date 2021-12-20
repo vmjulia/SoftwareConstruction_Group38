@@ -25,6 +25,8 @@ public class GameTest {
         Constructor<Game> constructor = Game.class.getDeclaredConstructor();
         assertTrue(Modifier.isPrivate(constructor.getModifiers()));
         constructor.setAccessible(true);
+
+        provideInput("no");
         this.game = constructor.newInstance();
 
         this.playerField = this.game.getClass().getDeclaredField("player");
@@ -38,6 +40,11 @@ public class GameTest {
         this.deckField = this.game.getClass().getDeclaredField("deck");
         assertTrue(Modifier.isPrivate(this.deckField.getModifiers()));
         this.deckField.setAccessible(true);
+    }
+
+    private void provideInput(String inputString) {
+        ByteArrayInputStream testIn = new ByteArrayInputStream(inputString.getBytes());
+        System.setIn(testIn);
     }
 
     @After
