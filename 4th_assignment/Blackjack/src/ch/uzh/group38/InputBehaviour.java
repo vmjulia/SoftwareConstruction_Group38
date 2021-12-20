@@ -1,9 +1,5 @@
 package ch.uzh.group38;
 
-import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.LiveSpeechRecognizer;
-import edu.cmu.sphinx.api.SpeechResult;
-
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -46,10 +42,12 @@ class VoiceInputBehaviour implements InputBehaviour {
     }
 
     private void handleConfiguration() {
+        // standard paths set up
 
         configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
         configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+        // grammar includes 2 words only: yes/no, optimizes processing time
         configuration.setGrammarPath("file:4th_assignment/Blackjack/src");
         configuration.setGrammarName("words");
         configuration.setUseGrammar(true);
@@ -58,6 +56,7 @@ class VoiceInputBehaviour implements InputBehaviour {
 
     private String VoiceInput() throws InterruptedException {
 
+        // do not output ino messages of Sphinx4 to console
         Logger cmRootLogger = Logger.getLogger("default.config");
         cmRootLogger.setLevel(java.util.logging.Level.OFF);
         String conFile = System.getProperty("java.util.logging.config.file");
@@ -66,21 +65,25 @@ class VoiceInputBehaviour implements InputBehaviour {
         }
 
         System.out.println("Do you want to hit [Yes/No] ? ");
+        // hold on to leave time for thinking
         TimeUnit.SECONDS.sleep(3);
         recognizer.startRecognition(true);
-        System.out.println("speak now");
+        // start talking when message appears
+        System.out.println("speak now...");
         SpeechResult result;
         while (true) {
             result = recognizer.getResult();
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
-            if (result.getHypothesis().equals("yes") || result.getHypothesis().equals("no")) {
+            if (result.getHypothesis().equals( "yes")|| result.getHypothesis().equals( "no")){
                 break;
 
             }
             System.out.println("speak now");
         }
         recognizer.stopRecognition();
-        return (result.getHypothesis());
+
+        // return the recognized string
+        return  (result.getHypothesis());
     }
 
     @Override
