@@ -4,11 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.plaf.basic.BasicRadioButtonMenuItemUI;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 
@@ -40,6 +41,25 @@ public class PlayerTest {
     public void restoreSystemInputOutput() {
         System.setIn(systemIn);
         System.setOut(systemOut);
+    }
+
+    @Test
+    public void inputBehaviourAssignmentTest() throws NoSuchFieldException, IllegalAccessException {
+        User playerAsUser = (User) player;
+        Field inputBehaviourField = playerAsUser.getClass().getSuperclass().getDeclaredField("inputBehaviour");
+        assertTrue(Modifier.isPrivate(inputBehaviourField.getModifiers()));
+
+        inputBehaviourField.setAccessible(true);
+
+        Class<TerminalInputBehaviour> expected1 = TerminalInputBehaviour.class;
+        Class<InputBehaviour> actual = (Class<InputBehaviour>) inputBehaviourField.get(playerAsUser).getClass();
+        assertEquals(expected1, actual);
+
+        player.activateVoiceInput();
+
+        Class<VoiceInputBehaviour> expected2 = VoiceInputBehaviour.class;
+        actual = (Class<InputBehaviour>) inputBehaviourField.get(playerAsUser).getClass();
+        assertEquals(expected2, actual);
     }
 
     @Test
