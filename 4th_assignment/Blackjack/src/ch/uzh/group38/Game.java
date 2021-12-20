@@ -18,7 +18,7 @@ public class Game {
         this.deck = Deck.getInstance();
     }
 
-    public void playRound() {
+    private void playRound() {
         this.reset();
         this.firstRound();
 
