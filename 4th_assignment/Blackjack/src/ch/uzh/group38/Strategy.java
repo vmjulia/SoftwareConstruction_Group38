@@ -39,9 +39,21 @@ class PlayerStrategy implements Strategy{
 
 class PlayerVoiceStrategy implements Strategy{
     Configuration configuration = new Configuration();
+    LiveSpeechRecognizer recognizer;
 
     public PlayerVoiceStrategy(){
         handleConfiguration();
+        // only one LiveSpeechRecognizer to avoid accessing busy microphone
+        // while loop might be unnecessary
+        // recognizer may be final
+        while (true) {
+            try {
+                recognizer = new LiveSpeechRecognizer(configuration);
+                break;
+            } catch (IOException e) {
+                System.out.print("opa");
+            }
+        }
     }
 
     @Override
@@ -65,7 +77,7 @@ class PlayerVoiceStrategy implements Strategy{
 
     }
 
-    private String VoiceInput() throws IOException, InterruptedException {
+    private String VoiceInput() throws InterruptedException {
 
         Logger cmRootLogger = Logger.getLogger("default.config");
         cmRootLogger.setLevel(java.util.logging.Level.OFF);
@@ -73,9 +85,6 @@ class PlayerVoiceStrategy implements Strategy{
         if (conFile == null) {
             System.setProperty("java.util.logging.config.file", "ignoreAllSphinx4LoggingOutput");
         }
-
-        LiveSpeechRecognizer recognizer = new LiveSpeechRecognizer(configuration);
-
 
         System.out.println("Do you want to hit [Yes/No] ? ");
         TimeUnit.SECONDS.sleep(3);
