@@ -7,13 +7,8 @@ public class Player extends User {
     private int cash = 100;
     private int bet;
 
-    public void showCards(){
-        Iterator cards =  createIterator();
-        System.out.println("Player cards:   (score: " + countScore() + ")");
-        while (cards.hasNext()){
-            System.out.print(cards.next().display()+ " ");
-        }
-        System.out.println("\n");
+    public Player(){
+        super("Player");
     }
 
     public int makeBet() {

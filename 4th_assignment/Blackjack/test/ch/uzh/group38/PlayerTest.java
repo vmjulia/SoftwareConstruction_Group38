@@ -79,7 +79,7 @@ public class PlayerTest {
         player.takeCards(new CardIterator(cards));
         player.showCards();
 
-        String expected = "Players cards:   (score: 21)" + System.lineSeparator() +
+        String expected = "Player cards:   (score: 21)" + System.lineSeparator() +
                           "[ACE of SPADES] [KING of HEARTS]";
         //without trimming assertion fails despite identical contents
         assertEquals(expected, testOut.toString().trim());

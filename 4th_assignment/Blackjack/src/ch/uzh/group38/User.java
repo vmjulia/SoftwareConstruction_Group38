@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public abstract class User {
     public Strategy strategy;
+    protected final String NAME;
+
+    protected User(String name){
+        this.NAME = name;
+    }
 
     private final ArrayList<Card> cards = new ArrayList<Card>();
 
@@ -29,6 +34,15 @@ public abstract class User {
             aces--;
         }
         return score;
+    }
+
+    public void showCards(){
+        Iterator cards =  createIterator();
+        System.out.println(this.NAME + " cards:   (score: " + countScore() + ")");
+        while (cards.hasNext()){
+            System.out.print(cards.next().display()+ " ");
+        }
+        System.out.println("\n");
     }
 
     public void takeCards(Iterator iterator) {
