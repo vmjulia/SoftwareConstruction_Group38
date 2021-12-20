@@ -218,11 +218,70 @@ public class GameTest {
         assertEquals(50, deck.size());
 
         Method reset = Game.class.getDeclaredMethod("reset");
+        assertTrue(Modifier.isPrivate(reset.getModifiers()));
         reset.setAccessible(true);
         reset.invoke(this.game);
 
         assertEquals(0, player.countScore());
         assertEquals(0, dealer.countScore());
         assertEquals(52, deck.size());
+    }
+
+    @Test
+    public void testFirstRound() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+        Player player = (Player) playerField.get(this.game);
+        Dealer dealer = (Dealer) dealerField.get(this.game);
+
+        Method firstRound = Game.class.getDeclaredMethod("firstRound");
+        assertTrue(Modifier.isPrivate(firstRound.getModifiers()));
+        firstRound.setAccessible(true);
+
+        // player bets 50
+        provideInput("50");
+        firstRound.invoke(this.game);
+
+        int score = player.countScore();
+        assertTrue(0 < score && score <= 21);
+        score = dealer.countScore();
+        assertTrue(0 < score && score <= 21);
+
+        Field playerCardsField = player.getClass().getSuperclass().getDeclaredField("cards");
+        assertTrue(Modifier.isPrivate(playerCardsField.getModifiers()));
+        playerCardsField.setAccessible(true);
+        ArrayList<Card> playerCards = (ArrayList<Card>) playerCardsField.get(player);
+        assertEquals(2, playerCards.size());
+
+        Field dealerCardsField = dealer.getClass().getSuperclass().getDeclaredField("cards");
+        assertTrue(Modifier.isPrivate(dealerCardsField.getModifiers()));
+        dealerCardsField.setAccessible(true);
+        ArrayList<Card> dealerCards = (ArrayList<Card>) dealerCardsField.get(dealer);
+        assertEquals(2, dealerCards.size());
+
+        // first card is flipped
+        assertEquals(0, dealerCards.get(0).getValue());
+    }
+
+    @Test
+    public void testTurn() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {
+        Player player = (Player) playerField.get(this.game);
+        Dealer dealer = (Dealer) dealerField.get(this.game);
+
+        Method turn = Game.class.getDeclaredMethod("turn");
+        assertTrue(Modifier.isPrivate(turn.getModifiers()));
+        turn.setAccessible(true);
+
+        Field currentPlayerField = this.game.getClass().getDeclaredField("currentPlayer");
+        assertTrue(Modifier.isPrivate(currentPlayerField.getModifiers()));
+        currentPlayerField.setAccessible(true);
+
+        currentPlayerField.set(game, player);
+        // player stays
+        provideInput("s");
+        turn.invoke(this.game);
+        assertEquals(0, player.countScore());
+
+        currentPlayerField.set(game, dealer);
+        turn.invoke(this.game);
+        assertTrue(17 < dealer.countScore());
     }
 }
