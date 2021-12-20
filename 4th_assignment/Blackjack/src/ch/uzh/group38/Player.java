@@ -14,7 +14,7 @@ public class Player extends User {
     public int makeBet() {
         int b;
         do {
-            System.out.println("Your current cash: " + this.cash + "\nHow much would you like to bet? ");
+            System.out.println("How much would you like to bet? ");
             b =  this.readIntInput();
         } while(b > this.cash || b <= 0);
         this.bet = b;
@@ -31,6 +31,10 @@ public class Player extends User {
                 System.out.println("Invalid input! Please give an input of type integer");
             }
         }
+    }
+
+    public void displayCash() {
+        System.out.println("Your current cash: " + this.cash);
     }
 
     public boolean isOutOfMoney() {

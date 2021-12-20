@@ -20,6 +20,7 @@ public class Game {
 
     private void playRound() {
         this.reset();
+        selectLeaveOrStay();
         this.firstRound();
 
         //Players turn
@@ -147,6 +148,16 @@ public class Game {
         String ans = this.readInput();
         if (ans.equals("yes")) {
             this.player.activateVoiceInput();
+        }
+    }
+
+    private void selectLeaveOrStay() {
+        this.player.displayCash();
+        System.out.println("Would you like to leave the casino [yes] or [no]?");
+        String ans = this.readInput();
+        if (ans.equals("yes")) {
+            System.out.println("Good bye!");
+            System.exit(0);
         }
     }
 
