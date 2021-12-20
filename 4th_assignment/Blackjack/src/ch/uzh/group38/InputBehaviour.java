@@ -1,61 +1,26 @@
 package ch.uzh.group38;
 
-import java.io.IOException;
-import java.util.Scanner;
 import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
-import java.util.Timer;
+import edu.cmu.sphinx.api.SpeechResult;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public interface Strategy {
-    public boolean hit(int score) throws IOException, InterruptedException;
+public interface InputBehaviour {
+    String readHitOrStayInput();
 }
 
-class PlayerStrategy implements Strategy{
-
-    @Override
-    public boolean hit(int score){
-        System.out.println("hit or stay? [H/S] ");
-        String input = readHitOrStayInput();
-        switch (input) {
-            case "s": break;
-            case "h": return true;
-        }
-        return false;
-    }
-
-    private String readHitOrStayInput() {
-        while (true) {
-            String input = new Scanner(System.in).nextLine().toLowerCase();
-            if (input.equals("h") || input.equals("s")){
-                return input;
-            }
-            System.out.println("Invalid input! Please choose [H] or [S]");
-        }
-    }
-}
-
-class PlayerVoiceStrategy implements Strategy{
+class VoiceInputBehaviour implements InputBehaviour{
     private final Configuration configuration;
     // only one LiveSpeechRecognizer to avoid accessing busy microphone
     private final LiveSpeechRecognizer recognizer;
 
-    public PlayerVoiceStrategy() throws IOException {
+    public VoiceInputBehaviour() throws IOException {
         configuration = new Configuration();
         handleConfiguration();
         recognizer = new LiveSpeechRecognizer(configuration);
-    }
-
-    @Override
-    public boolean hit(int score) throws IOException, InterruptedException {
-        String input = VoiceInput();
-        switch (input) {
-            case "no": break;
-            case "yes": return true;
-        }
-        return false;
     }
 
     private void handleConfiguration() {
@@ -90,23 +55,25 @@ class PlayerVoiceStrategy implements Strategy{
             if (result.getHypothesis().equals( "yes")|| result.getHypothesis().equals( "no")){
                 break;
 
-        }
+            }
             System.out.println("speak now");
-    }
+        }
         recognizer.stopRecognition();
         return  (result.getHypothesis());
     }
-}
 
-
-
-class DealerStrategy implements Strategy{
     @Override
-    public boolean hit(int score){
-        if (score < 17) {
-            System.out.println("Dealer hits\n");
-            return true;
+    public String readHitOrStayInput() {
+        String input = null;
+        try {
+            input = VoiceInput();
+        } catch (InterruptedException e) {
+            System.out.println("\nJulia help!\n");
         }
-        return false;
+        switch (input) {
+            case "no": break;
+            case "yes": return "s";
+        }
+        return "s";
     }
 }

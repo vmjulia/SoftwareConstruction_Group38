@@ -11,12 +11,12 @@ public class Game {
     private final Dealer dealer;
     private User currentPlayer;
     private final Deck deck;
-    private  String mode = new String();
+    private String inputMode = new String();
 
     private Game() {
-        chooseMode();
+        chooseInputMode();
         this.player = new Player();
-        if (this.mode.equals("Voice")){
+        if (this.inputMode.equals("Voice")){
             this.player.chooseStrategy("PlayerVoice");
         }
         else {
@@ -27,14 +27,14 @@ public class Game {
         this.deck = Deck.getInstance();
     }
 
-    private void chooseMode(){
+    private void chooseInputMode(){
         System.out.println("Do you want to have voice input [yes] or [no]?");
         String ans =  this.readInput();
         if (ans.equals("yes")){
-            this.mode = "Voice";
+            this.inputMode = "Voice";
         }
         else {
-            this.mode = "Type";
+            this.inputMode = "Type";
         }
 
 
@@ -78,7 +78,7 @@ public class Game {
 
     private void turn() throws IOException, InterruptedException {
         printTable();
-        while (currentPlayer.strategy.hit(currentPlayer.countScore())){
+        while (currentPlayer.hitBehaviour.hit(currentPlayer.countScore())){
             giveCards(currentPlayer, 1);
             if (currentPlayer.bust()){
                 printTable();

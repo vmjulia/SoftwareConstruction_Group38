@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class User {
-    public Strategy strategy;
+    public HitBehaviour hitBehaviour;
+    public InputBehaviour inputBehaviour;
     protected final String NAME;
 
     protected User(String name){
@@ -23,16 +24,16 @@ public abstract class User {
 
     public void chooseStrategy(String type){
         if (type.equals("Dealer")){
-            this.strategy = new DealerStrategy();
+            this.hitBehaviour = new DealerStrategy();
         }
         else if (type.equals("Player")){
-            this.strategy = new PlayerStrategy();
+            this.hitBehaviour = new PlayerStrategy();
         }
         else {
             try {
-                this.strategy = new PlayerVoiceStrategy();
+                this.hitBehaviour = new PlayerVoiceStrategy();
             } catch (IOException e) {
-                this.strategy = new DealerStrategy();
+                this.hitBehaviour = new DealerStrategy();
             }
         }
 
