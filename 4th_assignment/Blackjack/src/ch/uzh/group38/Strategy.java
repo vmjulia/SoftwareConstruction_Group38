@@ -6,6 +6,7 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import java.util.Timer;
+import java.util.logging.Logger;
 
 public interface Strategy {
     public boolean hit(int score) throws IOException;
@@ -65,6 +66,13 @@ class PlayerVoiceStrategy implements Strategy{
     }
 
     private String VoiceInput() throws IOException {
+
+        Logger cmRootLogger = Logger.getLogger("default.config");
+        cmRootLogger.setLevel(java.util.logging.Level.OFF);
+        String conFile = System.getProperty("java.util.logging.config.file");
+        if (conFile == null) {
+            System.setProperty("java.util.logging.config.file", "ignoreAllSphinx4LoggingOutput");
+        }
 
         LiveSpeechRecognizer recognizer = new LiveSpeechRecognizer(configuration);
 
