@@ -22,6 +22,8 @@ class DummyInputBehaviour implements InputBehaviour {
 
 class TerminalInputBehaviour implements InputBehaviour {
     @Override
+
+
     public String readHitOrStayInput() {
         System.out.println("hit or stay? [H/S] ");
         while (true) {

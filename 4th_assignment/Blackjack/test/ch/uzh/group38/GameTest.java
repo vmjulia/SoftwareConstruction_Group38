@@ -199,6 +199,9 @@ public class GameTest {
         assertTrue(os.toString().contains("Draw"));
     }
 
+
+
+
     @Test
     public void testReset() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Player player = (Player) playerField.get(this.game);
