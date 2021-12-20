@@ -9,8 +9,8 @@ interface Iterator {
     boolean hasNext();
     Card next();
 }
-public class CardIterator implements Iterator{
 
+public class CardIterator implements Iterator {
     Queue<Card> myQueue = new LinkedList<>();
 
     public CardIterator(ArrayList<Card> cards) {

@@ -1,29 +1,49 @@
 package ch.uzh.group38;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class User {
-    public HitBehaviour hitBehaviour;
-    public InputBehaviour inputBehaviour;
-    protected final String NAME;
+    private HitBehaviour hitBehaviour;
+    private InputBehaviour inputBehaviour;
+
+    private final String NAME;
+    private final ArrayList<Card> cards = new ArrayList<>();
 
     protected User(String name) {
         this.NAME = name;
+        if (this.NAME.equals("Player")) {
+            this.hitBehaviour = new PlayerHitBehaviour();
+            this.inputBehaviour = new TerminalInputBehaviour();
+        } else if (this.NAME.equals("Dealer")) {
+            this.hitBehaviour = new DealerHitBehaviour();
+            this.inputBehaviour = new DummyInputBehaviour();
+        }
     }
 
-    private final ArrayList<Card> cards = new ArrayList<Card>();
+    public void activateVoiceInput() {
+        try {
+            this.inputBehaviour = new VoiceInputBehaviour();
+        } catch (IOException e) {
+            this.inputBehaviour = new TerminalInputBehaviour();
+            throw (new RuntimeException("Failed to assign voice input\nSelecting terminal input"));
+        }
+    }
 
     public void reset() {
         this.cards.clear();
     }
 
-    public Iterator createIterator() {
-        return new CardIterator(cards);
+    public boolean hit(int score) {
+        return this.hitBehaviour.hit(this.inputBehaviour.readHitOrStayInput(), score);
     }
 
-    public boolean hit(int score) {
-        String input = this.inputBehaviour.readHitOrStayInput();
-        return this.hitBehaviour.hit(input, score);
+    public boolean bust() {
+        if (this.countScore() > 21) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     protected int countScore() {
@@ -42,6 +62,12 @@ public abstract class User {
         return score;
     }
 
+    public void takeCards(Iterator iterator) {
+        while (iterator.hasNext()) {
+            this.cards.add(iterator.next());
+        }
+    }
+
     public void showCards() {
         Iterator cards = createIterator();
         System.out.println(this.NAME + " cards:   (score: " + countScore() + ")");
@@ -51,17 +77,7 @@ public abstract class User {
         System.out.println("\n");
     }
 
-    public void takeCards(Iterator iterator) {
-        while (iterator.hasNext()) {
-            this.cards.add(iterator.next());
-        }
-    }
-
-    public boolean bust() {
-        if (this.countScore() > 21) {
-            return true;
-        } else {
-            return false;
-        }
+    public Iterator createIterator() {
+        return new CardIterator(cards);
     }
 }

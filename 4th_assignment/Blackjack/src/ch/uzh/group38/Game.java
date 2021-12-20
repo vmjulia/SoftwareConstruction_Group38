@@ -1,9 +1,7 @@
 package ch.uzh.group38;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class Game {
 
@@ -14,21 +12,9 @@ public class Game {
 
     private Game() {
         this.player = new Player();
-        this.player.hitBehaviour = new PlayerHitBehaviour();
-        if (selectVoiceInput()) {
-            try {
-                this.player.inputBehaviour = new VoiceInputBehaviour();
-            } catch (IOException e) {
-                this.player.inputBehaviour = new TerminalInputBehaviour();
-                throw (new RuntimeException("Failed to assign voice input\nSelecting terminal input"));
-            }
-        } else {
-            this.player.inputBehaviour = new TerminalInputBehaviour();
-        }
+        selectInputBehaviour();
 
         this.dealer = new Dealer();
-        this.dealer.hitBehaviour = new DealerHitBehaviour();
-        this.dealer.inputBehaviour = new DummyInputBehaviour();
         this.deck = Deck.getInstance();
     }
 
@@ -55,7 +41,6 @@ public class Game {
         }
         player.takeCards(new CardIterator(playersCards));
     }
-
 
     private void turn() {
         printTable();
@@ -104,14 +89,11 @@ public class Game {
     }
 
     private void handleDealerBust() {
-        // player isn't passed, as all players win, so no need to distinguish
         System.out.println("\nDealer busts, you win by default\n");
         player.winBet();
     }
 
     private void handlePlayerBlackjack() {
-        // it might not be the case in real game, but eeeeeeeeeeeeeeeeeeeeh
-        // the hidden dealer's card is not shown
         System.out.println("\nYou have a blackjack, you win by default\n");
         player.winBet();
     }
@@ -160,13 +142,12 @@ public class Game {
         playRound();
     }
 
-    private boolean selectVoiceInput() {
+    private void selectInputBehaviour() {
         System.out.println("Do you want to have voice input [yes] or [no]?");
         String ans = this.readInput();
         if (ans.equals("yes")) {
-            return true;
+            this.player.activateVoiceInput();
         }
-        return false;
     }
 
     private String readInput() {
