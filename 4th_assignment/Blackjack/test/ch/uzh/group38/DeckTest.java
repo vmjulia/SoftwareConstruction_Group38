@@ -30,6 +30,8 @@ public class DeckTest {
         Deck dd;
         dd = Deck.getInstance();
         assertEquals(deck, dd);
+        dd.putDiscardBack();
+        assertEquals(deck, dd);
     }
 
     @Test
