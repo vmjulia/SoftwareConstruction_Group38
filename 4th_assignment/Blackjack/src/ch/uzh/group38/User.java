@@ -20,6 +20,19 @@ public abstract class User {
         return new CardIterator(cards);
     }
 
+    public void chooseStrategy(String type){
+        if (type.equals("Dealer")){
+            this.strategy = new DealerStrategy();
+        }
+        else if (type.equals("Player")){
+            this.strategy = new PlayerStrategy();
+        }
+        else {
+            this.strategy = new PlayerVoiceStrategy();
+        }
+
+    }
+
     protected int countScore() {
         int score = 0;
         int aces = 0;

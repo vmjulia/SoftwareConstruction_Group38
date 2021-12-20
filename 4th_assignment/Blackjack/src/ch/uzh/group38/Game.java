@@ -1,6 +1,8 @@
 package ch.uzh.group38;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Game {
@@ -9,16 +11,47 @@ public class Game {
     private final Dealer dealer;
     private User currentPlayer;
     private final Deck deck;
+    private  String mode = new String();
 
     private Game() {
+        chooseMode();
         this.player = new Player();
-        player.strategy = new PlayerStrategy();
+        if (this.mode.equals("Voice")){
+            this.player.chooseStrategy("PlayerVoice");
+        }
+        else {
+            this.player.chooseStrategy("Player");}
+
         this.dealer = new Dealer();
-        dealer.strategy = new DealerStrategy();
+        this.dealer.chooseStrategy("Dealer");
         this.deck = Deck.getInstance();
     }
 
-    public void playRound() {
+    private void chooseMode(){
+        System.out.println("Do you want to have voice input [yes] or [no]?");
+        String ans =  this.readInput();
+        if (ans.equals("yes")){
+            this.mode = "Voice";
+        }
+        else {
+            this.mode = "Type";
+        }
+
+
+    }
+
+
+    private String readInput() {
+        while (true) {
+            String input = new Scanner(System.in).nextLine().toLowerCase();
+            if (input.equals("yes") || input.equals("no")){
+                return input;
+            }
+            System.out.println("Invalid input! Please choose [yes] or [no]");
+        }
+    }
+
+    public void playRound() throws IOException {
         this.reset();
         this.firstRound();
 
@@ -43,7 +76,7 @@ public class Game {
     }
 
 
-    private void turn(){
+    private void turn() throws IOException {
         printTable();
         while (currentPlayer.strategy.hit(currentPlayer.countScore())){
             giveCards(currentPlayer, 1);
@@ -127,7 +160,7 @@ public class Game {
         System.out.println("\nDraw\n");
     }
 
-    private void endOfGame() {
+    private void endOfGame() throws IOException {
         if (player.bust()){
             handlePlayerBust();
         }
@@ -152,7 +185,7 @@ public class Game {
         playRound();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Game game = new Game();
         game.playRound();
     }
