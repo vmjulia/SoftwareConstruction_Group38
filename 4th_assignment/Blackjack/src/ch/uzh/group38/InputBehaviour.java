@@ -47,7 +47,7 @@ class VoiceInputBehaviour implements InputBehaviour {
 
     private void handleConfiguration() {
         // standard paths set up
-
+        this.hideMessages();
         configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
         configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
@@ -58,15 +58,20 @@ class VoiceInputBehaviour implements InputBehaviour {
 
     }
 
-    private String VoiceInput() throws InterruptedException {
-
-        // do not output ino messages of Sphinx4 to console
+    private void hideMessages(){
+        // do not output  messages of Sphinx4 to console
         Logger cmRootLogger = Logger.getLogger("default.config");
         cmRootLogger.setLevel(java.util.logging.Level.OFF);
         String conFile = System.getProperty("java.util.logging.config.file");
         if (conFile == null) {
             System.setProperty("java.util.logging.config.file", "ignoreAllSphinx4LoggingOutput");
         }
+
+    }
+
+    private String voiceInput() throws InterruptedException {
+
+        this.hideMessages();
 
         System.out.println("Do you want to hit [Yes/No] ? ");
         // hold on to leave time for thinking
@@ -94,7 +99,7 @@ class VoiceInputBehaviour implements InputBehaviour {
     public String readHitOrStayInput() {
         String input = null;
         try {
-            input = VoiceInput();
+            input = voiceInput();
         } catch (InterruptedException e) {
             System.out.println("\nJulia help!\n");
         }
