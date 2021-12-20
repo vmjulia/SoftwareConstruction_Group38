@@ -51,7 +51,7 @@ public class Game {
         }
     }
 
-    public void playRound() throws IOException {
+    public void playRound() throws IOException, InterruptedException {
         this.reset();
         this.firstRound();
 
@@ -76,7 +76,7 @@ public class Game {
     }
 
 
-    private void turn() throws IOException {
+    private void turn() throws IOException, InterruptedException {
         printTable();
         while (currentPlayer.strategy.hit(currentPlayer.countScore())){
             giveCards(currentPlayer, 1);
@@ -160,7 +160,7 @@ public class Game {
         System.out.println("\nDraw\n");
     }
 
-    private void endOfGame() throws IOException {
+    private void endOfGame() throws IOException, InterruptedException {
         if (player.bust()){
             handlePlayerBust();
         }
@@ -185,7 +185,7 @@ public class Game {
         playRound();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Game game = new Game();
         game.playRound();
     }

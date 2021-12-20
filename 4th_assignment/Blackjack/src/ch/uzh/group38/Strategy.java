@@ -6,10 +6,11 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public interface Strategy {
-    public boolean hit(int score) throws IOException;
+    public boolean hit(int score) throws IOException, InterruptedException;
 }
 
 class PlayerStrategy implements Strategy{
@@ -37,7 +38,6 @@ class PlayerStrategy implements Strategy{
 }
 
 class PlayerVoiceStrategy implements Strategy{
-    SpeechResult result;
     Configuration configuration = new Configuration();
 
     public PlayerVoiceStrategy(){
@@ -45,7 +45,7 @@ class PlayerVoiceStrategy implements Strategy{
     }
 
     @Override
-    public boolean hit(int score) throws IOException {
+    public boolean hit(int score) throws IOException, InterruptedException {
         String input = VoiceInput();
         switch (input) {
             case "no": break;
@@ -65,7 +65,7 @@ class PlayerVoiceStrategy implements Strategy{
 
     }
 
-    private String VoiceInput() throws IOException {
+    private String VoiceInput() throws IOException, InterruptedException {
 
         Logger cmRootLogger = Logger.getLogger("default.config");
         cmRootLogger.setLevel(java.util.logging.Level.OFF);
@@ -76,21 +76,26 @@ class PlayerVoiceStrategy implements Strategy{
 
         LiveSpeechRecognizer recognizer = new LiveSpeechRecognizer(configuration);
 
+
+        System.out.println("Do you want to hit [Yes/No] ? ");
+        TimeUnit.SECONDS.sleep(3);
+        recognizer.startRecognition(true);
+        System.out.println("speak now");
+        SpeechResult result;
         while (true)
         {
-            recognizer.startRecognition(true);
-            System.out.println("Do you want to hit [Yes/No] ? ");
             result = recognizer.getResult();
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
-            recognizer.stopRecognition();
             if (result.getHypothesis().equals( "yes")|| result.getHypothesis().equals( "no")){
-                return  (result.getHypothesis());
-            }
+                break;
+
         }
+            System.out.println("speak now");
+    }
+        recognizer.stopRecognition();
+        return  (result.getHypothesis());
     }
 }
-
-
 
 
 
