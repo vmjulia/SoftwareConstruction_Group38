@@ -17,13 +17,13 @@ public class Game {
         chooseInputMode();
         this.player = new Player();
         if (this.inputMode.equals("Voice")){
-            this.player.chooseStrategy("PlayerVoice");
+            this.player.chooseInputBehaviour("PlayerVoice");
         }
         else {
-            this.player.chooseStrategy("Player");}
+            this.player.chooseInputBehaviour("Player");}
 
         this.dealer = new Dealer();
-        this.dealer.chooseStrategy("Dealer");
+        this.dealer.chooseInputBehaviour("Dealer");
         this.deck = Deck.getInstance();
     }
 

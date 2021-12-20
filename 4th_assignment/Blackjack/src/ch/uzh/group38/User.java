@@ -8,7 +8,7 @@ public abstract class User {
     public InputBehaviour inputBehaviour;
     protected final String NAME;
 
-    protected User(String name){
+    protected User(String name) {
         this.NAME = name;
     }
 
@@ -18,22 +18,20 @@ public abstract class User {
         this.cards.clear();
     }
 
-    public Iterator createIterator(){
+    public Iterator createIterator() {
         return new CardIterator(cards);
     }
 
-    public void chooseStrategy(String type){
-        if (type.equals("Dealer")){
+    public void chooseInputBehaviour(String type) {
+        if (type.equals("Dealer")) {
             this.hitBehaviour = new DealerStrategy();
-        }
-        else if (type.equals("Player")){
+        } else if (type.equals("Player")) {
             this.hitBehaviour = new PlayerStrategy();
-        }
-        else {
+        } else {
             try {
                 this.hitBehaviour = new PlayerVoiceStrategy();
             } catch (IOException e) {
-                this.hitBehaviour = new DealerStrategy();
+                this.hitBehaviour = new PlayerStrategy();
             }
         }
 
@@ -44,22 +42,22 @@ public abstract class User {
         int aces = 0;
         for (Card card : this.cards) {
             score += card.getValue();
-            if (card.getRank() == Rank.ACE){
-                aces ++;
+            if (card.getRank() == Rank.ACE) {
+                aces++;
             }
         }
-        while (aces > 0 && score > 21){
+        while (aces > 0 && score > 21) {
             score -= 10;
             aces--;
         }
         return score;
     }
 
-    public void showCards(){
-        Iterator cards =  createIterator();
+    public void showCards() {
+        Iterator cards = createIterator();
         System.out.println(this.NAME + " cards:   (score: " + countScore() + ")");
-        while (cards.hasNext()){
-            System.out.print(cards.next().display()+ " ");
+        while (cards.hasNext()) {
+            System.out.print(cards.next().display() + " ");
         }
         System.out.println("\n");
     }
@@ -70,11 +68,10 @@ public abstract class User {
         }
     }
 
-    public boolean bust(){
-        if (this.countScore() > 21){
+    public boolean bust() {
+        if (this.countScore() > 21) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
