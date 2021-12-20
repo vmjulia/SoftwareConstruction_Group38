@@ -11,44 +11,23 @@ public class Game {
     private final Dealer dealer;
     private User currentPlayer;
     private final Deck deck;
-    private String inputMode = new String();
 
     private Game() {
-        chooseInputMode();
         this.player = new Player();
-        if (this.inputMode.equals("Voice")){
-            this.player.chooseInputBehaviour("PlayerVoice");
+        if (selectVoiceInput()) {
+            try {
+                this.player.inputBehaviour = new VoiceInputBehaviour();
+            } catch (IOException e) {
+                this.player.inputBehaviour = new TerminalInputBehaviour();
+                throw (new RuntimeException("Failed to assign voice input\nSelecting terminal input"));
+            }
+        } else {
+            this.player.inputBehaviour = new TerminalInputBehaviour();
         }
-        else {
-            this.player.chooseInputBehaviour("Player");}
 
         this.dealer = new Dealer();
-        this.dealer.chooseInputBehaviour("Dealer");
+        this.dealer.inputBehaviour = new DummyInputBehaviour();
         this.deck = Deck.getInstance();
-    }
-
-    private void chooseInputMode(){
-        System.out.println("Do you want to have voice input [yes] or [no]?");
-        String ans =  this.readInput();
-        if (ans.equals("yes")){
-            this.inputMode = "Voice";
-        }
-        else {
-            this.inputMode = "Type";
-        }
-
-
-    }
-
-
-    private String readInput() {
-        while (true) {
-            String input = new Scanner(System.in).nextLine().toLowerCase();
-            if (input.equals("yes") || input.equals("no")){
-                return input;
-            }
-            System.out.println("Invalid input! Please choose [yes] or [no]");
-        }
     }
 
     public void playRound() {
@@ -58,7 +37,7 @@ public class Game {
         //Players turn
         currentPlayer = player;
         turn();
-        
+
         //Dealers turn
         dealer.flipCard();
         currentPlayer = dealer;
@@ -69,7 +48,7 @@ public class Game {
 
     private void giveCards(User player, int numberOfCards) {
         ArrayList<Card> playersCards = new ArrayList<Card>();
-        for (int i = 0; i < numberOfCards; i++){
+        for (int i = 0; i < numberOfCards; i++) {
             playersCards.add(deck.draw());
         }
         player.takeCards(new CardIterator(playersCards));
@@ -80,7 +59,7 @@ public class Game {
         printTable();
         while (currentPlayer.hit(currentPlayer.countScore())) {
             giveCards(currentPlayer, 1);
-            if (currentPlayer.bust()){
+            if (currentPlayer.bust()) {
                 printTable();
                 endOfGame();
             }
@@ -88,20 +67,20 @@ public class Game {
         }
     }
 
-    private void printTable(){
+    private void printTable() {
         System.out.println("\n-----------------------------------------");
         dealer.showCards();
         player.showCards();
     }
 
-    private void reset(){
+    private void reset() {
         dealer.reset();
         player.reset();
         this.deck.putDiscardBack();
         this.deck.shuffle();
     }
 
-    private void firstRound(){
+    private void firstRound() {
         player.makeBet();
         giveCards(player, 2);
         giveCards(dealer, 2);
@@ -143,12 +122,12 @@ public class Game {
         }
     }
 
-    private void handlePlayerWin(){
+    private void handlePlayerWin() {
         System.out.println("\nYou win\n");
         player.winBet();
     }
 
-    private void handleDealerWin(){
+    private void handleDealerWin() {
         System.out.println("\nDealer wins\n");
         player.looseBet();
         if (player.isOutOfMoney()) {
@@ -156,36 +135,49 @@ public class Game {
         }
     }
 
-    private void handleDraw(){
+    private void handleDraw() {
         System.out.println("\nDraw\n");
     }
 
     private void endOfGame() {
-        if (player.bust()){
+        if (player.bust()) {
             handlePlayerBust();
-        }
-        else if (dealer.bust()){
+        } else if (dealer.bust()) {
             handleDealerBust();
-        }
-        else if (player.countScore() == 21){
+        } else if (player.countScore() == 21) {
             handlePlayerBlackjack();
-        }
-        else if (dealer.countScore() == 21){
+        } else if (dealer.countScore() == 21) {
             handleDealerBlackjack();
-        }
-        else if (player.countScore() > dealer.countScore()){
+        } else if (player.countScore() > dealer.countScore()) {
             handlePlayerWin();
-        }
-        else if (player.countScore() < dealer.countScore()){
+        } else if (player.countScore() < dealer.countScore()) {
             handleDealerWin();
-        }
-        else if (player.countScore() == dealer.countScore()){
+        } else if (player.countScore() == dealer.countScore()) {
             handleDraw();
         }
         playRound();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    private boolean selectVoiceInput() {
+        System.out.println("Do you want to have voice input [yes] or [no]?");
+        String ans = this.readInput();
+        if (ans.equals("yes")) {
+            return true;
+        }
+        return false;
+    }
+
+    private String readInput() {
+        while (true) {
+            String input = new Scanner(System.in).nextLine().toLowerCase();
+            if (input.equals("yes") || input.equals("no")) {
+                return input;
+            }
+            System.out.println("Invalid input! Please choose [yes] or [no]");
+        }
+    }
+
+    public static void main(String[] args) {
         Game game = new Game();
         game.playRound();
     }

@@ -13,6 +13,13 @@ interface InputBehaviour {
     String readHitOrStayInput();
 }
 
+class DummyInputBehaviour implements InputBehaviour {
+    @Override
+    public String readHitOrStayInput() {
+        return null;
+    }
+}
+
 class TerminalInputBehaviour implements InputBehaviour {
     @Override
     public String readHitOrStayInput() {
