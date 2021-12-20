@@ -61,7 +61,7 @@ public class PlayerTest {
 
         pl.makeBet();
         pl.winBet();
-        String testString2 = "150";
+        String testString2 = "200";
         provideInput(testString2);
         pl.makeBet();
         pl.looseBet();
