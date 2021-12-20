@@ -8,13 +8,14 @@ public class Player extends User {
     private int bet;
 
     public void showCards(){
-        System.out.println("Players cards:   (score: " + countScore() + ")");
-        for (Card c : this.cards) {
-            System.out.print(c.display() + " ");
+        Iterator cards =  createIterator();
+        System.out.println("Player cards:   (score: " + countScore() + ")");
+        while (cards.hasNext()){
+            System.out.print(cards.next().display()+ " ");
         }
         System.out.println("\n");
     }
-    
+
     public int makeBet() {
         int b;
         do {

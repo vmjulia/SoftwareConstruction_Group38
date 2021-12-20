@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public abstract class User {
     public Strategy strategy;
 
-    protected final ArrayList<Card> cards = new ArrayList<Card>();
+    private final ArrayList<Card> cards = new ArrayList<Card>();
 
     public void reset() {
         this.cards.clear();
-    } 
+    }
+
+    public Iterator createIterator(){
+        return new CardIterator(cards);
+    }
 
     protected int countScore() {
         int score = 0;

@@ -53,24 +53,24 @@ public class PlayerTest {
 
         assertTrue(player.isOutOfMoney());
     }
+    /*/
+        @Test
+        public void testBust() {
+            player.cards.add(new Card(Rank.KING, Suit.CLUBS));
+            player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
+            player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
+            assertTrue(player.bust());
+        }
 
-    @Test
-    public void testBust() {
-        player.cards.add(new Card(Rank.KING, Suit.CLUBS));
-        player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
-        player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
-        assertTrue(player.bust());
-    }
-
-    @Test
-    public void testCountScore() {
-        player.cards.add(new Card(Rank.ACE, Suit.CLUBS));
-        player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
-        assertEquals(player.countScore(), 20);
-        player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
-        assertEquals(player.countScore(), 15);
-    }
-
+        @Test
+        public void testCountScore() {
+            player.cards.add(new Card(Rank.ACE, Suit.CLUBS));
+            player.cards.add(new Card(Rank.NINE, Suit.CLUBS));
+            assertEquals(player.countScore(), 20);
+            player.cards.add(new Card(Rank.FIVE, Suit.CLUBS));
+            assertEquals(player.countScore(), 15);
+        }
+    /*/
     @Test
     public void testShowCards() {
         ArrayList<Card> cards = new ArrayList<>();

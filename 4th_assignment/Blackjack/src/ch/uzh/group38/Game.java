@@ -8,7 +8,7 @@ public class Game {
     private final Player player;
     private final Dealer dealer;
     private User currentPlayer;
-    private Deck deck;
+    private final Deck deck;
 
     private Game() {
         this.player = new Player();
@@ -27,7 +27,7 @@ public class Game {
         turn();
         
         //Dealers turn
-        dealer.cards.get(1).flip();
+        dealer.flipCard();
         currentPlayer = dealer;
         turn();
 
@@ -72,7 +72,7 @@ public class Game {
         player.makeBet();
         giveCards(player, 2);
         giveCards(dealer, 2);
-        dealer.cards.get(1).flip();
+        dealer.flipCard();
     }
 
     private void handlePlayerOutOfMoney() {
