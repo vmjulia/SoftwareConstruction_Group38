@@ -12,7 +12,9 @@ public class Game {
 
     private Game() {
         this.player = new Player();
+        player.strategy = new PlayerStrategy();
         this.dealer = new Dealer();
+        dealer.strategy = new DealerStrategy();
         this.deck = Deck.getInstance();
     }
 
@@ -21,13 +23,11 @@ public class Game {
         this.firstRound();
 
         //Players turn
-        player.strategy = new PlayerStrategy();
         currentPlayer = player;
         turn();
         
         //Dealers turn
         dealer.cards.get(1).flip();
-        dealer.strategy = new DealerStrategy();
         currentPlayer = dealer;
         turn();
 
@@ -91,7 +91,7 @@ public class Game {
 
     private void handleDealerBust() {
         // player isn't passed, as all players win, so no need to distinguish
-        System.out.println("\nDealerBusts, you win by default\n");
+        System.out.println("\nDealer busts, you win by default\n");
         player.winBet();
     }
 
