@@ -59,7 +59,7 @@ public class PlayerTest {
     public void testBust() {
         assertEquals(0, player.countScore());
         ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(Rank.ACE, Suit.SPADES));
+        cards.add(new Card(Rank.THREE, Suit.SPADES));
         cards.add(new Card(Rank.KING, Suit.HEARTS));
         cards.add(new Card(Rank.TEN, Suit.DIAMONDS));
         player.takeCards(new CardIterator(cards));
