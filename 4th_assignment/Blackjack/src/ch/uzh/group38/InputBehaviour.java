@@ -104,7 +104,7 @@ class VoiceInputBehaviour implements InputBehaviour {
         try {int b;
             do {
                 System.out.println("How much would you like to bet? ");
-                b =  Integer.parseInt(this.getIntInput());
+                b =  this.getIntInput();
             } while(b > cash || b <= 0);
             return b;}
         catch (InterruptedException e) {
@@ -115,7 +115,7 @@ class VoiceInputBehaviour implements InputBehaviour {
     }
 
 
-    private String getIntInput() throws  InterruptedException {
+    private int getIntInput() throws  InterruptedException {
 
             this.hideMessages();
 
@@ -139,9 +139,21 @@ class VoiceInputBehaviour implements InputBehaviour {
                 System.out.println("speak now");
             }
             recognizer.stopRecognition();
-            // return the recognized string
-            return  (result.getHypothesis());
 
+            int output = switch (result.getHypothesis()) {
+                case "ten" -> 10;
+                case "twenty" -> 20;
+                case "thrity" -> 30;
+                case "forty" -> 40;
+                case "fifty" -> 50;
+                case "sixty" -> 60;
+                case "seventy" -> 70;
+                case "eighty" -> 80;
+                case "ninety" -> 90;
+                case "hundred" -> 100;
+                default -> 0;
+            };
+            return output;
     }
 
     private String voiceInput() throws InterruptedException {
