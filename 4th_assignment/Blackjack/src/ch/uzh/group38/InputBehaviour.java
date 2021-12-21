@@ -14,6 +14,7 @@ interface InputBehaviour {
     int makeBet(int cash);
 }
 
+
 class DummyInputBehaviour implements InputBehaviour {
     @Override
     public String readHitOrStayInput() {
@@ -26,10 +27,10 @@ class DummyInputBehaviour implements InputBehaviour {
     }
 }
 
+
 class TerminalInputBehaviour implements InputBehaviour {
+
     @Override
-
-
     public String readHitOrStayInput() {
         System.out.println("hit or stay? [H/S] ");
         while (true) {
@@ -40,6 +41,7 @@ class TerminalInputBehaviour implements InputBehaviour {
             System.out.println("Invalid input! Please choose [H] or [S]");
         }
     }
+
     public int makeBet(int cash) {
         int b;
         do {
@@ -60,10 +62,8 @@ class TerminalInputBehaviour implements InputBehaviour {
             }
         }
     }
-
-
-
 }
+
 
 class VoiceInputBehaviour implements InputBehaviour {
     private final Configuration configuration;
@@ -110,10 +110,8 @@ class VoiceInputBehaviour implements InputBehaviour {
         catch (InterruptedException e) {
                 // return default
                 return (10);
-            }
-
+        }
     }
-
 
     private int getIntInput() throws  InterruptedException {
 

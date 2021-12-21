@@ -14,7 +14,6 @@ public class Game implements Aggregate {
     private Game() {
         this.player = new Player();
         selectInputBehaviour();
-
         this.dealer = new Dealer();
         this.deck = Deck.getInstance();
     }

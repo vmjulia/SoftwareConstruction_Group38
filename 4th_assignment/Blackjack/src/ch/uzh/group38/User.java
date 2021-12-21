@@ -8,7 +8,6 @@ interface Aggregate{
 public abstract class User implements Aggregate {
     private HitBehaviour hitBehaviour;
     private InputBehaviour inputBehaviour;
-
     private final String NAME;
     private final ArrayList<Card> cards = new ArrayList<>();
 
@@ -37,12 +36,10 @@ public abstract class User implements Aggregate {
     }
 
     public boolean hit(int score) {
-
         return this.hitBehaviour.hit(this.inputBehaviour.readHitOrStayInput(), score);
     }
 
     public int makeBet(int cash) {
-
         return this.inputBehaviour.makeBet(cash);
     }
 

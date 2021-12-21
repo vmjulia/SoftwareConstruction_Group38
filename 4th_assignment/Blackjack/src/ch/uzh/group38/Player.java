@@ -13,7 +13,6 @@ public class Player extends User {
         this.bet = super.makeBet(cash);
     }
 
-
     public void displayCash() {
         System.out.println("Your current cash: " + this.cash);
     }
