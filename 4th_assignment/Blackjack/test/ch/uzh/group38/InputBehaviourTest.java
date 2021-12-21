@@ -1,6 +1,7 @@
 package ch.uzh.group38;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +50,16 @@ public class InputBehaviourTest {
 
     @Test
     public void testTerminalInput(){
+
+        // check that invalid input leads to exception
         TerminalInputBehaviour t = new TerminalInputBehaviour();
+        provideInput("hit");
+        boolean thrown  = false;
+        try {
+            assertEquals("h", t.readHitOrStayInput());
+        } catch (Exception e){ thrown = true; }
+        assertTrue(thrown);
+        //check valid inputs
         provideInput("h");
         assertEquals("h", t.readHitOrStayInput());
         provideInput("H");
@@ -58,7 +68,7 @@ public class InputBehaviourTest {
         assertEquals("s", t.readHitOrStayInput());
         provideInput("S");
         assertEquals("s", t.readHitOrStayInput());
-        provideInput("hit");
+
        
     }
 
