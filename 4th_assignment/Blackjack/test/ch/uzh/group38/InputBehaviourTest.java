@@ -88,32 +88,51 @@ public class InputBehaviourTest {
         provideInput("-150");
         assertEquals(e, testOut.toString().trim());
 
-    }
-    /*/
 
-    @Test
-    public void testVoiceInput() throws IOException {
-
-        VoiceInputBehaviour v = new VoiceInputBehaviour();
-
-        String res = v.readHitOrStayInput();
-        // now pronounce the word yes
-        assertEquals("yes", res);
 
     }
 
     @Test
-    public void testVoiceBetInput() throws IOException {
+    public void testVoice()  {
 
-        VoiceInputBehaviour v = new VoiceInputBehaviour();
-
-        int res = v.makeBet(100);
-        // now pronounce the word ten
-        assertEquals(10, res);
-
+        // check that mic and config are built without throwing exceptions
+        boolean thrown  = false;
+        try {
+            VoiceInputBehaviour v = new VoiceInputBehaviour();
+        } catch (Exception e){ thrown = true; }
+        assertFalse(thrown);
     }
-    /*/
 
 
+
+    @Test
+    public void testVoiceInterpreter()  {
+
+        // check that inout is correctly interpreted
+
+        boolean thrown  = false;
+        try {
+            VoiceInputBehaviour v = new VoiceInputBehaviour();
+           int num =  v.interpretInput ("ten");
+           assertEquals(10, num);
+            num =  v.interpretInput ("twenty");
+            assertEquals(20, num);
+            num =  v.interpretInput ("thirty");
+            assertEquals(30, num);
+            num =  v.interpretInput ("forty");
+            assertEquals(40, num);
+            num =  v.interpretInput ("fifty");
+            assertEquals(50, num);
+            num =  v.interpretInput ("sixty");
+            assertEquals(60, num);
+            num =  v.interpretInput ("seventy");
+            assertEquals(70, num);
+            num =  v.interpretInput ("hundred");
+            assertEquals(100, num);
+            num =  v.interpretInput ("something");
+            assertEquals(0, num);
+        } catch (Exception e){ thrown = true; }
+        assertFalse(thrown);
+    }
 
 }

@@ -141,20 +141,24 @@ class VoiceInputBehaviour implements InputBehaviour {
             }
             recognizer.stopRecognition();
         // interpret as integers
-            int output = switch (result.getHypothesis()) {
-                case "ten" -> 10;
-                case "twenty" -> 20;
-                case "thrity" -> 30;
-                case "forty" -> 40;
-                case "fifty" -> 50;
-                case "sixty" -> 60;
-                case "seventy" -> 70;
-                case "eighty" -> 80;
-                case "ninety" -> 90;
-                case "hundred" -> 100;
-                default -> 0;
-            };
+            int output = interpretInput (result.getHypothesis());
             return output;
+    }
+
+    public int interpretInput (String given){
+        return (switch (given) {
+            case "ten" -> 10;
+            case "twenty" -> 20;
+            case "thirty" -> 30;
+            case "forty" -> 40;
+            case "fifty" -> 50;
+            case "sixty" -> 60;
+            case "seventy" -> 70;
+            case "eighty" -> 80;
+            case "ninety" -> 90;
+            case "hundred" -> 100;
+            default -> 0;
+        });
     }
 
     private String voiceInput() throws InterruptedException {
