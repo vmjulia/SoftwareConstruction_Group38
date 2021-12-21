@@ -2,8 +2,10 @@ package ch.uzh.group38;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-public abstract class User {
+interface Aggregate{
+    Iterator createIterator();
+}
+public abstract class User implements Aggregate {
     private HitBehaviour hitBehaviour;
     private InputBehaviour inputBehaviour;
 

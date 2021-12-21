@@ -3,12 +3,13 @@ package ch.uzh.group38;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class Game implements Aggregate {
 
     private final Player player;
     private final Dealer dealer;
     private User currentPlayer;
     private final Deck deck;
+    ArrayList<Card> cardsToGive;
 
     private Game() {
         this.player = new Player();
@@ -36,11 +37,11 @@ public class Game {
     }
 
     private void giveCards(User player, int numberOfCards) {
-        ArrayList<Card> playersCards = new ArrayList<Card>();
+        cardsToGive = new ArrayList<Card>();
         for (int i = 0; i < numberOfCards; i++) {
-            playersCards.add(deck.draw());
+            cardsToGive.add(deck.draw());
         }
-        player.takeCards(new CardIterator(playersCards));
+        player.takeCards(createIterator());
     }
 
     private void turn() {
@@ -169,6 +170,10 @@ public class Game {
             }
             System.out.println("Invalid input! Please choose [yes] or [no]");
         }
+    }
+
+    public Iterator createIterator() {
+        return new CardIterator(cardsToGive);
     }
 
     public static void main(String[] args) {
