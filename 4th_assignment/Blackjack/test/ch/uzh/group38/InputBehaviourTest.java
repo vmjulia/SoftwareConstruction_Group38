@@ -45,6 +45,9 @@ public class InputBehaviourTest {
         DummyInputBehaviour d = new DummyInputBehaviour();
         String s = d.readHitOrStayInput();
         assertNull(s);
+
+        int i = d.makeBet(100);
+        assertEquals(0, i);
     }
 
     @Test
@@ -60,6 +63,24 @@ public class InputBehaviourTest {
         assertEquals("s", t.readHitOrStayInput());
         provideInput("hit");
        
+    }
+
+
+
+    @Test
+    public void testTerminalBetInput(){
+        // try correct bet
+        TerminalInputBehaviour t = new TerminalInputBehaviour();
+        provideInput("50");
+        assertEquals(50, t.makeBet(100));
+
+        // try too high bet/ negative bet
+        provideInput("150");
+        String e = "How much would you like to bet?";
+        assertEquals(e, testOut.toString().trim());
+        provideInput("-150");
+        assertEquals(e, testOut.toString().trim());
+
     }
 
 }
