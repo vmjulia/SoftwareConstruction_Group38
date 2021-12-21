@@ -9,3 +9,5 @@ as a JAR dependency
 
 add external_libraries/sphinx4-data-1.0.0.jar as JAR dependency
 and choose the Classes category if asked
+
+# If you run into issues with voice input, make sure working directory is SoftwareConstruction_Group38
