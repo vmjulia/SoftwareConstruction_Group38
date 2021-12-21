@@ -11,12 +11,18 @@ import java.util.logging.Logger;
 
 interface InputBehaviour {
     String readHitOrStayInput();
+    int makeBet(int cash);
 }
 
 class DummyInputBehaviour implements InputBehaviour {
     @Override
     public String readHitOrStayInput() {
         return null;
+    }
+
+    public int makeBet(int cash) {
+        int b=0;
+        return b;
     }
 }
 
@@ -34,6 +40,29 @@ class TerminalInputBehaviour implements InputBehaviour {
             System.out.println("Invalid input! Please choose [H] or [S]");
         }
     }
+    public int makeBet(int cash) {
+        int b;
+        do {
+            System.out.println("How much would you like to bet? ");
+            b =  this.readIntInput();
+        } while(b > cash || b <= 0);
+        return b;
+    }
+
+    private int readIntInput(){
+        while (true) {
+            String input = new Scanner(System.in).nextLine();
+            try {
+                int i = Integer.parseInt(input);
+                return i;
+            } catch (Exception NumberFormatException) {
+                System.out.println("Invalid input! Please give an input of type integer");
+            }
+        }
+    }
+
+
+
 }
 
 class VoiceInputBehaviour implements InputBehaviour {
@@ -45,6 +74,11 @@ class VoiceInputBehaviour implements InputBehaviour {
         configuration = new Configuration();
         handleConfiguration();
         recognizer = new LiveSpeechRecognizer(configuration);
+    }
+
+    public int makeBet(int cash) {
+        int b=0;
+        return b;
     }
 
     private void handleConfiguration() {

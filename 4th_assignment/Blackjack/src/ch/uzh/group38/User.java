@@ -37,7 +37,13 @@ public abstract class User implements Aggregate {
     }
 
     public boolean hit(int score) {
+
         return this.hitBehaviour.hit(this.inputBehaviour.readHitOrStayInput(), score);
+    }
+
+    public int makeBet(int cash) {
+
+        return this.inputBehaviour.makeBet(cash);
     }
 
     public boolean bust() {
