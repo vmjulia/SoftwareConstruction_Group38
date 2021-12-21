@@ -2,4 +2,6 @@
 
 grammar number;
 
- public <choice> = (yes|no)*;
+public <choice> = (yes|no)*;
+
+public <bets> = (ten|twenty|forty|fifty|sixty|eighty|hundred)*;

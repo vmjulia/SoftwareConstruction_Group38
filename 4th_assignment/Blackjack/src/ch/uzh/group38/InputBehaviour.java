@@ -76,11 +76,6 @@ class VoiceInputBehaviour implements InputBehaviour {
         recognizer = new LiveSpeechRecognizer(configuration);
     }
 
-    public int makeBet(int cash) {
-        int b=0;
-        return b;
-    }
-
     private void handleConfiguration() {
         // standard paths set up
         this.hideMessages();
@@ -102,6 +97,50 @@ class VoiceInputBehaviour implements InputBehaviour {
         if (conFile == null) {
             System.setProperty("java.util.logging.config.file", "ignoreAllSphinx4LoggingOutput");
         }
+
+    }
+
+    public int makeBet(int cash)  {
+        try {int b;
+            do {
+                System.out.println("How much would you like to bet? ");
+                b =  Integer.parseInt(this.getIntInput());
+            } while(b > cash || b <= 0);
+            return b;}
+        catch (InterruptedException e) {
+                // return default
+                return (10);
+            }
+
+    }
+
+
+    private String getIntInput() throws  InterruptedException {
+
+            this.hideMessages();
+
+            System.out.println("How much would you like to bet? (choose 10/20/40/50/60/80/100");
+            // hold on to leave time for thinking
+            TimeUnit.SECONDS.sleep(3);
+            recognizer.startRecognition(true);
+            // start talking when message appears
+            System.out.println("speak now...");
+            SpeechResult result;
+            while (true) {
+                result = recognizer.getResult();
+                System.out.format("Hypothesis: %s\n", result.getHypothesis());
+                if ((result.getHypothesis().equals( "ten"))|| result.getHypothesis().equals( "twenty")||
+                        (result.getHypothesis().equals( "forty"))||(result.getHypothesis().equals( "fifty"))||
+                        (result.getHypothesis().equals( "sixty"))||(result.getHypothesis().equals( "eighty"))||(result.getHypothesis().equals( "hundred")))
+                {
+                    break;
+
+                }
+                System.out.println("speak now");
+            }
+            recognizer.stopRecognition();
+            // return the recognized string
+            return  (result.getHypothesis());
 
     }
 
