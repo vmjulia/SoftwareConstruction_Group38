@@ -126,6 +126,7 @@ class VoiceInputBehaviour implements InputBehaviour {
             // start talking when message appears
             System.out.println("speak now...");
             SpeechResult result;
+            // exit the loop only if correct value is perceived
             while (true) {
                 result = recognizer.getResult();
                 System.out.format("Hypothesis: %s\n", result.getHypothesis());
@@ -139,7 +140,7 @@ class VoiceInputBehaviour implements InputBehaviour {
                 System.out.println("speak now");
             }
             recognizer.stopRecognition();
-
+        // interpret as integers
             int output = switch (result.getHypothesis()) {
                 case "ten" -> 10;
                 case "twenty" -> 20;
@@ -167,6 +168,7 @@ class VoiceInputBehaviour implements InputBehaviour {
         // start talking when message appears
         System.out.println("speak now...");
         SpeechResult result;
+        // exit the loop only if correct value is perceived
         while (true) {
             result = recognizer.getResult();
             System.out.format("Hypothesis: %s\n", result.getHypothesis());

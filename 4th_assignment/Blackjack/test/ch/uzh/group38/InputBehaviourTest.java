@@ -4,10 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,5 +79,31 @@ public class InputBehaviourTest {
         assertEquals(e, testOut.toString().trim());
 
     }
+    /*/
+
+    @Test
+    public void testVoiceInput() throws IOException {
+
+        VoiceInputBehaviour v = new VoiceInputBehaviour();
+
+        String res = v.readHitOrStayInput();
+        // now pronounce the word yes
+        assertEquals("yes", res);
+
+    }
+
+    @Test
+    public void testVoiceBetInput() throws IOException {
+
+        VoiceInputBehaviour v = new VoiceInputBehaviour();
+
+        int res = v.makeBet(100);
+        // now pronounce the word ten
+        assertEquals(10, res);
+
+    }
+    /*/
+
+
 
 }
