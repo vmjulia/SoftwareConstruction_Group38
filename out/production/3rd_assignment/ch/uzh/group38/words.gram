@@ -1,0 +1,5 @@
+#JSGF V1.0;
+
+grammar number;
+
+ public <choice> = (yes | no )*;

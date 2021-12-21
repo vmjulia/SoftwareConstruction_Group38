@@ -1,0 +1,7 @@
+#JSGF V1.0;
+
+grammar number;
+
+public <choice> = (yes|no)*;
+
+public <bets> = (ten|twenty|forty|fifty|sixty|eighty|hundred)*;
