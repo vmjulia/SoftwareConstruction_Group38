@@ -93,19 +93,6 @@ public class InputBehaviourTest {
     }
 
     @Test
-    public void testVoice()  {
-
-        // check that mic and config are built without throwing exceptions
-        boolean thrown  = false;
-        try {
-            VoiceInputBehaviour v = new VoiceInputBehaviour();
-        } catch (Exception e){ thrown = true; }
-        assertFalse(thrown);
-    }
-
-
-
-    @Test
     public void testVoiceInterpreter()  {
 
         // check that inout is correctly interpreted
@@ -131,6 +118,8 @@ public class InputBehaviourTest {
             assertEquals(100, num);
             num =  v.interpretInput ("something");
             assertEquals(0, num);
+        } catch (java.lang.IllegalStateException e){
+            throw new RuntimeException("Unable to access the mic for the second time");
         } catch (Exception e){ thrown = true; }
         assertFalse(thrown);
     }

@@ -55,7 +55,11 @@ public class PlayerTest {
         Class<InputBehaviour> actual = (Class<InputBehaviour>) inputBehaviourField.get(playerAsUser).getClass();
         assertEquals(expected1, actual);
 
-        player.activateVoiceInput();
+        try {
+            player.activateVoiceInput();
+        } catch (java.lang.IllegalStateException e){
+            throw new RuntimeException("Unable to access the mic for the second time");
+        }
 
         Class<VoiceInputBehaviour> expected2 = VoiceInputBehaviour.class;
         actual = (Class<InputBehaviour>) inputBehaviourField.get(playerAsUser).getClass();
